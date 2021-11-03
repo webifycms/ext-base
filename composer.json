@@ -1,0 +1,45 @@
+{
+    "name": "getonecms/base",
+    "description": "OneCMS base that provide the foundation of features.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Mohammed Shifreen",
+            "email": "mshifreen@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.4",
+        "yiisoft/yii2": "2.0.42.1",
+        "ramsey/uuid": "^4.0",
+        "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "yiisoft/yii2-debug": "~2.1.0",
+        "yiisoft/yii2-gii": "~2.1.0",
+        "yiisoft/yii2-faker": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "OneCMS\\Base\\": "src"
+        },
+        "files": [
+            "src/global.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OneCMS\\Base\\Test\\": "test"
+        }
+    },
+    "optimize-autoloader": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}

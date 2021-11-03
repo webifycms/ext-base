@@ -1,0 +1,24 @@
+# phpstorm project files
+.idea
+
+# vscode project files
+.vscode
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer
+/vendor
+/composer.lock
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
