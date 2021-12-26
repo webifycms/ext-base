@@ -3,11 +3,13 @@
 namespace OneCMS\Base;
 
 use OneCMS\Base\Application\Administration\AdministrationInterface;
+use OneCMS\Base\Domain\Service\IdentityServiceInterface;
 use OneCMS\Base\Domain\Service\UuidServiceInterface;
 use OneCMS\Base\Infrastructure\Framework\Bootstrap\RegisterDependencyBootstrapInterface;
 use OneCMS\Base\Infrastructure\Framework\Web\Administration\Administration;
 use OneCMS\Base\Infrastructure\Library\Uuid\UuidService;
 use OneCMS\Base\Infrastructure\Framework\Bootstrap\AbstractBootstrap;
+use OneCMS\Base\Infrastructure\Persistence\Service\DatabaseIdService;
 
 /**
  * Class Bootstrap
@@ -27,6 +29,7 @@ class Bootstrap extends AbstractBootstrap implements RegisterDependencyBootstrap
         return [
             AdministrationInterface::class => Administration::class,
             UuidServiceInterface::class => UuidService::class,
+            IdentityServiceInterface::class => DatabaseIdService::class,
         ];
     }
 }

@@ -103,16 +103,16 @@ if (!function_exists('dependency')) {
 if (!function_exists('configure')) {
     /**
      * @param array $configurations
-     * @param string|null $type
+     * @param string $type default is web
      */
-    function configure(array $configurations = [], ?string $type = null): void
+    function configure(array $configurations = [], string $type = 'web'): void
     {
         $configObject = new Config($configurations);
         $bootstraps = [];
 
         dependency()->getContainer()->setSingleton(
             ConfigInterface::class,
-            fn ($container, $params, $config) => $configObject
+            fn () => $configObject
         );
 
         // handling bootstrap classes
@@ -122,25 +122,29 @@ if (!function_exists('configure')) {
             }
         }
 
-        $app = new WebApplication(dependency(), $configObject);
+        if ($type === 'web') {
+            $app = new WebApplication(dependency(), $configObject);
 
-        dependency()->getContainer()->setSingleton(
-            WebApplicationInterface::class,
-            fn ($container, $params, $config) => $app
-        );
+            dependency()->getContainer()->setSingleton(
+                WebApplicationInterface::class,
+                fn () => $app
+            );
+        }
 
         if ($type === 'console') {
             $app = new ConsoleApplication(dependency(), $configObject);
 
             dependency()->getContainer()->setSingleton(
                 ConsoleApplicationInterface::class,
-                fn ($container, $params, $config) => $app
+                fn () => $app
             );
         }
 
-        // call init on all the bootstrap classes
-        foreach ($bootstraps as $class) {
-            $class->init($app);
+        // call init from all the bootstrap classes
+        if ($app) {
+            foreach ($bootstraps as $class) {
+                $class->init($app);
+            }
         }
     }
 }

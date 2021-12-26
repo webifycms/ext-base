@@ -18,21 +18,21 @@ final class Timestamp
     /**
      * @var DateTimeInterface
      */
-    private DateTimeInterface $createdAt;
+    private ?DateTimeInterface $createdAt;
 
     /**
      * @var DateTimeInterface
      */
-    private DateTimeInterface $updatedAt;
+    private ?DateTimeInterface $updatedAt;
 
     /**
      * @param DateTimeInterface $createdAt
      * @param DateTimeInterface $updatedAt
      */
-    public function __construct(DateTimeInterface $createdAt, DateTimeInterface $updatedAt)
+    public function __construct(?DateTimeInterface $createdAt = null, ?DateTimeInterface $updatedAt = null)
     {
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->createdAt = $createdAt ?? new DateTime();
+        $this->updatedAt = $updatedAt ?? $this->createdAt;
     }
 
     /**

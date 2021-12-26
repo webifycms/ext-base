@@ -12,7 +12,7 @@ use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
  * Class DateTime
  *
  * @package getonecms/base
- * @varsion 0.0.1
+ * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
@@ -24,7 +24,7 @@ final class DateTime
     const DEFAULT_FORMAT = DateTimeImmutable::W3C;
 
     /**
-     * @var DateTimeInterface|DateTimeImmutable
+     * @var DateTimeInterface
      */
     private DateTimeInterface $value;
 

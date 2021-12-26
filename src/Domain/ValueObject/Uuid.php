@@ -33,7 +33,7 @@ class Uuid
     /**
      * @return string
      */
-    public function value(): string
+    public function getValue(): string
     {
         return $this->value;
     }

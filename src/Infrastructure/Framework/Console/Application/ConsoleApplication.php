@@ -144,10 +144,6 @@ class ConsoleApplication implements ConsoleApplicationInterface
      */
     public function getService(string $name, array $params = [], array $config = [])
     {
-        if (!is_null($component = $this->component->get($name, false))) {
-            return $component;
-        }
-
         return $this->dependency->get($name, $params, $config);
     }
 }

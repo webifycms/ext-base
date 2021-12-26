@@ -3,14 +3,14 @@
 namespace OneCMS\Base\Domain\Behaviour\Blockable;
 
 /**
- * Interface BlockableBehaviourInterface
+ * Interface BlockableInterface
  *
  * @package getonecms/base
  * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-interface BlockableBehaviourInterface
+interface BlockableInterface
 {
     /**
      * @return bool
