@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\ValueObject;
+namespace OneCMS\Base\Domain\Model\ValueObject;
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -16,7 +16,7 @@ use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-final class DateTime
+final class DateTimeValueObject
 {
     /**
      * The default datetime format for the output.

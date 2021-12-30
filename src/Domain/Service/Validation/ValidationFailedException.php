@@ -1,8 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Exception;
-
+namespace OneCMS\Base\Domain\Service\Validation;
 
 use InvalidArgumentException;
 
@@ -10,13 +9,12 @@ use InvalidArgumentException;
  * Class ValidationFailedException
  *
  * @package getonecms/base
- * @varsion 0.0.1
+ * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
 class ValidationFailedException extends InvalidArgumentException implements ValidationFailedExceptionInterface
 {
-
     /**
      * @var string
      */

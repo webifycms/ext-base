@@ -3,16 +3,15 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Application\Config;
 
-
 /**
  * Class Config
  *
  * @package getonecms/base
- * @varsion 0.0.1
+ * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-class Config implements ConfigInterface
+final class Config implements ConfigInterface
 {
 
     /**

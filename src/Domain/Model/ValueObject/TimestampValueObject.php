@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\ValueObject;
+namespace OneCMS\Base\Domain\Model\ValueObject;
 
 use DateTimeInterface;
 
 /**
- * Class Timestamp
+ * Value object class for Timestamp that holding attributes of created and updated values.
  *
  * @package getonecms/base
  * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-final class Timestamp
+final class TimestampValueObject
 {
     /**
      * @var DateTimeInterface
@@ -31,7 +31,7 @@ final class Timestamp
      */
     public function __construct(?DateTimeInterface $createdAt = null, ?DateTimeInterface $updatedAt = null)
     {
-        $this->createdAt = $createdAt ?? new DateTime();
+        $this->createdAt = $createdAt ?? new DateTimeValueObject();
         $this->updatedAt = $updatedAt ?? $this->createdAt;
     }
 

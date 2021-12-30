@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Library\Uuid;
+namespace OneCMS\Base\Infrastructure\Service\Uuid;
 
-use OneCMS\Base\Domain\Service\UuidServiceInterface;
+use OneCMS\Base\Domain\Service\Uuid\UuidServiceInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -30,7 +30,7 @@ final class UuidService implements UuidServiceInterface
      */
     public function __construct(?string $uuid = null)
     {
-        if (is_string($uuid)) {
+        if (!is_null($uuid)) {
             $this->validate($uuid);
 
             $this->uuid = $this->generateFromString($uuid);

@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\ValueObject;
+namespace OneCMS\Base\Domain\Model\ValueObject;
 
 use OneCMS\Base\Domain\Exception\InvalidEmailAddressException;
 
 /**
- * Class EmailAddress
+ * Value object class for Email
  *
  * @package getonecms/base
  * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-final class EmailAddress
+final class EmailValueObject
 {
     /**
      * @var string

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Exception;
 
+use OneCMS\Base\Domain\Exception\ValidationFailedException;
+
 /**
  * Class InvalidDatetimeException
  *

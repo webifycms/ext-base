@@ -1,20 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Exception;
-
+namespace OneCMS\Base\Domain\Service\Validation;
 
 /**
  * Interface ValidationFailedExceptionInterface
  *
  * @package getonecms/base
- * @varsion 0.0.1
+ * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
 interface ValidationFailedExceptionInterface
 {
-
     /**
      * @return string
      */

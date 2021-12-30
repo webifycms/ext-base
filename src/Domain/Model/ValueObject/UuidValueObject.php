@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\ValueObject;
+namespace OneCMS\Base\Domain\Model\ValueObject;
 
 use OneCMS\Base\Domain\Service\UuidServiceInterface;
 
 /**
- * Class Uuid
+ * Value object class for Uuid - Universal Unique Identity
  *
  * @package getonecms/base
  * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-class Uuid
+class UuidValueObject
 {
     /**
      * @var string
@@ -21,7 +21,7 @@ class Uuid
     private string $value;
 
     /**
-     * UserUuid constructor.
+     * Uuid constructor.
      *
      * @param UuidServiceInterface $uuidService
      */

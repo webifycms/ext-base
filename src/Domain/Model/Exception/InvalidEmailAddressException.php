@@ -1,27 +1,26 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Library\Uuid;
-
+namespace OneCMS\Base\Domain\Exception;
 
 use OneCMS\Base\Domain\Exception\ValidationFailedException;
 
 /**
- * Class UuidInvalidVersionException
+ * Class InvalidEmailAddressException
  *
  * @package getonecms/base
- * @varsion 0.0.1
+ * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-final class InvalidUuidException extends ValidationFailedException
+final class InvalidEmailAddressException extends ValidationFailedException
 {
     /**
-     * UuidInvalidVersionException constructor.
+     * InvalidEmailAddressException constructor.
      *
      * @param string $messageKey
      */
-    public function __construct(string $messageKey = 'invalid_uuid')
+    public function __construct(string $messageKey = 'invalid_email')
     {
         parent::__construct($messageKey);
     }

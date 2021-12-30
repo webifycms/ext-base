@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Service;
+namespace OneCMS\Base\Domain\Service\Identity;
 
 /**
  * Interface IdentityServiceInterface
