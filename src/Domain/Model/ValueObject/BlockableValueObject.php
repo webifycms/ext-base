@@ -6,7 +6,7 @@ namespace OneCMS\Base\Domain\Model\ValueObject;
 use DateTimeInterface;
 
 /**
- * Undocumented class
+ * BlockableValueObject class
  */
 final class BlockableValueObject
 {
