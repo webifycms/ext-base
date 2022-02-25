@@ -1,7 +1,7 @@
 {
-    "name": "getonecms/base-module",
-    "description": "OneCMS base that provide the foundation of features.",
-    "type": "project",
+    "name": "getonecms/base",
+    "description": "OneCMS base extension.",
+    "type": "onecms-ext",
     "authors": [
         {
             "name": "Mohammed Shifreen",
