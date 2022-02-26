@@ -1,7 +1,7 @@
 {
     "name": "getonecms/base",
     "description": "OneCMS base extension.",
-    "type": "onecms-ext",
+    "type": "onecms-extension",
     "authors": [
         {
             "name": "Mohammed Shifreen",

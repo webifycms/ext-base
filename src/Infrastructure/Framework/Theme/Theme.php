@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace OneCMS\Base\Infrastructure\Framework\Theme;
-
 
 use yii\base\Theme as BaseTheme;
 
@@ -10,7 +10,7 @@ use yii\base\Theme as BaseTheme;
  * Class Theme
  *
  * @package getonecms/base
- * @varsion 0.0.1
+ * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  *
