@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Model\ValueObject;
@@ -38,6 +39,8 @@ final class BlockableValueObject
     }
 
     /**
+     * Check is it blocked
+     * 
      * @return bool
      */
     public function isBlocked(): bool

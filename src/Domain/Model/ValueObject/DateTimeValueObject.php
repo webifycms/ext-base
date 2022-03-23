@@ -7,10 +7,10 @@ namespace OneCMS\Base\Domain\Model\ValueObject;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
+use OneCMS\Base\Domain\Model\Exception\InvalidDatetimeException;
 
 /**
- * Class DateTime
+ * Class DateTimeValueObject
  *
  * @package getonecms/base
  * @version 0.0.1
