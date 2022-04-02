@@ -25,8 +25,6 @@ interface UuidServiceInterface
     public function generate();
 
     /**
-     * @param string $uuid
-     *
      * @return mixed
      */
     public function generateFromString(string $uuid);

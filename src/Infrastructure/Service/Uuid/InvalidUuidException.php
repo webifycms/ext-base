@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Infrastructure\Service\Uuid;
 
-use OneCMS\Base\Domain\Exception\ValidationFailedException;
+use OneCMS\Base\Domain\Service\Validation\ValidationFailedException;
 
 /**
- * Class UuidInvalidVersionException
+ * Class InvalidUuidException
  *
  * @package getonecms/base
  * @version 0.0.1
@@ -16,12 +16,10 @@ use OneCMS\Base\Domain\Exception\ValidationFailedException;
 final class InvalidUuidException extends ValidationFailedException
 {
     /**
-     * UuidInvalidVersionException constructor.
-     *
-     * @param string $messageKey
+     * Undocumented function
      */
-    public function __construct(string $messageKey = 'invalid_uuid')
+    public function __construct(string $messageKey = 'invalid_uuid', array $arguments = [])
     {
-        parent::__construct($messageKey);
+        parent::__construct($messageKey, $arguments);
     }
 }

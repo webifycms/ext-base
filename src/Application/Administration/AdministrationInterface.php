@@ -13,9 +13,6 @@ namespace OneCMS\Base\Application\Administration;
  */
 interface AdministrationInterface
 {
-    /**
-     * @return string
-     */
     public function getPath(): string;
 
     /**
@@ -23,13 +20,7 @@ interface AdministrationInterface
      */
     public function getUrl(): string;
 
-    /**
-     * @return AdministrationMenuInterface
-     */
     public function getMenu(): AdministrationMenuInterface;
 
-    /**
-     * @return bool
-     */
     public function inAdministration(): bool;
 }

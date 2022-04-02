@@ -21,25 +21,16 @@ interface ApplicationInterface
      */
     public function bootstrap();
 
-    /**
-     * @return ConfigInterface
-     */
     public function getConfig(): ConfigInterface;
 
-    /**
-     * @return DependencyInterface
-     */
     public function getDependency(): DependencyInterface;
 
     /**
-     * @param string $name
-     *
      * @return mixed
      */
     public function get(string $name);
 
     /**
-     * @param string $name
      * @param mixed $value
      */
     public function set(string $name, $value): void;

@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Exception;
+namespace OneCMS\Base\Domain\Model\Exception;
 
-use OneCMS\Base\Domain\Exception\ValidationFailedException;
+use OneCMS\Base\Domain\Service\Validation\ValidationFailedException;
 
 /**
  * Class InvalidEmailAddressException
@@ -16,12 +17,10 @@ use OneCMS\Base\Domain\Exception\ValidationFailedException;
 final class InvalidEmailAddressException extends ValidationFailedException
 {
     /**
-     * InvalidEmailAddressException constructor.
-     *
-     * @param string $messageKey
+     * Undocumented function
      */
-    public function __construct(string $messageKey = 'invalid_email')
+    public function __construct(string $messageKey = 'invalid_email', array $params = [])
     {
-        parent::__construct($messageKey);
+        parent::__construct($messageKey, $params);
     }
 }

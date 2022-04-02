@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Model\ValueObject;
+namespace OneCMS\Base\Domain\Model\uuidObject;
 
-use OneCMS\Base\Domain\Service\UuidServiceInterface;
+use OneCMS\Base\Domain\Service\Uuid\UuidServiceInterface;
 
 /**
- * Value object class for Uuid - Universal Unique Identity
+ * UuidValueObject class for Uuid - Universal Unique Identity
  *
  * @package getonecms/base
  * @version 0.0.1
@@ -18,23 +19,18 @@ class UuidValueObject
     /**
      * @var string
      */
-    private string $value;
+    private readonly string $uuid;
 
     /**
      * Uuid constructor.
-     *
-     * @param UuidServiceInterface $uuidService
      */
     public function __construct(UuidServiceInterface $uuidService)
     {
-        $this->value = $uuidService->uuid()->toString();
+        $this->uuid = $uuidService->uuid()->toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getValue(): string
+    public function getUuid(): string
     {
-        return $this->value;
+        return $this->uuid;
     }
 }

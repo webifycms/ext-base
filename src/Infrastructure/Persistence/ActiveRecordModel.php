@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
  */
 abstract class ActiveRecordModel extends ActiveRecord
 {
-    const DEFAULT_DATETIME_FORMAT = 'Y-m-d H:i:s';
+    final const DEFAULT_DATETIME_FORMAT = 'Y-m-d H:i:s';
     
     /**
      * Sets the entity.

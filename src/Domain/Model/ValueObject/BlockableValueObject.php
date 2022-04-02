@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Model\ValueObject;
@@ -17,8 +18,6 @@ final class BlockableValueObject
 
     /**
      * Blockable value object constructor.
-     *
-     * @param DateTimeInterface|null $blockedAt
      */
     public function __construct(?DateTimeInterface $blockedAt = null)
     {
@@ -29,8 +28,6 @@ final class BlockableValueObject
 
     /**
      * Get the value of value
-     *
-     * @return DateTimeInterface|null
      */
     public function getBlockedAt(): ?DateTimeInterface
     {
@@ -38,7 +35,7 @@ final class BlockableValueObject
     }
 
     /**
-     * @return bool
+     * Check is it blocked
      */
     public function isBlocked(): bool
     {

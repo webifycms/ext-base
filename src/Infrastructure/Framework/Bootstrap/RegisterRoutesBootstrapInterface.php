@@ -13,8 +13,5 @@ namespace OneCMS\Base\Infrastructure\Framework\Bootstrap;
  */
 interface RegisterRoutesBootstrapInterface
 {
-    /**
-     * @return array
-     */
     public function routes(): array;
 }

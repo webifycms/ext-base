@@ -20,29 +20,15 @@ use yii\console\Application;
 class ConsoleApplication implements ConsoleApplicationInterface
 {
     /**
-     * @var DependencyInterface
-     */
-    private DependencyInterface $dependency;
-    /**
-     * @var ConfigInterface
-     */
-    private ConfigInterface $config;
-    /**
      * @var Application
      */
     private Application $component;
 
     /**
      * Application constructor.
-     *
-     * @param DependencyInterface $dependency
-     * @param ConfigInterface $config
      */
-    public function __construct(DependencyInterface $dependency, ConfigInterface $config)
+    public function __construct(private readonly DependencyInterface $dependency, private readonly ConfigInterface $config)
     {
-        $this->dependency = $dependency;
-        $this->config = $config;
-
         $this->createApplication();
     }
 
@@ -72,17 +58,11 @@ class ConsoleApplication implements ConsoleApplicationInterface
         $this->component->run();
     }
 
-    /**
-     * @return ConfigInterface
-     */
     public function getConfig(): ConfigInterface
     {
         return $this->config;
     }
 
-    /**
-     * @return DependencyInterface
-     */
     public function getDependency(): DependencyInterface
     {
         return $this->dependency;
@@ -90,8 +70,6 @@ class ConsoleApplication implements ConsoleApplicationInterface
 
     /**
      * Returns the framework component.
-     *
-     * @return Application
      */
     public function getComponent(): Application
     {
@@ -101,7 +79,6 @@ class ConsoleApplication implements ConsoleApplicationInterface
     /**
      * Get the information for the given name if defined.
      *
-     * @param string $name
      *
      * @return mixed
      */
@@ -121,7 +98,6 @@ class ConsoleApplication implements ConsoleApplicationInterface
     /**
      * Define information.
      *
-     * @param string $name
      * @param mixed $value
      */
     public function set(string $name, $value): void

@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Exception;
+namespace OneCMS\Base\Domain\Model\Exception;
 
-use OneCMS\Base\Domain\Exception\ValidationFailedException;
+use OneCMS\Base\Domain\Service\Validation\ValidationFailedException;
+
 
 /**
  * Class InvalidDatetimeException
@@ -15,11 +17,8 @@ use OneCMS\Base\Domain\Exception\ValidationFailedException;
  */
 final class InvalidDatetimeException extends ValidationFailedException
 {
-    /**
-     * @param string $messageKey
-     */
-    public function __construct(string $messageKey = 'invalid_datetime')
+    public function __construct(string $messageKey = 'invalid_datetime', array $params = [])
     {
-        parent::__construct($messageKey);
+        parent::__construct($messageKey, $params);
     }
 }
