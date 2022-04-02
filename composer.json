@@ -1,5 +1,5 @@
 {
-    "name": "getonecms/base",
+    "name": "getonecms/ext-base",
     "description": "OneCMS base extension.",
     "type": "onecms-extension",
     "authors": [
