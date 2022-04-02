@@ -21,14 +21,6 @@ use yii\web\Application as Application;
 class WebApplication implements WebApplicationInterface
 {
     /**
-     * @var DependencyInterface
-     */
-    private DependencyInterface $dependency;
-    /**
-     * @var ConfigInterface
-     */
-    private ConfigInterface $config;
-    /**
      * @var Application
      */
     private Application $component;
@@ -43,14 +35,9 @@ class WebApplication implements WebApplicationInterface
 
     /**
      * Application constructor.
-     *
-     * @param DependencyInterface $dependency
-     * @param ConfigInterface $config
      */
-    public function __construct(DependencyInterface $dependency, ConfigInterface $config)
+    public function __construct(private readonly DependencyInterface $dependency, private readonly ConfigInterface $config)
     {
-        $this->dependency = $dependency;
-        $this->config = $config;
         $this->administrationPath = $config->get('administrationPath') ?? $this->administrationPath;
 
         $this->createApplication();
@@ -82,17 +69,11 @@ class WebApplication implements WebApplicationInterface
         $this->component->run();
     }
 
-    /**
-     * @return ConfigInterface
-     */
     public function getConfig(): ConfigInterface
     {
         return $this->config;
     }
 
-    /**
-     * @return DependencyInterface
-     */
     public function getDependency(): DependencyInterface
     {
         return $this->dependency;
@@ -100,8 +81,6 @@ class WebApplication implements WebApplicationInterface
 
     /**
      * Returns the framework component.
-     *
-     * @return Application
      */
     public function getComponent(): Application
     {
@@ -111,7 +90,6 @@ class WebApplication implements WebApplicationInterface
     /**
      * Get the information for the given name if defined.
      *
-     * @param string $name
      *
      * @return mixed
      */
@@ -131,7 +109,6 @@ class WebApplication implements WebApplicationInterface
     /**
      * Define information.
      *
-     * @param string $name
      * @param mixed $value
      */
     public function set(string $name, $value): void
@@ -143,17 +120,11 @@ class WebApplication implements WebApplicationInterface
         $this->component->params[$name] = $value;
     }
 
-    /**
-     * @return bool
-     */
     public function inAdministration(): bool
     {
         return $this->administration instanceof AdministrationInterface;
     }
 
-    /**
-     * @return AdministrationInterface
-     */
     public function getAdministration(): AdministrationInterface
     {
         return $this->dependency->get(AdministrationInterface::class);

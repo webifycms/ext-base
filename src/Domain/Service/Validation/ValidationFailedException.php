@@ -16,27 +16,26 @@ use InvalidArgumentException;
 class ValidationFailedException extends InvalidArgumentException implements ValidationFailedExceptionInterface
 {
     /**
-     * @var string
-     */
-    private string $messageKey;
-
-    /**
      * ValidationFailedException constructor.
-     *
-     * @param string $messageKey
      */
-    public function __construct(string $messageKey)
+    public function __construct(private readonly string $messageKey, private readonly array $params = [])
     {
-        $this->messageKey = $messageKey;
-
         parent::__construct();
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getMessageKey(): string
     {
         return $this->messageKey;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParam(string $key): ?string
+    {
+        return $this->params[$key] ?? null;
     }
 }

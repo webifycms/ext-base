@@ -13,8 +13,5 @@ namespace OneCMS\Base\Application\Dependency;
  */
 interface DependencyInterface
 {
-    /**
-     * @return object
-     */
     public function getContainer(): object;
 }

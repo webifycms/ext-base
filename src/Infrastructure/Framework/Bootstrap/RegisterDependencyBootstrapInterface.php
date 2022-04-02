@@ -13,8 +13,5 @@ namespace OneCMS\Base\Infrastructure\Framework\Bootstrap;
  */
 interface RegisterDependencyBootstrapInterface
 {
-    /**
-     * @return array
-     */
     public function dependencies(): array;
 }

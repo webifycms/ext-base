@@ -36,9 +36,6 @@ class Theme extends BaseTheme implements ThemeInterface
         parent::init();
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;

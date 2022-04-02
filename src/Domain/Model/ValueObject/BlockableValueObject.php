@@ -18,8 +18,6 @@ final class BlockableValueObject
 
     /**
      * Blockable value object constructor.
-     *
-     * @param DateTimeInterface|null $blockedAt
      */
     public function __construct(?DateTimeInterface $blockedAt = null)
     {
@@ -30,8 +28,6 @@ final class BlockableValueObject
 
     /**
      * Get the value of value
-     *
-     * @return DateTimeInterface|null
      */
     public function getBlockedAt(): ?DateTimeInterface
     {
@@ -40,8 +36,6 @@ final class BlockableValueObject
 
     /**
      * Check is it blocked
-     * 
-     * @return bool
      */
     public function isBlocked(): bool
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Model\ValueObject;
 
-use OneCMS\Base\Domain\Exception\InvalidEmailAddressException;
+use OneCMS\Base\Domain\Model\Exception\InvalidEmailAddressException;
 
 /**
  * EmailValueObject class
@@ -19,35 +19,27 @@ final class EmailValueObject
     /**
      * @var string
      */
-    private string $value;
+    private readonly string $email;
 
     /**
      * EmailAddress constructor.
-     *
-     * @param string $email
      */
     public function __construct(string $email)
     {
         $this->validate($email);
 
-        $this->value = $email;
+        $this->email = $email;
     }
 
-    /**
-     * @param string $email
-     */
     private function validate(string $email): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidEmailAddressException();
+            throw new InvalidEmailAddressException('invalid_email', ['email' => $email]);
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getValue(): string
+    public function getEmail(): string
     {
-        return $this->value;
+        return $this->email;
     }
 }

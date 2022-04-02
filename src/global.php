@@ -24,7 +24,7 @@ if (!function_exists('log_message')) {
      * @param array|string $message the message to log
      * @param string $category the message category defaults to application
      */
-    function log_message(string $type, $message, string $category = 'application')
+    function log_message(string $type, array|string $message, string $category = 'application')
     {
         switch ($type) {
             case 'info':
@@ -47,8 +47,6 @@ if (!function_exists('set_alias')) {
     /**
      * Sets an alias for a path.
      *
-     * @param string $alias
-     * @param string $path
      *
      * @see Yii::setAlias()
      */
@@ -62,9 +60,7 @@ if (!function_exists('get_alias')) {
     /**
      * Resolves a path from alias.
      *
-     * @param string $alias
      *
-     * @return string|null
      * @see Yii::getAlias()
      */
     function get_alias(string $alias): ?string
@@ -87,14 +83,11 @@ if (!function_exists('enable_dev_env')) {
 }
 
 if (!function_exists('dependency')) {
-    /**
-     * @return DependencyInterface
-     */
     function dependency(): DependencyInterface
     {
         try {
             return Yii::$container->get(DependencyInterface::class);
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             return new Dependency();
         }
     }
@@ -102,11 +95,11 @@ if (!function_exists('dependency')) {
 
 if (!function_exists('configure')) {
     /**
-     * @param array $configurations
      * @param string $type default is web
      */
     function configure(array $configurations = [], string $type = 'web'): void
     {
+        $app = null;
         $configObject = new Config($configurations);
         $bootstraps = [];
 
@@ -151,18 +144,15 @@ if (!function_exists('configure')) {
 
 if (!function_exists('config')) {
     /**
-     * @return ConfigInterface|object|string
+     * @return ConfigInterface|string
      */
-    function config()
+    function config(): ConfigInterface|string
     {
         return dependency()->get(ConfigInterface::class);
     }
 }
 
 if (!function_exists('app')) {
-    /**
-     * @return WebApplicationInterface
-     */
     function app(): WebApplicationInterface
     {
         return dependency()->get(WebApplicationInterface::class);
@@ -170,9 +160,6 @@ if (!function_exists('app')) {
 }
 
 if (!function_exists('console')) {
-    /**
-     * @return ConsoleApplicationInterface
-     */
     function console(): ConsoleApplicationInterface
     {
         return dependency()->get(ConsoleApplicationInterface::class);
@@ -180,9 +167,6 @@ if (!function_exists('console')) {
 }
 
 if (!function_exists('in_administration')) {
-    /**
-     * @return bool
-     */
     function in_administration(): bool
     {
         return app()->getAdministration()->inAdministration();
@@ -190,9 +174,6 @@ if (!function_exists('in_administration')) {
 }
 
 if (!function_exists('administration_path')) {
-    /**
-     * @return string
-     */
     function administration_path(): string
     {
         return app()->getAdministration()->getPath();
@@ -200,9 +181,6 @@ if (!function_exists('administration_path')) {
 }
 
 if (!function_exists('administration_url')) {
-    /**
-     * @return string
-     */
     function administration_url(): string
     {
         return app()->getAdministration()->getUrl();
@@ -210,9 +188,6 @@ if (!function_exists('administration_url')) {
 }
 
 if (!function_exists('view')) {
-    /**
-     * @return View
-     */
     function view(): View
     {
         return app()->getComponent()->getView();
@@ -224,10 +199,8 @@ if (!function_exists('url')) {
      * Creates the url based on the given parameters.
      *
      * @param array|string|null $url
-     * @param bool|string $scheme
-     * @return string
      */
-    function url($url = null, $scheme = false): string
+    function url($url = null, bool|string $scheme = false): string
     {
         return Url::to($url, $scheme);
     }
@@ -236,11 +209,8 @@ if (!function_exists('url')) {
 if (!function_exists('home_url')) {
     /**
      * Returns the home url.
-     *
-     * @param bool|string $scheme
-     * @return string
      */
-    function home_url($scheme = false): string
+    function home_url(bool|string $scheme = false): string
     {
         return Url::home($scheme);
     }
@@ -249,11 +219,8 @@ if (!function_exists('home_url')) {
 if (!function_exists('remember_url')) {
     /**
      * Returns the URL previously remember or remembered.
-     *
-     * @param string|array $url
-     * @param string|null $name
      */
-    function remember_url($url, ?string $name = null): void
+    function remember_url(array|string $url, ?string $name = null): void
     {
         Url::remember($url, $name);
     }
@@ -262,9 +229,6 @@ if (!function_exists('remember_url')) {
 if (!function_exists('previous_url')) {
     /**
      * Returns the URL previously remember or remembered.
-     *
-     * @param string|null $name
-     * @return string
      */
     function previous_url(?string $name = null): string
     {
@@ -273,25 +237,13 @@ if (!function_exists('previous_url')) {
 }
 
 if (!function_exists('widget')) {
-    /**
-     * @param string $name
-     * @param array $config
-     *
-     * @return string|null
-     */
     function widget(string $name, array $config): ?string
     {
-        switch ($name) {
-            case 'menu':
-                $class = Menu::class;
-                break;
-            case 'grid':
-                $class = GridView::class;
-                break;
-            default:
-                $class = null;
-                break;
-        }
+        $class = match ($name) {
+            'menu' => Menu::class,
+            'grid' => GridView::class,
+            default => null,
+        };
 
         if ($class !== null) {
             return $class::widget($config);

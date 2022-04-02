@@ -17,26 +17,13 @@ use OneCMS\Base\Infrastructure\Framework\Web\Application\WebApplicationInterface
  */
 abstract class AbstractBootstrap
 {
-    /**
-     * @var DependencyInterface
-     */
-    private DependencyInterface $dependency;
-
-    /**
-     * @param DependencyInterface $dependency
-     */
-    public function __construct(DependencyInterface $dependency)
+    public function __construct(private readonly DependencyInterface $dependency)
     {
-        $this->dependency = $dependency;
-
         if ($this instanceof RegisterDependencyBootstrapInterface) {
             $this->dependency->getContainer()->setdefinitions($this->dependencies());
         }
     }
 
-    /**
-     * @return DependencyInterface
-     */
     public function getDependency(): DependencyInterface
     {
         return $this->dependency;
@@ -45,8 +32,6 @@ abstract class AbstractBootstrap
     /**
      * Initialize
      * Note: If you override this method, you should call parent implementation on top of it.
-     *
-     * @param WebApplicationInterface $app
      */
     public function init(WebApplicationInterface $app): void
     {

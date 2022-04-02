@@ -15,8 +15,5 @@ namespace OneCMS\Base\Infrastructure\Framework\Theme;
 interface ThemeInterface
 {
 
-    /**
-     * @return string
-     */
     public function getId(): string;
 }

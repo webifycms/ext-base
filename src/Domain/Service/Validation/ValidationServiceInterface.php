@@ -10,8 +10,6 @@ interface ValidationServiceInterface
 {
     /**
      * Validate function
-     *
-     * @return bool
      */
     public function validate(): bool;
 }

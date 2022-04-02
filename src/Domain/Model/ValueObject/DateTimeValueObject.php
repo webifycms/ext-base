@@ -22,50 +22,32 @@ final class DateTimeValueObject
     /**
      * The default datetime format for the output.
      */
-    const DEFAULT_FORMAT = DateTimeImmutable::W3C;
+    public const DEFAULT_FORMAT = DateTimeImmutable::W3C;
 
     /**
      * @var DateTimeInterface
      */
-    private DateTimeInterface $datetime = null;
+    private DateTimeInterface $datetime;
 
-    /**
-     * @param string $datetime
-     * @param DateTimeZone $timeZone
-     */
-    public function __construct(string $datetime = 'now', DateTimeZone $timeZone = null)
+    public function __construct(string $datetime = 'now', ?DateTimeZone $timeZone = null)
     {
         try {
-            $this->datetime = new DateTimeImmutable($datetime, $timeZone ?? $this->getTimeZone());
-        } catch (\Throwable $throwable) {
-            throw new InvalidDatetimeException();
+            $this->datetime = new DateTimeImmutable($datetime, $timeZone ?? self::getDefaultTimeZone());
+        } catch (\Throwable) {
+            throw new InvalidDatetimeException('invalid_datetime', ['datetime' => $datetime]);
         }
     }
 
-    /**
-     * @return DateTimeZone
-     */
-    public function getTimeZone(): DateTimeZone
+    public static function getDefaultTimeZone(): DateTimeZone
     {
-        if ($this->datetime instanceof DateTimeInterface) {
-            return $this->datetime->getTimezone();
-        }
-
         return new DateTimeZone(date_default_timezone_get());
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getDateTime(): DateTimeInterface
     {
         return $this->datetime;
     }
 
-    /**
-     * @param string|null $format
-     * @return string
-     */
     public function getFormattedValue(?string $format = null): string
     {
         return $this->datetime->format($format ?? self::DEFAULT_FORMAT);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace OneCMS\Base\Infrastructure\Service\Uuid;
@@ -25,8 +26,6 @@ final class UuidService implements UuidServiceInterface
 
     /**
      * UuidService constructor.
-     *
-     * @param string|null $uuid
      */
     public function __construct(?string $uuid = null)
     {
@@ -39,13 +38,10 @@ final class UuidService implements UuidServiceInterface
         }
     }
 
-    /**
-     * @param string $uuid
-     */
     private function validate(string $uuid): void
     {
         if (!Uuid::isValid($uuid)) {
-            throw new InvalidUuidException();
+            throw new InvalidUuidException('invalid_uuid', ['uuid' => $uuid]);
         }
     }
 
@@ -65,9 +61,6 @@ final class UuidService implements UuidServiceInterface
         return Uuid::uuid4();
     }
 
-    /**
-     * @return UuidInterface
-     */
     public function uuid(): UuidInterface
     {
         return $this->uuid;

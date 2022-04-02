@@ -13,8 +13,5 @@ namespace OneCMS\Base\Infrastructure\Framework\Bootstrap;
  */
 interface RegisterControllersBootstrapInterface
 {
-    /**
-     * @return array
-     */
     public function controllers(): array;
 }

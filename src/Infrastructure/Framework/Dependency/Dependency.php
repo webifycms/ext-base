@@ -22,7 +22,7 @@ class Dependency implements DependencyInterface
     /**
      * @var Container
      */
-    private Container $container;
+    private readonly Container $container;
 
     /**
      * DependencyContainer constructor.
@@ -34,22 +34,16 @@ class Dependency implements DependencyInterface
         $this->container->setSingleton(DependencyInterface::class, $this);
     }
 
-    /**
-     * @return Container
-     */
     public function getContainer(): Container
     {
         return $this->container;
     }
 
     /**
-     * @param string $class
-     * @param array $params
-     * @param array $config
      *
      * @return object|string
      */
-    public function get(string $class, array $params = [], array $config = [])
+    public function get(string $class, array $params = [], array $config = []): object|string
     {
         try {
             return $this->container->get($class, $params, $config);

@@ -18,26 +18,13 @@ use OneCMS\Base\Infrastructure\Framework\Dependency\DependencyInterface;
  */
 class ConsoleAbstractBootstrap
 {
-    /**
-     * @var DependencyInterface
-     */
-    private DependencyInterface $dependency;
-
-    /**
-     * @return DependencyInterface
-     */
     public function getDependency(): DependencyInterface
     {
         return $this->dependency;
     }
 
-    /**
-     * @param DependencyInterface $dependency
-     */
-    public function __construct(DependencyInterface $dependency)
+    public function __construct(private readonly DependencyInterface $dependency)
     {
-        $this->dependency = $dependency;
-
         if ($this instanceof RegisterDependencyBootstrapInterface) {
             $this->dependency->getContainer()->setdefinitions($this->dependencies());
         }
@@ -46,8 +33,6 @@ class ConsoleAbstractBootstrap
     /**
      * Initialize
      * Note: If you override this method, you should call parent implementation on top of it.
-     *
-     * @param ConsoleApplicationInterface $app
      */
     public function init(ConsoleApplicationInterface $app): void
     {

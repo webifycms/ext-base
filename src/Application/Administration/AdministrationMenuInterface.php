@@ -13,8 +13,5 @@ namespace OneCMS\Base\Application\Administration;
  */
 interface AdministrationMenuInterface
 {
-    /**
-     * @param array $items
-     */
     public function addItems(array $items): void;
 }

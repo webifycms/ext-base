@@ -17,22 +17,13 @@ use yii\console\Application;
  */
 interface ConsoleApplicationInterface extends ApplicationInterface
 {
-    /**
-     * @return DependencyInterface
-     */
     public function getDependency(): DependencyInterface;
 
     /**
-     * @param string $name
-     * @param array $params
-     * @param array $config
      *
      * @return mixed
      */
     public function getService(string $name, array $params, array $config);
 
-    /**
-     * @return Application
-     */
     public function getComponent(): Application;
 }

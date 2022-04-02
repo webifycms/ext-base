@@ -15,16 +15,12 @@ interface ConfigInterface
 {
 
     /**
-     * @param string $key
      * @param mixed $value
-     *
      * @return mixed
      */
     public function set(string $key, $value): void;
 
     /**
-     * @param string|null $key
-     *
      * @return mixed
      */
     public function get(?string $key = null);

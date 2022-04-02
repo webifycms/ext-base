@@ -18,32 +18,17 @@ use yii\web\Application;
  */
 interface WebApplicationInterface extends ApplicationInterface
 {
-    /**
-     * @return DependencyInterface
-     */
     public function getDependency(): DependencyInterface;
 
     /**
-     * @param string $name
-     * @param array $params
-     * @param array $config
      *
      * @return mixed
      */
     public function getService(string $name, array $params, array $config);
 
-    /**
-     * @return Application
-     */
     public function getComponent(): Application;
 
-    /**
-     * @return bool
-     */
     public function inAdministration(): bool;
 
-    /**
-     * @return AdministrationInterface
-     */
     public function getAdministration(): AdministrationInterface;
 }

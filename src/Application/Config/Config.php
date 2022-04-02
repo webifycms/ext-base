@@ -15,18 +15,10 @@ final class Config implements ConfigInterface
 {
 
     /**
-     * @var array
-     */
-    private array $configurations;
-
-    /**
      * Config constructor.
-     *
-     * @param array $configurations
      */
-    public function __construct(array $configurations)
+    public function __construct(private array $configurations)
     {
-        $this->configurations = $configurations;
     }
 
     /**

@@ -13,8 +13,5 @@ namespace OneCMS\Base\Infrastructure\Framework\Dependency;
  */
 interface DependencyRegisterInterface
 {
-    /**
-     * @return array
-     */
     public function dependencies(): array;
 }
