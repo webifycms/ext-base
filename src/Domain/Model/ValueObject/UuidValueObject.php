@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Model\uuidObject;
+namespace OneCMS\Base\Domain\Model\ValueObject;
 
 use OneCMS\Base\Domain\Service\Uuid\UuidServiceInterface;
 

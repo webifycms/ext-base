@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Model\ValueObject;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 
 /**
@@ -22,10 +23,13 @@ final class TimestampValueObject
     private readonly ?DateTimeInterface $updatedAt;
 
     /**
-     * @param ?DateTimeInterface $createdAt
+     * @param DateTimeInterface $createdAt
+     * @param ?DateTimeInterface $updatedAt
      */
-    public function __construct(private readonly DateTimeInterface $createdAt = new DateTimeValueObject(), ?DateTimeInterface $updatedAt = null)
-    {
+    public function __construct(
+        private readonly DateTimeInterface $createdAt = new DateTimeImmutable(),
+        ?DateTimeInterface $updatedAt = null
+    ) {
         $this->updatedAt = $updatedAt ?? $this->createdAt;
     }
 

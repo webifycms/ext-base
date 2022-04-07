@@ -35,7 +35,7 @@ final class DateTimeValueObjectTest extends TestCase
         return new DateTimeValueObject('invalid_datetime');
     }
 
-    public function testDatetimeReturnsDefaultW3CFormatIfFormatIsNull(): void
+    public function testDatetimeReturnsDefaultW3CFormatIfFormatNotGiven(): void
     {
         $datetime = new DateTimeImmutable(self::DATETIME);
 
@@ -56,7 +56,7 @@ final class DateTimeValueObjectTest extends TestCase
         );
     }
 
-    public function testDatetimeGivesTheDefaultTimezone(): void
+    public function testEnsureDatetimeGivesTheDefaultTimezone(): void
     {
         $timezone = 'Asia/Colombo';
 

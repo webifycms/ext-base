@@ -61,6 +61,9 @@ final class UuidService implements UuidServiceInterface
         return Uuid::uuid4();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function uuid(): UuidInterface
     {
         return $this->uuid;

@@ -23,28 +23,25 @@ final class BlockableValueObjectTest extends TestCase
         $this->unblockedObject = new BlockableValueObject();
     }
 
-    public function testBlockedObjectIsBlocked(): bool
+    public function testEnsureBlockedObjectIsBlocked(): void
     {
         $this->assertTrue($this->blockedObject->isBlocked());
-
-        return $this->blockedObject->isBlocked();
     }
 
-    public function testBlockedObjectBlockedAtReturnsDatetime(): DateTimeInterface
+    public function testBlockedObjectShouldProvideDatetimeOfBlock(): void
     {
-        $this->assertInstanceOf(DateTimeInterface::class, $this->blockedObject->getBlockedAt());
-
-        return $this->blockedObject->getBlockedAt();
+        $this->assertInstanceOf(
+            DateTimeInterface::class,
+            $this->blockedObject->getBlockedAt()
+        );
     }
 
-    public function testUnblcokedObjectIsNotBlocked(): bool
+    public function testEnsureUnblcokedObjectIsNotBlocked(): void
     {
         $this->assertFalse($this->unblockedObject->isBlocked());
-
-        return $this->unblockedObject->isBlocked();
     }
 
-    public function testUnblockedObjectBlockedAtReturnsNull(): void
+    public function testUnblockedObjectShouldProvideNullForBlockedAt(): void
     {
         $this->assertNull($this->unblockedObject->getBlockedAt());
 

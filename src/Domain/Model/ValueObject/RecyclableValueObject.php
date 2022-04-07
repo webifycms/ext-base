@@ -33,7 +33,7 @@ final class RecyclableValueObject
         return $this->trashedAt;
     }
 
-    public function isTrashed(): bool
+    public function inTrashed(): bool
     {
         return $this->trashedAt instanceof DateTimeInterface;
     }
