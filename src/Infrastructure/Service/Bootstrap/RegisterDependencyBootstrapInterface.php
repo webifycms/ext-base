@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Framework\Bootstrap;
+namespace OneCMS\Base\Infrastructure\Service\Bootstrap;
 
 /**
  * Interface RegisterDependencyBootstrapInterface

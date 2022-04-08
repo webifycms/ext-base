@@ -1,18 +1,20 @@
 <?php
 
 /**
- * The `global` file contains some useful functions that can be used globally. But we encourage them to use only in the
- * controllers, templates and config files.
+ * The `global` file contains some useful functions that can be used globally. These functions are highly dependeds on 
+ * infrastructure layer and we encourage them to use only in the controllers, templates and config files or in the infrastructure later.
  */
 
 use OneCMS\Base\Application\Config\Config;
 use OneCMS\Base\Application\Config\ConfigInterface;
-use OneCMS\Base\Infrastructure\Framework\Console\Application\ConsoleApplication;
+use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use OneCMS\Base\Infrastructure\Framework\Console\Application\ConsoleApplicationInterface;
-use OneCMS\Base\Infrastructure\Framework\Dependency\Dependency;
-use OneCMS\Base\Infrastructure\Framework\Dependency\DependencyInterface;
-use OneCMS\Base\Infrastructure\Framework\Web\Application\WebApplication;
 use OneCMS\Base\Infrastructure\Framework\Web\Application\WebApplicationInterface;
+use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationService;
+use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
+use OneCMS\Base\Infrastructure\Service\Application\WebApplicationService;
+use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
+use OneCMS\Base\Infrastructure\Service\Dependency\DependencyService;
 use yii\grid\GridView;
 use yii\helpers\Url;
 use yii\web\View;
@@ -83,12 +85,12 @@ if (!function_exists('enable_dev_env')) {
 }
 
 if (!function_exists('dependency')) {
-    function dependency(): DependencyInterface
+    function dependency(): DependencyServiceInterface
     {
         try {
-            return Yii::$container->get(DependencyInterface::class);
+            return Yii::$container->get(DependencyServiceInterface::class);
         } catch (Throwable) {
-            return new Dependency();
+            return new DependencyService();
         }
     }
 }
@@ -116,7 +118,7 @@ if (!function_exists('configure')) {
         }
 
         if ($type === 'web') {
-            $app = new WebApplication(dependency(), $configObject);
+            $app = new WebApplicationService(dependency(), $configObject);
 
             dependency()->getContainer()->setSingleton(
                 WebApplicationInterface::class,
@@ -125,7 +127,7 @@ if (!function_exists('configure')) {
         }
 
         if ($type === 'console') {
-            $app = new ConsoleApplication(dependency(), $configObject);
+            $app = new ConsoleApplicationService(dependency(), $configObject);
 
             dependency()->getContainer()->setSingleton(
                 ConsoleApplicationInterface::class,
@@ -148,21 +150,21 @@ if (!function_exists('config')) {
      */
     function config(): ConfigInterface|string
     {
-        return dependency()->get(ConfigInterface::class);
+        return dependency()->getContainer()->get(ConfigInterface::class);
     }
 }
 
 if (!function_exists('app')) {
-    function app(): WebApplicationInterface
+    function app(): WebApplicationServiceInterface
     {
-        return dependency()->get(WebApplicationInterface::class);
+        return dependency()->getContainer()->get(WebApplicationServiceInterface::class);
     }
 }
 
 if (!function_exists('console')) {
-    function console(): ConsoleApplicationInterface
+    function console(): ConsoleApplicationServiceInterface
     {
-        return dependency()->get(ConsoleApplicationInterface::class);
+        return dependency()->getContainer()->get(ConsoleApplicationServiceInterface::class);
     }
 }
 
@@ -190,7 +192,7 @@ if (!function_exists('administration_url')) {
 if (!function_exists('view')) {
     function view(): View
     {
-        return app()->getComponent()->getView();
+        return app()->getApplication()->getView();
     }
 }
 
