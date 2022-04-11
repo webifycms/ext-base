@@ -6,7 +6,6 @@ namespace OneCMS\Base\Infrastructure\Service\Application;
 
 use RuntimeException;
 use Throwable;
-use OneCMS\Base\Application\Config\ConfigInterface;
 use OneCMS\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use yii\web\Application;
@@ -39,23 +38,19 @@ class WebApplicationService implements WebApplicationServiceInterface
      */
     public function __construct(
         private readonly DependencyServiceInterface $dependency,
-        private readonly ConfigInterface $config
+        private readonly array $config
     ) {
-        $this->administrationPath = $config->get('administrationPath') ?? $this->administrationPath;
+        $this->administrationPath = $config['administrationPath'] ?? $this->administrationPath;
 
-        $this->createApplication();
+        $this->createApplication($config);
     }
 
     /**
      * Create the framework application.
      */
-    private function createApplication()
+    private function createApplication(array $config)
     {
-        $config = $this->config->get('framework');
-
-        if (empty($config)) {
-            throw new RuntimeException("The web application configurations were not defined.");
-        }
+        $config = $config['framework'] ?? [];
 
         try {
             $this->application = new Application($config);
@@ -75,7 +70,7 @@ class WebApplicationService implements WebApplicationServiceInterface
     /**
      * @inheritDoc
      */
-    public function getConfig(): ConfigInterface
+    public function getConfig(): array
     {
         return $this->config;
     }
@@ -132,6 +127,14 @@ class WebApplicationService implements WebApplicationServiceInterface
     public function inAdministration(): bool
     {
         return $this->administration instanceof AdministrationServiceInterface;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAdministrationPath(): string
+    {
+        return $this->administrationPath;
     }
 
     /**

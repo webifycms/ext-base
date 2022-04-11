@@ -5,8 +5,8 @@
  * infrastructure layer and we encourage them to use only in the controllers, templates and config files or in the infrastructure later.
  */
 
-use OneCMS\Base\Application\Config\Config;
-use OneCMS\Base\Application\Config\ConfigInterface;
+use Dotenv\Dotenv;
+use OneCMS\Base\Domain\Model\Exception\FileNotExistException;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use OneCMS\Base\Infrastructure\Framework\Console\Application\ConsoleApplicationInterface;
 use OneCMS\Base\Infrastructure\Framework\Web\Application\WebApplicationInterface;
@@ -49,7 +49,6 @@ if (!function_exists('set_alias')) {
     /**
      * Sets an alias for a path.
      *
-     *
      * @see Yii::setAlias()
      */
     function set_alias(string $alias, string $path): void
@@ -61,7 +60,6 @@ if (!function_exists('set_alias')) {
 if (!function_exists('get_alias')) {
     /**
      * Resolves a path from alias.
-     *
      *
      * @see Yii::getAlias()
      */
@@ -85,6 +83,11 @@ if (!function_exists('enable_dev_env')) {
 }
 
 if (!function_exists('dependency')) {
+    /**
+     * Returns the dependency service instance.
+     *
+     * @return DependencyServiceInterface
+     */
     function dependency(): DependencyServiceInterface
     {
         try {
@@ -95,20 +98,50 @@ if (!function_exists('dependency')) {
     }
 }
 
+if (!function_exists('load_evn_variables')) {
+    /**
+     * Loads the environment variables that were added in the '.env' file. 
+     * So those variables can be now access from $_ENV or $_SERVER globals.
+     * 
+     * @param string $path the '.env' file exist directory
+     * @param string $fileName defaults to '.env'
+     */
+    function load_env_variables(string $path, string $fileName = '.env'): void
+    {
+        $file = $path . '/' . $fileName;
+
+        if (!file_exists($file)) {
+            throw new FileNotExistException('file_not_exist', ['file' => $file]);
+        }
+
+        (Dotenv::createImmutable($path))->load();
+    }
+}
+
+if (!function_exists('get_env_variable')) {
+    /**
+     * Returns the env variable value for the given name.
+     *
+     * @param string $name variable name
+     * @return mixed
+     */
+    function get_env_variable(string $name): mixed
+    {
+        // @todo Should we check first before call it?
+        return $_ENV[$name];
+    }
+}
+
 if (!function_exists('configure')) {
     /**
-     * @param string $type default is web
+     * Configure the application.
+     * 
+     * @param string $type default is "web"
      */
     function configure(array $configurations = [], string $type = 'web'): void
     {
         $app = null;
-        $configObject = new Config($configurations);
         $bootstraps = [];
-
-        dependency()->getContainer()->setSingleton(
-            ConfigInterface::class,
-            fn () => $configObject
-        );
 
         // handling bootstrap classes
         if (!empty($configurations['bootstrap'])) {
@@ -117,8 +150,9 @@ if (!function_exists('configure')) {
             }
         }
 
+        // creating web application and register in the container
         if ($type === 'web') {
-            $app = new WebApplicationService(dependency(), $configObject);
+            $app = new WebApplicationService(dependency(), $configurations);
 
             dependency()->getContainer()->setSingleton(
                 WebApplicationInterface::class,
@@ -126,8 +160,9 @@ if (!function_exists('configure')) {
             );
         }
 
+        // creating console application and register in the container
         if ($type === 'console') {
-            $app = new ConsoleApplicationService(dependency(), $configObject);
+            $app = new ConsoleApplicationService(dependency(), $configurations);
 
             dependency()->getContainer()->setSingleton(
                 ConsoleApplicationInterface::class,
@@ -144,17 +179,12 @@ if (!function_exists('configure')) {
     }
 }
 
-if (!function_exists('config')) {
-    /**
-     * @return ConfigInterface|string
-     */
-    function config(): ConfigInterface|string
-    {
-        return dependency()->getContainer()->get(ConfigInterface::class);
-    }
-}
-
 if (!function_exists('app')) {
+    /**
+     * Returns the web application service intance.
+     *
+     * @return WebApplicationServiceInterface
+     */
     function app(): WebApplicationServiceInterface
     {
         return dependency()->getContainer()->get(WebApplicationServiceInterface::class);
@@ -162,9 +192,26 @@ if (!function_exists('app')) {
 }
 
 if (!function_exists('console')) {
+    /**
+     * Returns the console application service intance.
+     *
+     * @return ConsoleApplicationServiceInterface
+     */
     function console(): ConsoleApplicationServiceInterface
     {
         return dependency()->getContainer()->get(ConsoleApplicationServiceInterface::class);
+    }
+}
+
+if (!function_exists('config')) {
+    /**
+     * Returns the configurations array.
+     * 
+     * @return array
+     */
+    function config(): array
+    {
+        return app()->getConfig();
     }
 }
 

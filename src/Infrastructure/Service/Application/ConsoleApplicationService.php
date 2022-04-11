@@ -30,7 +30,7 @@ class ConsoleApplicationService implements ConsoleApplicationServiceInterface
      */
     public function __construct(
         private readonly DependencyServiceInterface $dependency,
-        private readonly ConfigInterface $config
+        private readonly array $config
     ) {
         $this->createApplication();
     }
@@ -40,11 +40,7 @@ class ConsoleApplicationService implements ConsoleApplicationServiceInterface
      */
     private function createApplication()
     {
-        $config = $this->config->get('framework');
-
-        if (empty($config)) {
-            throw new RuntimeException("The console application configurations were not defined.");
-        }
+        $config = $config['framework'] ?? [];
 
         try {
             $this->application = new Application($config);
@@ -64,7 +60,7 @@ class ConsoleApplicationService implements ConsoleApplicationServiceInterface
     /**
      * @inheritDoc
      */
-    public function getConfig(): ConfigInterface
+    public function getConfig(): array
     {
         return $this->config;
     }

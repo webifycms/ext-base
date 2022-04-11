@@ -30,6 +30,13 @@ interface WebApplicationServiceInterface extends ApplicationServiceInterface
     public function inAdministration(): bool;
 
     /**
+     * Returns the administration path.
+     *
+     * @return string
+     */
+    public function getAdministrationPath(): string;
+
+    /**
      * Returns administration service instance.
      *
      * @return AdministrationServiceInterface

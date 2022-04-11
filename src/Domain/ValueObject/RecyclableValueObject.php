@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Model\ValueObject;
+namespace OneCMS\Base\Domain\ValueObject;
 
 use DateTimeInterface;
 

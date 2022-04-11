@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Service\Validation;
+namespace OneCMS\Base\Domain\Service\Exception;
 
 /**
- * Interface ValidationFailedExceptionInterface
+ * TranslatableExceptionServiceInterface
  *
  * @package getonecms/base
  * @version 0.0.1
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-interface ValidationFailedExceptionInterface
+interface TranslatableExceptionServiceInterface
 {
     /**
      * Returns the message key.

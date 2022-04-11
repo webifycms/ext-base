@@ -22,3 +22,6 @@ composer.phar
 
 # Mac DS_Store Files
 .DS_Store
+
+# ignores the rector.php
+rector.php

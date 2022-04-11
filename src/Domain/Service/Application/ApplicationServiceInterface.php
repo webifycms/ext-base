@@ -8,7 +8,7 @@ use OneCMS\Base\Application\Config\ConfigInterface;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 
 /**
- * Interface ApplicationServiceInterface
+ * ApplicationServiceInterface
  *
  * @package getonecms/ext-base
  * @version 0.0.1
@@ -22,7 +22,7 @@ interface ApplicationServiceInterface
      */
     public function start();
 
-    public function getConfig(): ConfigInterface;
+    public function getConfig(): array;
 
     public function getDependency(): DependencyServiceInterface;
 }

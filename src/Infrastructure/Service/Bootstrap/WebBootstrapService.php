@@ -3,7 +3,6 @@
 namespace OneCMS\Base\Infrastructure\Service\Bootstrap;
 
 use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
-
 /**
  * WebBootstrapService
  * 
@@ -14,6 +13,8 @@ use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterfac
  */
 class WebBootstrapService extends BootstrapService
 {
+    private WebApplicationServiceInterface $app;
+
     /**
      * Initialize the web bootstrap service.
      * 
@@ -23,6 +24,8 @@ class WebBootstrapService extends BootstrapService
      */
     public function init(WebApplicationServiceInterface $app): void
     {
+        $this->app = $app;
+
         if ($this instanceof RegisterControllersBootstrapInterface) {
             $app->setApplicaitonProperty(
                 'controllerMap',
@@ -33,5 +36,15 @@ class WebBootstrapService extends BootstrapService
         if ($this instanceof RegisterRoutesBootstrapInterface) {
             $app->getApplication()->getUrlManager()->addRules($this->routes(), false);
         }
+    }
+
+    /**
+     * Returns the web application service instance.
+     *
+     * @return WebApplicationServiceInterface
+     */
+    public function getApplication(): WebApplicationServiceInterface
+    {
+        return $this->app;
     }
 }

@@ -18,8 +18,9 @@ abstract class BootstrapService implements BootstrapServiceInterface
     /**
      * @param DependencyServiceInterface $dependency
      */
-    public function __construct(private readonly DependencyServiceInterface $dependency)
-    {
+    public function __construct(
+        private readonly DependencyServiceInterface $dependency
+    ) {
         if ($this instanceof RegisterDependencyBootstrapInterface) {
             $this->dependency->getContainer()->setdefinitions($this->dependencies());
         }

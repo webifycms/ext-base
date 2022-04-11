@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Model\ValueObject;
+namespace OneCMS\Base\Domain\ValueObject;
 
-use OneCMS\Base\Domain\Model\Exception\InvalidEmailAddressException;
+use OneCMS\Base\Domain\Exception\InvalidEmailAddressException;
 
 /**
  * EmailValueObject class
