@@ -6,7 +6,7 @@
  */
 
 use Dotenv\Dotenv;
-use OneCMS\Base\Domain\Model\Exception\FileNotExistException;
+use OneCMS\Base\Domain\Exception\FileNotExistException;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use OneCMS\Base\Infrastructure\Framework\Console\Application\ConsoleApplicationInterface;
 use OneCMS\Base\Infrastructure\Framework\Web\Application\WebApplicationInterface;
