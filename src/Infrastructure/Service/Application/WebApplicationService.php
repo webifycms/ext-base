@@ -142,7 +142,7 @@ class WebApplicationService implements WebApplicationServiceInterface
      */
     public function getAdministration(): AdministrationServiceInterface
     {
-        return $this->getService(AdministrationInterface::class);
+        return $this->getService(AdministrationServiceInterface::class);
     }
 
     /**
