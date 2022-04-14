@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Infrastructure\Service\Bootstrap;
 
+use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use OneCMS\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
+use OneCMS\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
+
 /**
  * ConsoleBootstrapService
  * 
@@ -13,33 +17,48 @@ use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInte
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-class ConsoleBootstrapService extends BootstrapService
+class ConsoleBootstrapService implements BootstrapServiceInterface, ConsoleBootstrapServiceInterface
 {
-    private ConsoleApplicationServiceInterface $app;
-
     /**
-     * Initialize
-     * Note: If you override this method, you should call the parent implementation on top of it.
+     * @param DependencyServiceInterface $dependencyService
+     * @param ApplicationServiceInterface|WebApplicationServiceInterface $appService
      */
-    public function init(ConsoleApplicationServiceInterface $app): void
-    {
-        $this->app = $app;
+    public function __construct(
+        private readonly DependencyServiceInterface $dependencyService,
+        private readonly ApplicationServiceInterface|ConsoleApplicationServiceInterface $appService,
+    ) {
+        if ($this instanceof RegisterDependencyBootstrapInterface) {
+            $dependencyService->getContainer()->setdefinitions($this->dependencies());
+        }
 
         if ($this instanceof RegisterControllersBootstrapInterface) {
-            $app->set(
+            $appService->setApplicaitonProperty(
                 'controllerMap',
-                array_merge($app->get('controllerMap'), $this->controllers())
+                array_merge($appService->getApplicaitonProperty('controllerMap'), $this->controllers())
             );
         }
     }
 
     /**
-     * Returns the console application service instance.
-     *
-     * @return ConsoleApplicationServiceInterface
+     * @inheritDoc
      */
-    public function getApplication(): ConsoleApplicationServiceInterface
+    public function getDependencyService(): DependencyServiceInterface
     {
-        return $this->app;
+        return $this->dependencyService;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApplicationService(): ApplicationServiceInterface|ConsoleApplicationServiceInterface
+    {
+        return $this->appService;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function init(): void
+    {
     }
 }

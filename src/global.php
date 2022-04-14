@@ -8,8 +8,7 @@
 use Dotenv\Dotenv;
 use OneCMS\Base\Domain\Exception\FileNotExistException;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use OneCMS\Base\Infrastructure\Framework\Console\Application\ConsoleApplicationInterface;
-use OneCMS\Base\Infrastructure\Framework\Web\Application\WebApplicationInterface;
+use OneCMS\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationService;
 use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\WebApplicationService;
@@ -141,21 +140,13 @@ if (!function_exists('configure')) {
     function configure(array $configurations = [], string $type = 'web'): void
     {
         $app = null;
-        $bootstraps = [];
-
-        // handling bootstrap classes
-        if (!empty($configurations['bootstrap'])) {
-            foreach ($configurations['bootstrap'] as $class) {
-                $bootstraps[] = new $class(dependency());
-            }
-        }
 
         // creating web application and register in the container
         if ($type === 'web') {
             $app = new WebApplicationService(dependency(), $configurations);
 
             dependency()->getContainer()->setSingleton(
-                WebApplicationInterface::class,
+                WebApplicationServiceInterface::class,
                 fn () => $app
             );
         }
@@ -165,15 +156,15 @@ if (!function_exists('configure')) {
             $app = new ConsoleApplicationService(dependency(), $configurations);
 
             dependency()->getContainer()->setSingleton(
-                ConsoleApplicationInterface::class,
+                ConsoleApplicationServiceInterface::class,
                 fn () => $app
             );
         }
 
-        // call init from all the bootstrap classes
-        if ($app) {
-            foreach ($bootstraps as $class) {
-                $class->init($app);
+        // inititate the bootstrap classes
+        if ($app && !empty($configurations['bootstrap'])) {
+            foreach ($configurations['bootstrap'] as $class) {
+                (new $class(dependency(), $app))->init();
             }
         }
     }
@@ -183,9 +174,9 @@ if (!function_exists('app')) {
     /**
      * Returns the web application service intance.
      *
-     * @return WebApplicationServiceInterface
+     * @return ApplicationServiceInterface|WebApplicationServiceInterface
      */
-    function app(): WebApplicationServiceInterface
+    function app(): ApplicationServiceInterface|WebApplicationServiceInterface
     {
         return dependency()->getContainer()->get(WebApplicationServiceInterface::class);
     }
@@ -195,23 +186,11 @@ if (!function_exists('console')) {
     /**
      * Returns the console application service intance.
      *
-     * @return ConsoleApplicationServiceInterface
+     * @return ApplicationServiceInterface|ConsoleApplicationServiceInterface
      */
-    function console(): ConsoleApplicationServiceInterface
+    function console(): ApplicationServiceInterface|ConsoleApplicationServiceInterface
     {
         return dependency()->getContainer()->get(ConsoleApplicationServiceInterface::class);
-    }
-}
-
-if (!function_exists('config')) {
-    /**
-     * Returns the configurations array.
-     * 
-     * @return array
-     */
-    function config(): array
-    {
-        return app()->getConfig();
     }
 }
 

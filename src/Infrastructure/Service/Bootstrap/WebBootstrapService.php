@@ -2,7 +2,11 @@
 
 namespace OneCMS\Base\Infrastructure\Service\Bootstrap;
 
+use OneCMS\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
+use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use OneCMS\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
+
 /**
  * WebBootstrapService
  * 
@@ -11,40 +15,54 @@ use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterfac
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-class WebBootstrapService extends BootstrapService
+class WebBootstrapService implements BootstrapServiceInterface, WebBootstrapServiceInterface
 {
-    private WebApplicationServiceInterface $app;
-
     /**
-     * Initialize the web bootstrap service.
-     * 
-     * Note: If you override this method, you should call the parent implementation on top of it.
-     *
-     * @param WebApplicationServiceInterface $app
+     * @param DependencyServiceInterface $dependencyService
+     * @param ApplicationServiceInterface|WebApplicationServiceInterface $appService
      */
-    public function init(WebApplicationServiceInterface $app): void
-    {
-        $this->app = $app;
+    public function __construct(
+        private readonly DependencyServiceInterface $dependencyService,
+        private readonly ApplicationServiceInterface|WebApplicationServiceInterface $appService,
+    ) {
+        if ($this instanceof RegisterDependencyBootstrapInterface) {
+            $dependencyService->getContainer()->setdefinitions($this->dependencies());
+        }
 
         if ($this instanceof RegisterControllersBootstrapInterface) {
-            $app->setApplicaitonProperty(
+            $appService->setApplicaitonProperty(
                 'controllerMap',
-                array_merge($app->getApplicaitonProperty('controllerMap'), $this->controllers())
+                array_merge($appService->getApplicaitonProperty('controllerMap'), $this->controllers())
             );
         }
 
         if ($this instanceof RegisterRoutesBootstrapInterface) {
-            $app->getApplication()->getUrlManager()->addRules($this->routes(), false);
+            $appService->getApplication()->getUrlManager()->addRules($this->routes(), false);
         }
     }
 
     /**
-     * Returns the web application service instance.
-     *
-     * @return WebApplicationServiceInterface
+     * @inheritDoc
      */
-    public function getApplication(): WebApplicationServiceInterface
+    public function getDependencyService(): DependencyServiceInterface
     {
-        return $this->app;
+        return $this->dependencyService;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApplicationService(): ApplicationServiceInterface|WebApplicationServiceInterface
+    {
+        return $this->appService;
+    }
+
+    /**
+     * @inheritDoc
+     * 
+     * Note: If you override this method, you should call the parent implementation on top of it.
+     */
+    public function init(): void
+    {
     }
 }
