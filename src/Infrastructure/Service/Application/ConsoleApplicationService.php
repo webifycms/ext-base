@@ -6,7 +6,6 @@ namespace OneCMS\Base\Infrastructure\Service\Application;
 
 use RuntimeException;
 use Throwable;
-use OneCMS\Base\Application\Config\ConfigInterface;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use yii\console\Application;
 
@@ -18,7 +17,7 @@ use yii\console\Application;
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-class ConsoleApplicationService implements ConsoleApplicationServiceInterface
+class ConsoleApplicationService implements ApplicationServiceInterface, ConsoleApplicationServiceInterface
 {
     /**
      * @var Application

@@ -6,7 +6,6 @@ namespace OneCMS\Base\Infrastructure\Service\Application;
 
 use OneCMS\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use yii\web\Application;
-
 /**
  * Interface WebApplicationServiceInterface
  *
@@ -15,7 +14,7 @@ use yii\web\Application;
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-interface WebApplicationServiceInterface extends ApplicationServiceInterface
+interface WebApplicationServiceInterface
 {
     /**
      * Returns the web application instance.

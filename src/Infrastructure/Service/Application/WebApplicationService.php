@@ -18,7 +18,7 @@ use yii\web\Application;
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-class WebApplicationService implements WebApplicationServiceInterface
+class WebApplicationService implements ApplicationServiceInterface, WebApplicationServiceInterface
 {
     /**
      * @var Application

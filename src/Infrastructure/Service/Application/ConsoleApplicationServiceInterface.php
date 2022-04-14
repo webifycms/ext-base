@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OneCMS\Base\Infrastructure\Service\Application;
 
 use yii\console\Application;
-
 /**
  * ConsoleApplicationServiceInterface
  *
@@ -14,7 +13,7 @@ use yii\console\Application;
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-interface ConsoleApplicationServiceInterface extends ApplicationServiceInterface
+interface ConsoleApplicationServiceInterface
 {
     /**
      * Returns the console application instance.

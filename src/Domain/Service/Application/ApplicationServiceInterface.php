@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Service\Application;
 
-use OneCMS\Base\Application\Config\ConfigInterface;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 
 /**
