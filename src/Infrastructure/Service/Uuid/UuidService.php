@@ -38,6 +38,13 @@ final class UuidService implements UuidServiceInterface
         }
     }
 
+    /**
+     * Validates the uuid.
+     *
+     * @param string $uuid
+     * @return void
+     * @throws InvalidUuidException
+     */
     private function validate(string $uuid): void
     {
         if (!Uuid::isValid($uuid)) {
