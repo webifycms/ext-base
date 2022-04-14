@@ -16,7 +16,7 @@ use yii\di\Container;
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-class DependencyService extends DependencyServiceInterface
+class DependencyService implements DependencyServiceInterface
 {
     /**
      * @var Container
@@ -31,7 +31,7 @@ class DependencyService extends DependencyServiceInterface
         // gets the framework container
         $this->container = Yii::$container;
         // the class itself registers to the container
-        $this->container->setSingleton(DependencyInterface::class, $this);
+        $this->container->setSingleton(DependencyServiceInterface::class, $this);
     }
 
     /**
