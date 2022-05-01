@@ -42,15 +42,15 @@ class WebApplicationService implements ApplicationServiceInterface, WebApplicati
     ) {
         $this->administrationPath = $config['administrationPath'] ?? $this->administrationPath;
 
-        $this->createApplication($config);
+        $this->createApplication();
     }
 
     /**
      * Create the framework application.
      */
-    private function createApplication(array $config)
+    private function createApplication()
     {
-        $config = $config['framework'] ?? [];
+        $config = $this->config['framework'] ?? ['id' => 'web'];
 
         try {
             $this->application = new Application($config);

@@ -39,7 +39,7 @@ class ConsoleApplicationService implements ApplicationServiceInterface, ConsoleA
      */
     private function createApplication()
     {
-        $config = $config['framework'] ?? [];
+        $config = $this->config['framework'] ?? ['id' => 'console'];
 
         try {
             $this->application = new Application($config);
