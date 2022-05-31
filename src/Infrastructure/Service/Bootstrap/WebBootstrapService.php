@@ -6,6 +6,7 @@ use OneCMS\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
+use yii\web\Application;
 
 /**
  * WebBootstrapService
@@ -55,6 +56,14 @@ class WebBootstrapService implements BootstrapServiceInterface, WebBootstrapServ
     public function getApplicationService(): ApplicationServiceInterface|WebApplicationServiceInterface
     {
         return $this->appService;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApplication(): Application
+    {
+        return $this->appService->getApplication();
     }
 
     /**
