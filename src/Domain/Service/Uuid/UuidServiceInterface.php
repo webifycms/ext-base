@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Service\Uuid;
@@ -17,15 +18,15 @@ interface UuidServiceInterface
     /**
      * @return mixed
      */
-    public function uuid();
-
-    /**
-     * @return mixed
-     */
-    public function generate();
+    public function provider();
 
     /**
      * @return mixed
      */
     public function generateFromString(string $uuid);
+
+    /**
+     * @return string
+     */
+    public function toString(): string;
 }

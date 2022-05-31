@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * Class UuidService is helps you to generate uuids for your objects.
+ * UuidService class helps you to generate uuids for your objects.
  * This is depended on external library "ramsey/uuid".
  *
  * @package getonecms/base
@@ -34,7 +34,7 @@ final class UuidService implements UuidServiceInterface
 
             $this->uuid = $this->generateFromString($uuid);
         } else {
-            $this->uuid = $this->generate();
+            $this->uuid = Uuid::uuid6();
         }
     }
 
@@ -63,16 +63,16 @@ final class UuidService implements UuidServiceInterface
     /**
      * @inheritDoc
      */
-    public function generate(): UuidInterface
+    public function provider(): UuidInterface
     {
-        return Uuid::uuid4();
+        return $this->uuid;
     }
 
     /**
      * @inheritDoc
      */
-    public function uuid(): UuidInterface
+    public function toString(): string
     {
-        return $this->uuid;
+        return $this->uuid->toString();
     }
 }
