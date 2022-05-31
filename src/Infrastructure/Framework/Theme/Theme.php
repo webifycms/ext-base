@@ -28,6 +28,8 @@ class Theme extends BaseTheme implements ThemeInterface
      */
     public function init(): void
     {
+        set_alias('@Theme', $this->getBasePath());
+
         if (empty($this->id)) {
             $explode = explode('/', $this->getBasePath());
             $this->id = end($explode);
