@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Infrastructure\Service\Uuid;
 
-use OneCMS\Base\Domain\Service\Validation\ValidationFailedException;
+use OneCMS\Base\Domain\Exception\TranslatableException;
 
 /**
  * Class InvalidUuidException
@@ -13,7 +13,7 @@ use OneCMS\Base\Domain\Service\Validation\ValidationFailedException;
  * @since   0.0.1
  * @author  Mohammed Shifreen
  */
-final class InvalidUuidException extends ValidationFailedException
+final class InvalidUuidException extends TranslatableException
 {
     /**
      * Undocumented function
