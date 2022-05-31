@@ -2,22 +2,22 @@
 
 /**
  * The `global` file contains some useful functions that can be used globally. These functions are highly dependeds on 
- * infrastructure layer and we encourage them to use only in the controllers, templates and config files or in the infrastructure later.
+ * infrastructure layer and we encourage to use only in the controllers, templates and config files or in the infrastructure later.
  */
 
 use Dotenv\Dotenv;
 use OneCMS\Base\Domain\Exception\FileNotExistException;
+use OneCMS\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use OneCMS\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationService;
 use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\WebApplicationService;
 use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Dependency\DependencyService;
-use yii\grid\GridView;
 use yii\helpers\Url;
+use yii\web\Application;
+use yii\console\Application as ConsoleApplication;
 use yii\web\View;
-use yii\widgets\Menu;
 
 if (!function_exists('log_message')) {
     /**
@@ -78,6 +78,18 @@ if (!function_exists('enable_dev_env')) {
     {
         defined('YII_DEBUG') or define('YII_DEBUG', true);
         defined('YII_ENV') or define('YII_ENV', 'dev');
+    }
+}
+
+if (!function_exists(('in_debug'))) {
+    /**
+     * Check in debug.
+     *
+     * @return boolean
+     */
+    function in_debug(): bool
+    {
+        return YII_DEBUG;
     }
 }
 
@@ -174,11 +186,11 @@ if (!function_exists('app')) {
     /**
      * Returns the web application service intance.
      *
-     * @return ApplicationServiceInterface|WebApplicationServiceInterface
+     * @return Application
      */
-    function app(): ApplicationServiceInterface|WebApplicationServiceInterface
+    function app(): Application
     {
-        return dependency()->getContainer()->get(WebApplicationServiceInterface::class);
+        return dependency()->getContainer()->get(WebApplicationServiceInterface::class)->getApplication();
     }
 }
 
@@ -186,39 +198,56 @@ if (!function_exists('console')) {
     /**
      * Returns the console application service intance.
      *
-     * @return ApplicationServiceInterface|ConsoleApplicationServiceInterface
+     * @return ConsoleApplication
      */
-    function console(): ApplicationServiceInterface|ConsoleApplicationServiceInterface
+    function console(): ConsoleApplication
     {
-        return dependency()->getContainer()->get(ConsoleApplicationServiceInterface::class);
+        return dependency()->getContainer()->get(ConsoleApplicationServiceInterface::class)->getApplication();
+    }
+}
+
+if (!function_exists('administration')) {
+    /**
+     * Returns the administration service instance.
+     *
+     * @return AdministrationServiceInterface
+     */
+    function administration(): AdministrationServiceInterface
+    {
+        return dependency()->getContainer()->get(AdministrationServiceInterface::class);
     }
 }
 
 if (!function_exists('in_administration')) {
+    /**
+     * Undocumented function
+     *
+     * @return boolean
+     */
     function in_administration(): bool
     {
-        return app()->getAdministration()->inAdministration();
+        return administration()->inAdministration();
     }
 }
 
 if (!function_exists('administration_path')) {
     function administration_path(): string
     {
-        return app()->getAdministration()->getPath();
+        return administration()->getPath();
     }
 }
 
 if (!function_exists('administration_url')) {
     function administration_url(): string
     {
-        return app()->getAdministration()->getUrl();
+        return administration()->getUrl();
     }
 }
 
 if (!function_exists('view')) {
     function view(): View
     {
-        return app()->getApplication()->getView();
+        return app()->getView();
     }
 }
 
@@ -246,7 +275,7 @@ if (!function_exists('home_url')) {
 
 if (!function_exists('remember_url')) {
     /**
-     * Returns the URL previously remember or remembered.
+     * Sets the URL to be remember and later it can be retrieve by previous_url().
      */
     function remember_url(array|string $url, ?string $name = null): void
     {
@@ -264,19 +293,23 @@ if (!function_exists('previous_url')) {
     }
 }
 
-if (!function_exists('widget')) {
-    function widget(string $name, array $config): ?string
-    {
-        $class = match ($name) {
-            'menu' => Menu::class,
-            'grid' => GridView::class,
-            default => null,
-        };
-
-        if ($class !== null) {
-            return $class::widget($config);
-        }
-
-        return null;
+if (!function_exists('translate')) {
+    /**
+     * Translate given string.
+     * @see \Yii::t()
+     *
+     * @param string $category
+     * @param string $message
+     * @param array $params
+     * @param string|null $language
+     * @return void
+     */
+    function translate(
+        string $category,
+        string $message,
+        array $params = [],
+        ?string $language = null
+    ) {
+        return Yii::t($category, $message, $params, $language);
     }
 }
