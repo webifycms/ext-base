@@ -17,11 +17,21 @@ use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
 interface ApplicationServiceInterface
 {
     /**
-     * @return mixed
+     * Start the application.
      */
     public function start();
 
+    /**
+     * Returns the config as an array.
+     *
+     * @return array
+     */
     public function getConfig(): array;
 
+    /**
+     * Returns the dependency service instance.
+     *
+     * @return DependencyServiceInterface
+     */
     public function getDependency(): DependencyServiceInterface;
 }
