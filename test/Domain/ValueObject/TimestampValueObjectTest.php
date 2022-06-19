@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Test\Domain\Model\ValueObject;
+namespace OneCMS\Base\Test\Domain\ValueObject;
 
 use DateTimeInterface;
-use OneCMS\Base\Domain\Model\ValueObject\TimestampValueObject;
+use OneCMS\Base\Domain\ValueObject\TimestampValueObject;
 use PHPUnit\Framework\TestCase;
 
 class TimestampValueObjectTest extends TestCase

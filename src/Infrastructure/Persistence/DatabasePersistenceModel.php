@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 /**
  * PersistenceModel class is a base persistence model class and can extend.
  */
-class PersistenceModel extends ActiveRecord
+class DatabasePersistenceModel extends ActiveRecord
 {
     final const DEFAULT_DATETIME_FORMAT = 'Y-m-d H:i:s';
 }

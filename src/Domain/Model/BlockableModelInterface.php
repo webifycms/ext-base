@@ -11,7 +11,17 @@ use DateTimeInterface;
  */
 interface BlockableModelInterface
 {
+    /**
+     * If it is blocked returns true, otherwise false.
+     *
+     * @return boolean
+     */
     public function isBlocked(): bool;
 
+    /**
+     * Returns blocked at datetime.
+     *
+     * @return DateTimeInterface
+     */
     public function getBlockedAt(): DateTimeInterface;
 }

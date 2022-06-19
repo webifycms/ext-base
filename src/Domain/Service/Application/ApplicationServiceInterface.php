@@ -19,12 +19,12 @@ interface ApplicationServiceInterface
     /**
      * Start the application.
      */
-    public function start();
+    public function start(): void;
 
     /**
      * Returns the config as an array.
      *
-     * @return array
+     * @return mixed[]
      */
     public function getConfig(): array;
 

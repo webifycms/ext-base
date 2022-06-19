@@ -9,8 +9,16 @@ namespace OneCMS\Base\Domain\Exception;
  */
 class FileNotExistException extends TranslatableException
 {
-    public function __construct(string $messageKey = 'file_not_exist', array $params = [])
-    {
+    /**
+     * The class constructor.
+     *
+     * @param string $messageKey
+     * @param string[] $params
+     */
+    public function __construct(
+        $messageKey = 'file_not_exist',
+        $params = []
+    ) {
         parent::__construct($messageKey, $params);
     }
 }

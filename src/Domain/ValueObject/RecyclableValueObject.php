@@ -7,21 +7,16 @@ namespace OneCMS\Base\Domain\ValueObject;
 use DateTimeInterface;
 
 /**
- * RecycleValueObject class
+ * RecyclableValueObject class
  */
-final class RecycleValueObject
+final class RecyclableValueObject
 {
-    /**
-     * @var DateTimeInterface
-     */
-    private DateTimeInterface $recycledAt;
-
     /**
      * Recycle value object constructor.
      */
-    public function __construct(DateTimeInterface $recycledAt)
-    {
-        $this->recycledAt = $recycledAt;
+    public function __construct(
+        private readonly DateTimeInterface $recycledAt = (new DateTimeValueObject())->getDateTime()
+    ) {
     }
 
     /**

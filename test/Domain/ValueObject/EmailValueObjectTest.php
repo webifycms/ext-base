@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace OneCMS\Base\Test\Domain\Model\ValueObject;
+namespace OneCMS\Base\Test\Domain\ValueObject;
 
-use OneCMS\Base\Domain\Model\Exception\InvalidEmailAddressException;
-use OneCMS\Base\Domain\Model\ValueObject\EmailValueObject;
+use OneCMS\Base\Domain\Exception\InvalidEmailAddressException;
+use OneCMS\Base\Domain\ValueObject\EmailValueObject;
 use PHPUnit\Framework\TestCase;
 
 final class EmailValueObjectTest extends TestCase

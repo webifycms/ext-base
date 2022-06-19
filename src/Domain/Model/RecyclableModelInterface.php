@@ -19,7 +19,7 @@ interface RecyclableModelInterface
     public function inRecycle(): bool;
 
     /**
-     * Get the recycled time.
+     * Returns the recycled datetime.
      *
      * @return DateTimeInterface
      */

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Exception;
+
 /**
  * InvalidDatetimeException
  *
@@ -13,8 +14,16 @@ namespace OneCMS\Base\Domain\Exception;
  */
 final class InvalidDatetimeException extends TranslatableException
 {
-    public function __construct(string $messageKey = 'invalid_datetime', array $params = [])
-    {
+    /**
+     * The class constructor.
+     *
+     * @param string $messageKey
+     * @param string[] $params
+     */
+    public function __construct(
+        $messageKey = 'invalid_datetime',
+        $params = []
+    ) {
         parent::__construct($messageKey, $params);
     }
 }

@@ -17,20 +17,20 @@ use OneCMS\Base\Domain\Exception\InvalidEmailAddressException;
 final class EmailValueObject
 {
     /**
-     * @var string
-     */
-    private readonly string $email;
-
-    /**
      * EmailAddress constructor.
      */
-    public function __construct(string $email)
-    {
+    public function __construct(
+        private readonly string $email
+    ) {
         $this->validate($email);
-
-        $this->email = $email;
     }
 
+    /**
+     * Validates the given email string and throws an exception if validation failed.
+     *
+     * @param string $email
+     * @throws InvalidEmailAddressException
+     */
     private function validate(string $email): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -38,6 +38,11 @@ final class EmailValueObject
         }
     }
 
+    /**
+     * Returns email string.
+     *
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;

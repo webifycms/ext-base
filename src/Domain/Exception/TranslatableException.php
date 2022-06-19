@@ -18,7 +18,10 @@ use OneCMS\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 class TranslatableException extends Exception implements TranslatableExceptionServiceInterface
 {
     /**
-     * TranslatableException constructor.
+     * The class constructor.
+     *
+     * @param string $messageKey
+     * @param string[] $params additional items that should be incluided in the message can be passed as `name => value`.
      */
     public function __construct(
         private readonly string $messageKey,

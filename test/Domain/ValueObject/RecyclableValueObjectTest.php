@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Test\Domain\Model\ValueObject;
+namespace OneCMS\Base\Test\Domain\ValueObject;
 
 use DateTimeInterface;
-use OneCMS\Base\Domain\Model\ValueObject\DateTimeValueObject;
-use OneCMS\Base\Domain\Model\ValueObject\RecyclableValueObject;
+use OneCMS\Base\Domain\ValueObject\DateTimeValueObject;
+use OneCMS\Base\Domain\ValueObject\RecyclableValueObject;
 use PHPUnit\Framework\TestCase;
 
 final class RecyclableValueObjectTest extends TestCase

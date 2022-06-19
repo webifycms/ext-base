@@ -1,0 +1,8 @@
+parameters:
+	level: 9
+	paths:
+		- src/Domain
+		- src/Application
+		- test
+	excludePaths:
+		- vendor

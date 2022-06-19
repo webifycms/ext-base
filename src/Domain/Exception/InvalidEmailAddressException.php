@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Exception;
+
 /**
  * Class InvalidEmailAddressException
  *
@@ -14,10 +15,15 @@ namespace OneCMS\Base\Domain\Exception;
 final class InvalidEmailAddressException extends TranslatableException
 {
     /**
-     * Undocumented function
+     * The class constructor.
+     *
+     * @param string $messageKey
+     * @param string[] $params
      */
-    public function __construct(string $messageKey = 'invalid_email', array $params = [])
-    {
+    public function __construct(
+        $messageKey = 'invalid_email',
+        $params = []
+    ) {
         parent::__construct($messageKey, $params);
     }
 }

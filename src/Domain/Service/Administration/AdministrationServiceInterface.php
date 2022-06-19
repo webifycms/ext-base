@@ -31,7 +31,7 @@ interface AdministrationServiceInterface
     /**
      * Set adminstration menu items.
      *
-     * @param array $items
+     * @param mixed[] $items
      */
     public function setMenuItems(array $items): void;
 

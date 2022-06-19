@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Test\Domain\Model\ValueObject;
+namespace OneCMS\Base\Test\Domain\ValueObject;
 
 use DateTimeImmutable;
-use OneCMS\Base\Domain\Model\Exception\InvalidDatetimeException;
-use OneCMS\Base\Domain\Model\ValueObject\DateTimeValueObject;
+use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
+use OneCMS\Base\Domain\ValueObject\DateTimeValueObject;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeValueObjectTest extends TestCase

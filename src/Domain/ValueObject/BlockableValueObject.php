@@ -12,33 +12,18 @@ use DateTimeInterface;
 final class BlockableValueObject
 {
     /**
-     * @var DateTimeInterface|null
-     */
-    private ?DateTimeInterface $blockedAt = null;
-
-    /**
      * Blockable value object constructor.
      */
-    public function __construct(?DateTimeInterface $blockedAt = null)
-    {
-        if (!is_null($blockedAt)) {
-            $this->blockedAt = $blockedAt;
-        }
+    public function __construct(
+        private readonly DateTimeInterface $blockedAt = (new DateTimeValueObject())->getDateTime()
+    ) {
     }
 
     /**
-     * Get the value of value
+     * Returns blocked at datetime.
      */
-    public function getBlockedAt(): ?DateTimeInterface
+    public function getBlockedAt(): DateTimeInterface
     {
         return $this->blockedAt;
-    }
-
-    /**
-     * Check is it blocked
-     */
-    public function isBlocked(): bool
-    {
-        return $this->blockedAt instanceof DateTimeInterface;
     }
 }
