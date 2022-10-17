@@ -9,38 +9,34 @@ use Yii;
 use yii\di\Container;
 
 /**
- * DependencyService
- * 
- * @package getonecms/base
+ * DependencyService.
+ *
  * @version 0.0.1
+ *
  * @since   0.0.1
+ *
  * @author  Mohammed Shifreen
  */
 class DependencyService implements DependencyServiceInterface
 {
-    /**
-     * @var Container
-     */
-    private readonly Container $container;
+	private readonly Container $container;
 
-    /**
-     * DependencyContainer constructor.
-     */
-    public function __construct()
-    {
-        // gets the framework container
-        $this->container = Yii::$container;
-        // the class itself registers to the container
-        $this->container->setSingleton(DependencyServiceInterface::class, $this);
-    }
+	/**
+	 * DependencyContainer constructor.
+	 */
+	public function __construct()
+	{
+		// gets the framework container
+		$this->container = Yii::$container;
+		// the class itself registers to the container
+		$this->container->setSingleton(DependencyServiceInterface::class, $this);
+	}
 
-    /**
-     * @inheritDoc
-     *
-     * @return Container
-     */
-    public function getContainer(): Container
-    {
-        return $this->container;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getContainer(): Container
+	{
+		return $this->container;
+	}
 }

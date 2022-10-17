@@ -9,21 +9,17 @@ use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterfac
 use yii\web\Application;
 
 /**
- * WebBootstrapServiceInterface
+ * WebBootstrapServiceInterface.
  */
 interface WebBootstrapServiceInterface
 {
-    /**
-     * Returns the web application service instance.
-     *
-     * @return WebApplicationServiceInterface|ApplicationServiceInterface
-     */
-    public function getApplicationService(): WebApplicationServiceInterface|ApplicationServiceInterface;
+	/**
+	 * Returns the web application service instance.
+	 */
+	public function getApplicationService(): WebApplicationServiceInterface|ApplicationServiceInterface;
 
-    /**
-     * Returns the web application instance.
-     *
-     * @return Application
-     */
-    public function getApplication(): Application;
+	/**
+	 * Returns the web application instance.
+	 */
+	public function getApplication(): Application;
 }

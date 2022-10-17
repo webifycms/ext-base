@@ -1,44 +1,43 @@
 <?php
 
+/**
+ * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ *
+ * @see https://getonecms.com/extension/base
+ *
+ * @copyright Copyright (c) 2022 OneCMS
+ * @license https://getonecms.com/extension/base/license
+ * @author  Mohammed Shifreen <mshifreen@gmail.com>
+ */
+
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Service\Administration;
 
 /**
- * AdministrationServiceInterface
- *
- * @package getonecms/ext-base
- * @version 0.0.1
- * @since   0.0.1
- * @author  Mohammed Shifreen
+ * AdministrationServiceInterface.
  */
 interface AdministrationServiceInterface
 {
-    /**
-     * Returns the administration path.
-     *
-     * @return string
-     */
-    public function getPath(): string;
+	/**
+	 * Returns the administration path.
+	 */
+	public function getPath(): string;
 
-    /**
-     * Returns absolute url of the administration.
-     * 
-     * @return string
-     */
-    public function getUrl(): string;
+	/**
+	 * Returns absolute url of the administration.
+	 */
+	public function getUrl(): string;
 
-    /**
-     * Set adminstration menu items.
-     *
-     * @param mixed[] $items
-     */
-    public function setMenuItems(array $items): void;
+	/**
+	 * Set administration menu items.
+	 *
+	 * @param mixed[] $items
+	 */
+	public function setMenuItems(array $items): void;
 
-    /**
-     * Returns true if in administration, otherwise returns false.
-     *
-     * @return boolean
-     */
-    public function inAdministration(): bool;
+	/**
+	 * Returns true if in administration, otherwise returns false.
+	 */
+	public function inAdministration(): bool;
 }

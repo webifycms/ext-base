@@ -7,21 +7,17 @@ namespace OneCMS\Base\Domain\Model;
 use DateTimeInterface;
 
 /**
- * Undocumented interface
+ * Undocumented interface.
  */
 interface BlockableModelInterface
 {
-    /**
-     * If it is blocked returns true, otherwise false.
-     *
-     * @return boolean
-     */
-    public function isBlocked(): bool;
+	/**
+	 * If it is blocked returns true, otherwise false.
+	 */
+	public function isBlocked(): bool;
 
-    /**
-     * Returns blocked at datetime.
-     *
-     * @return DateTimeInterface
-     */
-    public function getBlockedAt(): DateTimeInterface;
+	/**
+	 * Returns blocked at datetime.
+	 */
+	public function getBlockedAt(): DateTimeInterface;
 }

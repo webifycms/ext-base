@@ -8,14 +8,12 @@ use OneCMS\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
 use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
 
 /**
- * ConsoleBootstrapServiceInterface
+ * ConsoleBootstrapServiceInterface.
  */
 interface ConsoleBootstrapServiceInterface
 {
-    /**
-     * Returns the console application service instance.
-     *
-     * @return ApplicationServiceInterface|ConsoleApplicationServiceInterface
-     */
-    public function getApplicationService(): ApplicationServiceInterface|ConsoleApplicationServiceInterface;
+	/**
+	 * Returns the console application service instance.
+	 */
+	public function getApplicationService(): ApplicationServiceInterface|ConsoleApplicationServiceInterface;
 }

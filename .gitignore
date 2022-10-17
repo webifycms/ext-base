@@ -17,7 +17,6 @@ Thumbs.db
 
 # composer
 /vendor/
-composer.lock
 composer.phar
 
 # Mac DS_Store Files
@@ -25,3 +24,7 @@ composer.phar
 
 # ignores the rector.php
 rector.php
+
+# ignores the .php-cs-fixer files
+.php-cs-fixer.cache
+.php-cs-fixer.php

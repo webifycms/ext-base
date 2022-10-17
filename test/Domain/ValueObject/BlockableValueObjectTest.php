@@ -9,27 +9,31 @@ use OneCMS\Base\Domain\ValueObject\BlockableValueObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * BlockableValueObjectTest class
+ * BlockableValueObjectTest class.
+ *
+ * @internal
+ *
+ * @coversNothing
  */
 final class BlockableValueObjectTest extends TestCase
 {
-    public function testCanBeCreatedWithoutDatetime(): void
-    {
-        $this->assertInstanceOf(
-            BlockableValueObject::class,
-            new BlockableValueObject()
-        );
-    }
-    
-    public function testCanBeCreatedWithValidDatetime(): void
-    {
-        $datetime = new DateTimeImmutable();
-        $blockableObject = new BlockableValueObject($datetime);
+	public function testCanBeCreatedWithoutDatetime(): void
+	{
+		static::assertInstanceOf(
+			BlockableValueObject::class,
+			new BlockableValueObject()
+		);
+	}
 
-        $this->assertInstanceOf(
-            BlockableValueObject::class,
-            $blockableObject
-        );
-        $this->assertEquals($datetime, $blockableObject->getBlockedAt());
-    }
+	public function testCanBeCreatedWithValidDatetime(): void
+	{
+		$datetime        = new DateTimeImmutable();
+		$blockableObject = new BlockableValueObject($datetime);
+
+		static::assertInstanceOf(
+			BlockableValueObject::class,
+			$blockableObject
+		);
+		static::assertSame($datetime, $blockableObject->getBlockedAt());
+	}
 }

@@ -13,20 +13,15 @@ use yii\web\Controller;
  */
 class WebController extends Controller
 {
-    /**
-     * The constructor.
-     *
-     * @param string $id
-     * @param Module $module
-     * @param WebApplicationServiceInterface $appService
-     * @param array $config
-     */
-    public function __construct(
-        string $id,
-        Module $module,
-        protected readonly WebApplicationServiceInterface $appService,
-        array $config = []
-    ) {
-        parent::__construct($id, $module, $config);
-    }
+	/**
+	 * The constructor.
+	 */
+	public function __construct(
+		string $id,
+		Module $module,
+		protected readonly WebApplicationServiceInterface $appService,
+		array $config = []
+	) {
+		parent::__construct($id, $module, $config);
+	}
 }

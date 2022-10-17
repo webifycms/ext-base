@@ -11,67 +11,64 @@ use yii\base\Model;
  */
 class FormModel extends Model
 {
-    /**
-     * This redirection url will be used on validation failed.
-     * 
-     * @see \OneCMS\Base\Infrastructure\Framework\Controller\WebController::redirect()
-     *
-     * @var string|array|null
-     */
-    private string|array|null $redirectUrlOnValidationFailed = null;
+	/**
+	 * This redirection url will be used on validation failed.
+	 *
+	 * @see \OneCMS\Base\Infrastructure\Framework\Controller\WebController::redirect()
+	 */
+	private string|array|null $redirectUrlOnValidationFailed = null;
 
-    /**
-     * @inheritDoc
-     */
-    public function init()
-    {
-        // if data loaded only should validate
-        if ($this->load(app()->request->post())) {
-            $this->validate();
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function init(): void
+	{
+		// if data loaded only should validate
+		if ($this->load(app()->request->post())) {
+			$this->validate();
+		}
 
-        parent::init();
-    }
+		parent::init();
+	}
 
-    /**
-     * @inheritDoc
-     * @throws InvalidConfigException
-     */
-    public function afterValidate()
-    {
-        parent::afterValidate();
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws InvalidConfigException
+	 */
+	public function afterValidate(): void
+	{
+		parent::afterValidate();
 
-        if ($this->hasErrors()) {
-            if (app()->request->isAjax) {
-                $response = app()->response;
-                $response->format = 'json';
-                $response->data = [
-                    'errors' => $this->getFirstErrors()
-                ];
-                $response->statusCode = 400;
+		if ($this->hasErrors()) {
+			if (app()->request->isAjax) {
+				$response         = app()->response;
+				$response->format = 'json';
+				$response->data   = [
+					'errors' => $this->getFirstErrors(),
+				];
+				$response->statusCode = 400;
 
-                $response->send();
-            } else {
-                app()->session->setFlash($this->formName() . '_errors', $this->getFirstErrors());
+				$response->send();
+			} else {
+				app()->session->setFlash($this->formName() . '_errors', $this->getFirstErrors());
 
-                if (!empty($this->redirectUrlOnValidationFailed)) {
-                    app()->controller->redirect($this->redirectUrlOnValidationFailed);
-                }
-            }
-        }
-    }
+				if (!empty($this->redirectUrlOnValidationFailed)) {
+					app()->controller->redirect($this->redirectUrlOnValidationFailed);
+				}
+			}
+		}
+	}
 
-    /**
-     * Set the value of redirectUrlOnValidationFailed.
-     *
-     * @see \OneCMS\Base\Infrastructure\Framework\Controller\WebController::redirect()
-     * @param string|array $redirectUrlOnValidationFailed
-     * @return self
-     */
-    public function setRedirectUrlOnValidationFailed(string|array $redirectUrlOnValidationFailed): self
-    {
-        $this->redirectUrlOnValidationFailed = $redirectUrlOnValidationFailed;
+	/**
+	 * Set the value of redirectUrlOnValidationFailed.
+	 *
+	 * @see \OneCMS\Base\Infrastructure\Framework\Controller\WebController::redirect()
+	 */
+	public function setRedirectUrlOnValidationFailed(string|array $redirectUrlOnValidationFailed): self
+	{
+		$this->redirectUrlOnValidationFailed = $redirectUrlOnValidationFailed;
 
-        return $this;
-    }
+		return $this;
+	}
 }

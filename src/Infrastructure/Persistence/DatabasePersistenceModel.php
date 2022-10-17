@@ -11,5 +11,5 @@ use yii\db\ActiveRecord;
  */
 class DatabasePersistenceModel extends ActiveRecord
 {
-    final const DEFAULT_DATETIME_FORMAT = 'Y-m-d H:i:s';
+	final public const DEFAULT_DATETIME_FORMAT = 'Y-m-d H:i:s';
 }
