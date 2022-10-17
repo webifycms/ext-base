@@ -1,8 +1,9 @@
+includes:
+	- vendor/getonecms/dev-tools/src/phpstan.neon
+
 parameters:
-	level: 9
 	paths:
-		- src/Domain
-		- src/Application
+		- src
 		- test
 	excludePaths:
 		- vendor
