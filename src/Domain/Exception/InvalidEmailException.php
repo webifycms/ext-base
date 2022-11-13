@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace OneCMS\Base\Domain\Exception;
 
 /**
- * InvalidEmailException will be used to throw en error when the supplied email address is invalid.
+ * It's a custom exception class that extends the `TranslatableInvalidArgumentException` class.
  */
-final class InvalidEmailException extends TranslatableException
+final class InvalidEmailException extends TranslatableInvalidArgumentException
 {
 	/**
 	 * The object constructor.

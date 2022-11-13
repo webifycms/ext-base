@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace OneCMS\Base\Domain\Exception;
 
 /**
- * InvalidUniqueIdException is an exception class can be used to throw exception when supplied invalid unique ID.
+ * It's a custom exception class that's thrown when a unique ID is invalid.
  */
-final class InvalidUniqueIdException extends TranslatableException
+final class InvalidUniqueIdException extends TranslatableInvalidArgumentException
 {
 	/**
 	 * The object constructor.
