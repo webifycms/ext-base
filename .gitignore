@@ -22,9 +22,5 @@ composer.phar
 # Mac DS_Store Files
 .DS_Store
 
-# ignores the rector.php
-rector.php
-
-# ignores the .php-cs-fixer files
+# ignores the .php-cs-fixer.cache file
 .php-cs-fixer.cache
-.php-cs-fixer.php
