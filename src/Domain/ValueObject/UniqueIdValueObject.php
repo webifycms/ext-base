@@ -44,11 +44,11 @@ class UniqueIdValueObject
 	 *
 	 * @throws InvalidUniqueIdException
 	 */
-	private function __construct(
+	final public function __construct(
 		private readonly string $uniqueId
 	) {
-		if (!$this->isValid($uniqueId)) {
-			throw new InvalidUniqueIdException('invalid_unique_id', ['unique_id' => $uniqueId]);
+		if (!$this->isValid($this->uniqueId)) {
+			throw new InvalidUniqueIdException('invalid_unique_id', ['unique_id' => $this->uniqueId]);
 		}
 	}
 
