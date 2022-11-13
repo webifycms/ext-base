@@ -1,71 +1,67 @@
 <?php
+/**
+ * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ *
+ * @see https://getonecms.com/extension/base
+ *
+ * @license Copyright (c) 2022 OneCMS
+ * @license https://getonecms.com/extension/base/license
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
+ */
 
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\ValueObject;
 
-use DateTimeImmutable;
-use DateTimeInterface;
-use DateTimeZone;
 use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
 
 /**
- * Class DateTimeValueObject.
- *
- * @version 0.0.1
- *
- * @since   0.0.1
- *
- * @author  Mohammed Shifreen
+ * It's a value object that holds a datetime object and provides a method
+ * to get the formatted datetime as string.
  */
 final class DateTimeValueObject
 {
-	/**
-	 * The default datetime format for the output.
-	 */
-	public const DEFAULT_FORMAT = DateTimeImmutable::W3C;
+    /**
+     * The default datetime format for the output.
+     */
+    public const DEFAULT_FORMAT = \DateTimeImmutable::W3C;
 
-	private DateTimeInterface $datetime;
+    private \DateTimeInterface $datetime;
 
-	/**
-	 * The class constructor.
-	 *
-	 * @param string $datetimeString
-	 */
-	public function __construct(
-		$datetimeString = 'now',
-		DateTimeZone $timezone = new DateTimeZone(date_default_timezone_get())
-	) {
-		try {
-			$this->datetime = new DateTimeImmutable($datetimeString, $timezone);
-		} catch (\Throwable) {
-			throw new InvalidDatetimeException('invalid_datetime', ['datetime' => $datetimeString]);
-		}
-	}
+    /**
+     * The object constructor.
+     *
+     * @param string $datetimeString default is 'now'
+     * @param string $format         default value is \DateTimeImmutable::W3C
+     */
+    public function __construct(
+        string $datetimeString = 'now',
+        string $format = self::DEFAULT_FORMAT
+    ) {
+        $datetime = \DateTimeImmutable::createFromFormat($format, $datetimeString);
 
-	/**
-	 * Returns the default timezone object.
-	 */
-	public static function getDefaultTimeZone(): DateTimeZone
-	{
-		return new DateTimeZone(date_default_timezone_get());
-	}
+        if (!$datetime) {
+            throw new InvalidDatetimeException('invalid_datetime', ['datetime' => $datetimeString]);
+        }
 
-	/**
-	 * Returns the datetime object.
-	 */
-	public function getDateTime(): DateTimeInterface
-	{
-		return $this->datetime;
-	}
+        $this->datetime = $datetime;
+    }
 
-	/**
-	 * Returns the formatted datetime as string.
-	 *
-	 * @param null|string $format if format is null will use default format
-	 */
-	public function getFormattedValue(?string $format = null): string
-	{
-		return $this->datetime->format($format ?? self::DEFAULT_FORMAT);
-	}
+    /**
+     * Returns the datetime object.
+     */
+    public function getDateTime(): \DateTimeInterface
+    {
+        return $this->datetime;
+    }
+
+    /**
+     * It returns a string representation of the object.
+     *
+     * @return string The date and time in the format of Y-m-d\\TH:i:sP, eg: 2005-08-15T15:52:01+00:00
+     */
+    public function __toString(): string
+    {
+        return $this->datetime->format(self::DEFAULT_FORMAT);
+    }
 }

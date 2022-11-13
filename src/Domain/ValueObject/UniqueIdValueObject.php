@@ -53,25 +53,19 @@ class UniqueIdValueObject
 	}
 
 	/**
-	 * The object can be used as string.
+	 * Returns the unique ID as a string.
+	 *
+	 * @return string the uniqueId property of the object
 	 */
-	public function __toString(): string
+	public function __toString()
 	{
 		return $this->uniqueId;
 	}
 
 	/**
-	 * Returns the generated unique ID.
+	 * Creates an unique ID value object.
 	 */
-	public function getValue(): string
-	{
-		return $this->uniqueId;
-	}
-
-	/**
-	 * Generates an unique ID value object.
-	 */
-	public static function generate(): self
+	public static function create(): static
 	{
 		$uid     = '';
 		$length  = random_int(self::LENGTH['min'], self::LENGTH['max']);
@@ -92,15 +86,15 @@ class UniqueIdValueObject
 			}
 		}
 
-		return new self($uid);
+		return new static($uid);
 	}
 
 	/**
-	 * Generates an unique ID value object from the given unique ID.
+	 * Creates an unique ID value object from the given unique ID.
 	 */
-	public static function generateFromString(string $uniqueId): self
+	public static function createFromString(string $uniqueId): static
 	{
-		return new self($uniqueId);
+		return new static($uniqueId);
 	}
 
 	/**
@@ -108,7 +102,7 @@ class UniqueIdValueObject
 	 */
 	private function isValid(string $uniqueId): bool
 	{
-		$length = \strlen($uniqueId);
+		$length = mb_strlen($uniqueId);
 
 		return $length >= self::LENGTH['min'] && $length <= self::LENGTH['max'] && ctype_alnum($uniqueId);
 	}

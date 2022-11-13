@@ -16,16 +16,16 @@ namespace OneCMS\Base\Domain\ValueObject;
 use OneCMS\Base\Domain\Exception\InvalidEmailException;
 
 /**
- * EmailValueObject will help to holds and validates an email address.
+ * It's a value object that represents an email address.
  */
-final class EmailValueObject
+class EmailValueObject
 {
 	/**
 	 * The object constructor.
 	 *
 	 * @throws InvalidEmailException
 	 */
-	private function __construct(
+	final public function __construct(
 		private readonly string $email
 	) {
 		if (!$this->isValid($email)) {
@@ -34,31 +34,28 @@ final class EmailValueObject
 	}
 
 	/**
-	 * The object can be used as string.
+	 * The __toString() function is a magic method that is called when the object is used in a string
+	 * context.
+	 *
+	 * @return string The email address
 	 */
-	public function __toString(): string
+	public function __toString()
 	{
 		return $this->email;
 	}
 
 	/**
-	 * Returns email string.
+	 * Creates email value object from the given email address.
 	 */
-	public function getValue(): string
+	public static function create(string $email): static
 	{
-		return $this->email;
-	}
-
-	/**
-	 * Generates email value object from the given email address.
-	 */
-	public static function generate(string $email): self
-	{
-		return new self($email);
+		return new static($email);
 	}
 
 	/**
 	 * Validates the given email address and throws an exception if validation failed.
+	 *
+	 * @todo In some cases FILTER_VALIDATE_EMAIL can fail, so in that case better use another way of validation.
 	 */
 	private function isValid(string $email): bool
 	{
