@@ -25,7 +25,7 @@
             "OneCMS\\Base\\": "src/"
         },
         "files": [
-            "src/Infrastructure/helpers.php"
+            "src/Infrastructure/Helpers.php"
         ]
     },
     "autoload-dev": {

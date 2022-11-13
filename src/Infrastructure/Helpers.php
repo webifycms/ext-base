@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * The `helpers` file contains some useful functions that can be used globally.
  * These functions are highly depends on infrastructure layer and we encourage
  * to use only in controllers, templates and config files etc.
