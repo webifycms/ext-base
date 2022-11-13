@@ -18,7 +18,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "phpstan/phpstan": "^1.7",
         "getonecms/dev-tools": "*"
     },
     "autoload": {
@@ -52,12 +51,12 @@
     },
     "scripts": {
         "code-sniff": [
-            "php-cs-fixer fix --verbose --dry-run --diff --show-progress=dots"
+            "php-cs-fixer fix --verbose --dry-run --diff --show-progress=dots --using-cache=no"
         ],
         "code-sniff-format": [
             "php-cs-fixer fix --verbose --show-progress=dots"
         ],
-        "code-analyse": [
+        "code-analyze": [
             "phpstan"
         ]
     }
