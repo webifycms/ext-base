@@ -23,7 +23,7 @@ class TranslatableRuntimeException extends \RuntimeException implements Translat
 	/**
 	 * The class constructor.
 	 *
-	 * @param string[] $params additional items that should be included in the message can be passed as `name => value` pairs
+	 * @param mixed[] $params additional items that should be included in the message can be passed as `name => value` pairs
 	 */
 	public function __construct(
 		public readonly string $messageKey,
