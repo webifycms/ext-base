@@ -1,5 +1,5 @@
 includes:
-	- vendor/getonecms/dev-tools/src/phpstan.neon
+	- vendor/getonecms/dev-tools/phpstan-default.neon
 
 parameters:
 	paths:
