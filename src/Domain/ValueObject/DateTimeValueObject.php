@@ -8,7 +8,6 @@
  * @license https://getonecms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\ValueObject;
@@ -21,47 +20,74 @@ use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
  */
 final class DateTimeValueObject
 {
-    /**
-     * The default datetime format for the output.
-     */
-    public const DEFAULT_FORMAT = \DateTimeImmutable::W3C;
+	/**
+	 * The format for the output defaults to 'Y-m-d H:i:s'.
+	 */
+	public const DEFAULT_FORMAT = 'Y-m-d H:i:s';
 
-    private \DateTimeInterface $datetime;
+	private \DateTimeInterface $datetime;
 
-    /**
-     * The object constructor.
-     *
-     * @param string $datetimeString default is 'now'
-     * @param string $format         default value is \DateTimeImmutable::W3C
-     */
-    public function __construct(
-        string $datetimeString = 'now',
-        string $format = self::DEFAULT_FORMAT
-    ) {
-        $datetime = \DateTimeImmutable::createFromFormat($format, $datetimeString);
+	private string $format;
 
-        if (!$datetime) {
-            throw new InvalidDatetimeException('invalid_datetime', ['datetime' => $datetimeString]);
-        }
+	/**
+	 * The object constructor.
+	 */
+	private function __construct(
+		\DateTimeInterface|string $datetime,
+		?string $format = null
+	) {
+		try {
+			$datetime = !$datetime instanceof \DateTimeImmutable ?
+				new \DateTimeImmutable($datetime) : $datetime;
+		} catch (\Throwable) {
+			throw new InvalidDatetimeException('invalid_datetime', ['datetime' => $datetime]);
+		}
 
-        $this->datetime = $datetime;
-    }
+		$this->datetime = $datetime;
+		$this->format   = $format ?? self::DEFAULT_FORMAT;
+	}
 
-    /**
-     * Returns the datetime object.
-     */
-    public function getDateTime(): \DateTimeInterface
-    {
-        return $this->datetime;
-    }
+	/**
+	 * It returns a string representation of the object.
+	 *
+	 * @return string The datetime in the given format or default format Y-m-d H:i:s, eg: 2020-01-01 00:00:00
+	 */
+	public function __toString(): string
+	{
+		return $this->datetime->format($this->format);
+	}
 
-    /**
-     * It returns a string representation of the object.
-     *
-     * @return string The date and time in the format of Y-m-d\\TH:i:sP, eg: 2005-08-15T15:52:01+00:00
-     */
-    public function __toString(): string
-    {
-        return $this->datetime->format(self::DEFAULT_FORMAT);
-    }
+	/**
+	 * Creates datetime value object from the given datetime string or object.
+	 */
+	public static function create(\DateTimeImmutable|string $datetime = 'now'): static
+	{
+		return new static($datetime);
+	}
+
+	/**
+	 * Creates datetime value object from the given format and datetime strings.
+	 */
+	public static function createFromFormat(string $format, string $datetime): static
+	{
+		try {
+			return new static(
+				\DateTimeImmutable::createFromFormat($format, $datetime),
+				$format
+			);
+		} catch (\Throwable) {
+			throw new InvalidDatetimeException('invalid_format_or_datetime', [
+				'datetime' => $datetime,
+				'format'   => $format,
+			]);
+		}
+	}
+
+	/**
+	 * Returns the datetime object.
+	 */
+	public function getDateTimeObject(): \DateTimeInterface
+	{
+		return $this->datetime;
+	}
 }

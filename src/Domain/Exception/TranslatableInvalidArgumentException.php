@@ -22,7 +22,7 @@ class TranslatableInvalidArgumentException extends \InvalidArgumentException imp
 	/**
 	 * The class constructor.
 	 *
-	 * @param mixed[] $params additional items that should be included in the message can be passed as `name => value` pairs
+	 * @param string[] $params additional items that should be included in the message can be passed as `name => value` pairs
 	 */
 	public function __construct(
 		public readonly string $messageKey,

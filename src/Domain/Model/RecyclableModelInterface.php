@@ -26,8 +26,6 @@ interface RecyclableModelInterface
 
 	/**
 	 * Returns the trashed at datetime string for the given or default format.
-	 *
-	 * @param null|string $format if the format is null will be use default format.
 	 */
-	public function getTrashedAt(?string $format = null): ?string;
+	public function getTrashedAt(string $format): ?string;
 }

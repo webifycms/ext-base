@@ -12,39 +12,42 @@ declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\ValueObject;
 
+use OneCMS\Base\Domain\Exception\InvalidIpException;
+
 /**
- * A value object that represents an email address.
+ * A value object that represents an IP address.
  */
-abstract class EmailValueObject
+abstract class IpValueObject
 {
 	/**
 	 * The object constructor.
+	 *
+	 * @throws InvalidIpException
 	 */
 	final public function __construct(
-		private readonly string $email
+		public readonly string $ip
 	) {
-		if (!$this->isValid($email)) {
-			$this->throwException(['email' => $email]);
+		if (!$this->isValid($this->ip)) {
+			$this->throwException(['ip' => $ip]);
 		}
 	}
 
 	/**
-	 * The __toString() function is a magic method that is called when the object is used in a string
-	 * context.
+	 * Allow to use this object as a string type.
 	 *
-	 * @return string The email address
+	 * @return string
 	 */
 	public function __toString()
 	{
-		return $this->email;
+		return $this->ip;
 	}
 
 	/**
-	 * Creates email value object from the given email address.
+	 * Creates IP address value object for the given IP.
 	 */
-	public static function create(string $email): static
+	public static function create(string $ip): static
 	{
-		return new static($email);
+		return new static($ip);
 	}
 
 	/**
@@ -55,16 +58,10 @@ abstract class EmailValueObject
 	abstract protected function throwException(array $params): void;
 
 	/**
-	 * Validates the given email address.
-	 *
-	 * @todo Regex should be verified.
+	 * Validates the given IP address.
 	 */
-	private function isValid(string $email): bool
+	private function isValid(string $ip): bool
 	{
-		if (preg_match('/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,5})$/', $email)) {
-			return true;
-		}
-
-		return false;
+		return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4|FILTER_FLAG_IPV6);
 	}
 }

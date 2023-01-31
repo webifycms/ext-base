@@ -8,7 +8,6 @@
  * @license https://getonecms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Exception;
@@ -21,9 +20,9 @@ use OneCMS\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 class TranslatableRuntimeException extends \RuntimeException implements TranslatableExceptionServiceInterface
 {
 	/**
-	 * The class constructor.
+	 * The object constructor.
 	 *
-	 * @param mixed[] $params additional items that should be included in the message can be passed as `name => value` pairs
+	 * @param string[] $params additional items that should be included in the message can be passed as `name => value` pairs
 	 */
 	public function __construct(
 		public readonly string $messageKey,

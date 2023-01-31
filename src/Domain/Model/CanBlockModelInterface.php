@@ -8,7 +8,6 @@
  * @license https://getonecms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Model;
@@ -16,10 +15,8 @@ namespace OneCMS\Base\Domain\Model;
 /**
  * An interface that is used to check if the object is blocked and returns the blocked at datetime
  * as object or string for the given format.
- *
- * @todo Maybe the name of class should change because no word "blockable"
  */
-interface BlockableModelInterface
+interface CanBlockModelInterface
 {
 	/**
 	 * If it is blocked returns true, otherwise false.
@@ -28,8 +25,6 @@ interface BlockableModelInterface
 
 	/**
 	 * Returns the blocked at datetime string for the given or default format.
-	 *
-	 * @param null|string $format if the format is null will be use default format
 	 */
-	public function getBlockedAt(?string $format = null): ?string;
+	public function getBlockedAt(string $format): ?string;
 }

@@ -1,75 +1,98 @@
 <?php
-
+/**
+ * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ *
+ * @see https://getonecms.com/extension/base
+ *
+ * @license Copyright (c) 2022 OneCMS
+ * @license https://getonecms.com/extension/base/license
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
+ */
 declare(strict_types=1);
 
 namespace OneCMS\Base\Test\Domain\ValueObject;
 
-use DateTimeImmutable;
 use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
 use OneCMS\Base\Domain\ValueObject\DateTimeValueObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @internal
- *
- * @coversNothing
+ * Date time value object test class.
  */
 final class DateTimeValueObjectTest extends TestCase
 {
-	public const DATETIME = '2022-01-01 00:00:00';
+	private const DATETIME = '2023-01-01 00:00:00';
 
-	private DateTimeValueObject $datetime;
-
-	protected function setUp(): void
-	{
-		$this->datetime = new DateTimeValueObject(self::DATETIME);
-	}
-
-	public function testCanCreateFromValidDatetimeType(): void
+	/**
+	 * @covers \DateTimeValueObject::create
+	 */
+	public static function testCanBeCreatedWithoutArgument(): void
 	{
 		static::assertInstanceOf(
 			DateTimeValueObject::class,
-			$this->datetime
+			DateTimeValueObject::create()
 		);
 	}
 
-	public function testCannotCreateFromInvalidDatetimeType(): DateTimeValueObject
+	/**
+	 * @covers \DateTimeValueObject::create
+	 */
+	public static function testCanBeCreatedWithValidDatetimeStringOrObject(): void
+	{
+		$datetimeObj = new \DateTimeImmutable();
+
+		static::assertInstanceOf(
+			DateTimeValueObject::class,
+			DateTimeValueObject::create($datetimeObj)
+		);
+		static::assertInstanceOf(
+			DateTimeValueObject::class,
+			DateTimeValueObject::create(self::DATETIME)
+		);
+	}
+
+	/**
+	 * @covers \DateTimeValueObject::createFromFormat
+	 */
+	public function testCanBeCreatedWithGivenFormat(): void
+	{
+		static::assertInstanceOf(
+			DateTimeValueObject::class,
+			DateTimeValueObject::createFromFormat('Y-m-d H:i:s', self::DATETIME)
+		);
+	}
+
+	/**
+	 * @covers \DateTimeValueObject::create
+	 */
+	public function testCannotBeCreatedFromInvalidDatetimeString(): void
 	{
 		$this->expectException(InvalidDatetimeException::class);
 
-		return new DateTimeValueObject('invalid_datetime');
+		DateTimeValueObject::create('invalid_datetime');
 	}
 
-	public function testDatetimeReturnsDefaultW3CFormatIfFormatNotGiven(): void
+	/**
+	 * @covers \DateTimeValueObject::createFromFormat
+	 */
+	public function testCannotBeCreatedIfDatetimeStringAndFormatDiffers(): void
 	{
-		$datetime = new DateTimeImmutable(self::DATETIME);
+		$this->expectException(InvalidDatetimeException::class);
 
-		static::assertSame(
-			$datetime->format(DateTimeValueObject::DEFAULT_FORMAT),
-			$this->datetime->getFormattedValue()
-		);
+		DateTimeValueObject::createFromFormat('Y-m-d', self::DATETIME);
 	}
 
-	public function testEnsureDatetimeReturnsExpectedFormat(): void
+	/**
+	 * @covers \DateTimeValueObject::__toString
+	 * @covers \DateTimeValueObject::createFromFormat
+	 */
+	public function testEnsureItReturnsExpectedFormat(): void
 	{
-		$datetime = new DateTimeImmutable(self::DATETIME);
-		$format   = 'Y-m-d';
+		$datetime = DateTimeValueObject::createFromFormat('Y-m-d H:i:s', self::DATETIME);
 
 		static::assertSame(
-			$datetime->format($format),
-			$this->datetime->getFormattedValue($format)
-		);
-	}
-
-	public function testEnsureDatetimeGivesTheDefaultTimezone(): void
-	{
-		$timezone = 'Asia/Colombo';
-
-		date_default_timezone_set($timezone);
-
-		static::assertSame(
-			$timezone,
-			(new DateTimeValueObject())->getDateTime()->getTimezone()->getName()
+			self::DATETIME,
+			(string) $datetime
 		);
 	}
 }

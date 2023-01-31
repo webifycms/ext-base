@@ -8,25 +8,23 @@
  * @license https://getonecms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
 namespace OneCMS\Base\Domain\Exception;
 
 /**
- * It's a custom exception class that extends the `TranslatableInvalidArgumentException` class.
+ * An exception class can be used when IP validation failed.
  */
-final class InvalidEmailException extends TranslatableInvalidArgumentException
+final class InvalidIpException extends TranslatableInvalidArgumentException
 {
-	/**
+    /**
 	 * The object constructor.
 	 *
-	 * @param string   $messageKey
 	 * @param string[] $params
 	 */
 	public function __construct(
-		$messageKey = 'invalid_email',
-		$params = []
+		string $messageKey = 'invalid_ip',
+		array $params = []
 	) {
 		parent::__construct($messageKey, $params);
 	}

@@ -20,7 +20,7 @@ use OneCMS\Base\Domain\Exception\InvalidUniqueIdException;
  * UniqueIdValueObject that helps to generate and validate an unique ID
  * that contains alphanumeric characters and length between 10 to 14 as default.
  */
-class UniqueIdValueObject
+abstract class UniqueIdValueObject
 {
 	/**
 	 * The characters which are used to generate an Unique ID.
@@ -40,7 +40,7 @@ class UniqueIdValueObject
 	];
 
 	/**
-	 * The object private constructor.
+	 * The object constructor.
 	 *
 	 * @throws InvalidUniqueIdException
 	 */
@@ -48,7 +48,7 @@ class UniqueIdValueObject
 		private readonly string $uniqueId
 	) {
 		if (!$this->isValid($this->uniqueId)) {
-			throw new InvalidUniqueIdException('invalid_unique_id', ['unique_id' => $this->uniqueId]);
+			$this->throwException(['unique_id' => $uniqueId]);
 		}
 	}
 
@@ -96,6 +96,13 @@ class UniqueIdValueObject
 	{
 		return new static($uniqueId);
 	}
+
+	/**
+	 * It helps to throw custom exceptions according to the context when validation failed.
+	 *
+	 * @param string[] $params Additional params that can be used in the exception message.
+	 */
+	abstract protected function throwException(array $params): void;
 
 	/**
 	 * Validates the given unique ID.
