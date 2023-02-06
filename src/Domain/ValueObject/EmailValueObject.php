@@ -20,7 +20,7 @@ abstract class EmailValueObject
 	/**
 	 * The object constructor.
 	 */
-	final public function __construct(
+	final private function __construct(
 		private readonly string $email
 	) {
 		if (!$this->isValid($email)) {
@@ -50,7 +50,7 @@ abstract class EmailValueObject
 	/**
 	 * It helps to throw custom exceptions according to the context when validation failed.
 	 *
-	 * @param string[] $params Additional params that can be used in the exception message.
+	 * @param string[] $params additional params that can be used in the exception message
 	 */
 	abstract protected function throwException(array $params): void;
 
