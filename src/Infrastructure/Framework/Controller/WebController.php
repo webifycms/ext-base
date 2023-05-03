@@ -15,6 +15,8 @@ class WebController extends Controller
 {
 	/**
 	 * The constructor.
+	 * 
+	 * @param array<string,mixed> $config
 	 */
 	public function __construct(
 		string $id,
