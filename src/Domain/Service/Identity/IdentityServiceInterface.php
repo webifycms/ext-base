@@ -1,22 +1,25 @@
 <?php
+/**
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
+ *
+ * @see https://webifycms.com/extension/base
+ *
+ * @copyright Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
+ * @author  Mohammed Shifreen <mshifreen@gmail.com>
+ */
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Service\Identity;
+namespace Webify\Base\Domain\Service\Identity;
 
 /**
  * Interface IdentityServiceInterface.
- *
- * @version 0.0.1
- *
- * @since   0.0.1
- *
- * @author  Mohammed Shifreen
  */
 interface IdentityServiceInterface
 {
 	/**
 	 * @return mixed
 	 */
-	public function getId();
+	public function getId(): mixed;
 }

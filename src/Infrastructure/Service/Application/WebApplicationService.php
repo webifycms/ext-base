@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Service\Application;
+namespace Webify\Base\Infrastructure\Service\Application;
 
-use OneCMS\Base\Domain\Service\Administration\AdministrationServiceInterface;
-use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use RuntimeException;
 use Throwable;
 use yii\web\Application;

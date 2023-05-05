@@ -1,38 +1,33 @@
 <?php
-
 /**
- * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
- * @see https://getonecms.com/extension/base
+ * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 OneCMS
- * @license https://getonecms.com/extension/base/license
+ * @license Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
-/**
- * The `helpers` file contains some useful functions that can be used globally.
- * These functions are highly depends on infrastructure layer and we encourage
- * to use only in controllers, templates and config files etc.
- */
+namespace Webify\Base\Infrastructure;
 
 use Dotenv\Dotenv;
-use OneCMS\Base\Domain\Exception\FileNotExistException;
-use OneCMS\Base\Domain\Service\Administration\AdministrationServiceInterface;
-use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationService;
-use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
-use OneCMS\Base\Infrastructure\Service\Application\WebApplicationService;
-use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
-use OneCMS\Base\Infrastructure\Service\Dependency\DependencyService;
+use Webify\Base\Domain\Exception\FileNotExistException;
+use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationService;
+use Webify\Base\Infrastructure\Service\Application\WebApplicationService;
+use Webify\Base\Infrastructure\Service\Dependency\DependencyService;
+use yii\base\Application;
+use yii\base\View;
 use yii\console\Application as ConsoleApplication;
 use yii\helpers\Url;
-use yii\web\Application;
-use yii\web\View;
+use yii\web\Application as WebApplication;
+use yii\web\View as WebView;
 
-if (!function_exists('log_message')) {
+if (!\function_exists('log_message')) {
 	/**
 	 * @param string               $type     supported types: info, warning, debug, trace
 	 * @param array<string>|string $message  the message to log
@@ -64,7 +59,7 @@ if (!function_exists('log_message')) {
 	}
 }
 
-if (!function_exists('set_alias')) {
+if (!\function_exists('set_alias')) {
 	/**
 	 * Sets an alias for a path.
 	 *
@@ -72,11 +67,11 @@ if (!function_exists('set_alias')) {
 	 */
 	function set_alias(string $alias, string $path): void
 	{
-		Yii::setAlias($alias, $path);
+		\Yii::setAlias($alias, $path);
 	}
 }
 
-if (!function_exists('get_alias')) {
+if (!\function_exists('get_alias')) {
 	/**
 	 * Resolves a path from alias.
 	 *
@@ -84,24 +79,24 @@ if (!function_exists('get_alias')) {
 	 */
 	function get_alias(string $alias): ?string
 	{
-		$alias = Yii::getAlias($alias, false);
+		$alias = \Yii::getAlias($alias, false);
 
 		return !$alias ? null : $alias;
 	}
 }
 
-if (!function_exists('enable_dev_env')) {
+if (!\function_exists('enable_dev_env')) {
 	/**
 	 * Enables the development environment.
 	 */
 	function enable_dev_env(): void
 	{
-		defined('YII_DEBUG') || define('YII_DEBUG', true);
-		defined('YII_ENV') || define('YII_ENV', 'dev');
+		\defined('YII_DEBUG') || \define('YII_DEBUG', true);
+		\defined('YII_ENV') || \define('YII_ENV', 'dev');
 	}
 }
 
-if (!function_exists('in_debug')) {
+if (!\function_exists('in_debug')) {
 	/**
 	 * Check in debug.
 	 */
@@ -111,21 +106,21 @@ if (!function_exists('in_debug')) {
 	}
 }
 
-if (!function_exists('dependency')) {
+if (!\function_exists('dependency')) {
 	/**
 	 * Returns the dependency service instance.
 	 */
 	function dependency(): DependencyServiceInterface
 	{
 		try {
-			return Yii::$container->get(DependencyServiceInterface::class);
-		} catch (Throwable) {
+			return \Yii::$container->get(DependencyServiceInterface::class);
+		} catch (\Throwable) {
 			return new DependencyService();
 		}
 	}
 }
 
-if (!function_exists('load_evn_variables')) {
+if (!\function_exists('load_evn_variables')) {
 	/**
 	 * Loads the environment variables that were added in the '.env' file.
 	 * So those variables can be now access from $_ENV or $_SERVER globals.
@@ -145,7 +140,7 @@ if (!function_exists('load_evn_variables')) {
 	}
 }
 
-if (!function_exists('get_env_variable')) {
+if (!\function_exists('get_env_variable')) {
 	/**
 	 * Returns the env variable value for the given name.
 	 *
@@ -158,39 +153,30 @@ if (!function_exists('get_env_variable')) {
 	}
 }
 
-if (!function_exists('configure')) {
+if (!\function_exists('configure')) {
 	/**
 	 * Configure the application.
 	 *
 	 * @param array<mixed> $configurations
-	 * @param string       $type           default is "web"
+	 * @param string       $type           allowed value is only 'console' because default is always 'web' app
 	 */
-	function configure(array $configurations = [], string $type = 'web'): void
+	function configure(array $configurations = [], ?string $type = null): void
 	{
-		$app = null;
-
 		// creating web application and register in the container
-		if ('web' === $type) {
-			$app = new WebApplicationService(dependency(), $configurations);
-
-			dependency()->getContainer()->setSingleton(
-				WebApplicationServiceInterface::class,
-				fn () => $app
-			);
-		}
+		$app = new WebApplicationService(dependency(), $configurations);
 
 		// creating console application and register in the container
 		if ('console' === $type) {
 			$app = new ConsoleApplicationService(dependency(), $configurations);
-
-			dependency()->getContainer()->setSingleton(
-				ConsoleApplicationServiceInterface::class,
-				fn () => $app
-			);
 		}
 
+		dependency()->getContainer()->setSingleton(
+			ApplicationServiceInterface::class,
+			fn () => $app
+		);
+
 		// initiate the bootstrap classes
-		if ($app && !empty($configurations['bootstrap'])) {
+		if (!empty($configurations['bootstrap'])) {
 			foreach ($configurations['bootstrap'] as $class) {
 				(new $class(dependency(), $app))->init();
 			}
@@ -198,27 +184,17 @@ if (!function_exists('configure')) {
 	}
 }
 
-if (!function_exists('app')) {
+if (!\function_exists('app')) {
 	/**
-	 * Returns the web application service instance.
+	 * Returns the framework's application component.
 	 */
-	function app(): Application
+	function app(): Application|ConsoleApplication|WebApplication
 	{
-		return dependency()->getContainer()->get(WebApplicationServiceInterface::class)->getApplication();
+		return dependency()->getContainer()->get(ApplicationServiceInterface::class)->getApplication();
 	}
 }
 
-if (!function_exists('console')) {
-	/**
-	 * Returns the console application service instance.
-	 */
-	function console(): ConsoleApplication
-	{
-		return dependency()->getContainer()->get(ConsoleApplicationServiceInterface::class)->getApplication();
-	}
-}
-
-if (!function_exists('administration')) {
+if (!\function_exists('administration')) {
 	/**
 	 * Returns the administration service instance.
 	 */
@@ -228,9 +204,9 @@ if (!function_exists('administration')) {
 	}
 }
 
-if (!function_exists('in_administration')) {
+if (!\function_exists('in_administration')) {
 	/**
-	 * Undocumented function.
+	 * Check weather in administration.
 	 */
 	function in_administration(): bool
 	{
@@ -238,40 +214,59 @@ if (!function_exists('in_administration')) {
 	}
 }
 
-if (!function_exists('administration_path')) {
+if (!\function_exists('administration_path')) {
+	/**
+	 * Returns the administration path.
+	 */
 	function administration_path(): string
 	{
 		return administration()->getPath();
 	}
 }
 
-if (!function_exists('administration_url')) {
+if (!\function_exists('administration_url')) {
+	/**
+	 * Returns the administration url.
+	 */
 	function administration_url(): string
 	{
 		return administration()->getUrl();
 	}
 }
 
-if (!function_exists('view')) {
-	function view(): View
+if (!\function_exists('view')) {
+	/**
+	 * Returns the framework's view component.
+	 */
+	function view(): View|WebView
 	{
 		return app()->getView();
 	}
 }
 
-if (!function_exists('url')) {
+if (!\function_exists('url')) {
 	/**
 	 * Creates the url based on the given parameters.
 	 *
-	 * @param null|array|string $url
+	 * @param array<string,string>|string $url
 	 */
-	function url($url = null, bool|string $scheme = false): string
+	function url(array|string $url, bool|string $scheme = false): string
 	{
 		return Url::to($url, $scheme);
 	}
 }
 
-if (!function_exists('home_url')) {
+if (!\function_exists('request_url')) {
+	/**
+	 * Returns the current requested url.
+	 */
+	function request_url(): string
+	{
+		return Url::to();
+	}
+}
+
+if (!\function_exists('home_url')) {
 	/**
 	 * Returns the home url.
 	 */
@@ -281,9 +276,11 @@ if (!function_exists('home_url')) {
 	}
 }
 
-if (!function_exists('remember_url')) {
+if (!\function_exists('remember_url')) {
 	/**
 	 * Sets the URL to be remember and later it can be retrieve by previous_url().
+	 *
+	 * @param array<string,string>|string $url
 	 */
 	function remember_url(array|string $url, ?string $name = null): void
 	{
@@ -291,7 +288,7 @@ if (!function_exists('remember_url')) {
 	}
 }
 
-if (!function_exists('previous_url')) {
+if (!\function_exists('previous_url')) {
 	/**
 	 * Returns the URL previously remember or remembered.
 	 */
@@ -301,9 +298,11 @@ if (!function_exists('previous_url')) {
 	}
 }
 
-if (!function_exists('translate')) {
+if (!\function_exists('translate')) {
 	/**
 	 * Translate given string.
+	 *
+	 * @param array<string,string> $params
 	 *
 	 * @see \Yii::t()
 	 */
@@ -313,6 +312,6 @@ if (!function_exists('translate')) {
 		array $params = [],
 		?string $language = null
 	): string {
-		return Yii::t($category, $message, $params, $language);
+		return \Yii::t($category, $message, $params, $language);
 	}
 }

@@ -11,15 +11,8 @@
 
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Service\Dependency;
+namespace Webify\Base\Domain\Service\Validator;
 
-/**
- * Interface DependencyServiceInterface.
- */
-interface DependencyServiceInterface
+interface EmailValidatorServiceInterface extends ValidatorServiceInterface
 {
-	/**
-	 * Returns the dependency injection provider's container object.
-	 */
-	public function getContainer(): object;
 }

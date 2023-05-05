@@ -1,21 +1,24 @@
 <?php
+/**
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
+ *
+ * @see https://webifycms.com/extension/base
+ *
+ * @license Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
+ */
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Framework\Theme;
+namespace Webify\Base\Infrastructure\Framework\Theme;
+
+use function WebifyCMS\Base\Infrastructure\set_alias;
 
 use yii\base\Theme as BaseTheme;
 
 /**
  * Class Theme.
- *
- * @version 0.0.1
- *
- * @since   0.0.1
- *
- * @author  Mohammed Shifreen
- *
- * @property string $id
  */
 class Theme extends BaseTheme implements ThemeInterface
 {
@@ -36,6 +39,9 @@ class Theme extends BaseTheme implements ThemeInterface
 		parent::init();
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getId(): string
 	{
 		return $this->id;

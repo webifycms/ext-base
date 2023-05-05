@@ -1,69 +1,73 @@
 <?php
 /**
- * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
- * @see https://getonecms.com/extension/base
+ * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 OneCMS
- * @license https://getonecms.com/extension/base/license
+ * @license Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
-namespace OneCMS\Base\Test\Domain\ValueObject;
+namespace Webify\Base\Test\Domain\ValueObject;
 
-use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
-use OneCMS\Base\Domain\ValueObject\DateTimeValueObject;
 use PHPUnit\Framework\TestCase;
+use Webify\Base\Domain\Exception\InvalidDatetimeException;
+use Webify\Base\Domain\ValueObject\DateTimeValueObject;
 
 /**
  * Date time value object test class.
+ *
+ * @coversDefaultClass  \Webify\Base\Domain\ValueObject\DateTimeValueObject
+ *
+ * @internal
  */
 final class DateTimeValueObjectTest extends TestCase
 {
 	private const DATETIME = '2023-01-01 00:00:00';
 
 	/**
-	 * @covers \DateTimeValueObject::create
+	 * @covers ::create
 	 */
-	public static function testCanBeCreatedWithoutArgument(): void
+	public function testCanBeCreatedWithoutArgument(): void
 	{
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			DateTimeValueObject::class,
 			DateTimeValueObject::create()
 		);
 	}
 
 	/**
-	 * @covers \DateTimeValueObject::create
+	 * @covers ::create
 	 */
-	public static function testCanBeCreatedWithValidDatetimeStringOrObject(): void
+	public function testCanBeCreatedWithValidDatetimeStringOrObject(): void
 	{
 		$datetimeObj = new \DateTimeImmutable();
 
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			DateTimeValueObject::class,
 			DateTimeValueObject::create($datetimeObj)
 		);
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			DateTimeValueObject::class,
 			DateTimeValueObject::create(self::DATETIME)
 		);
 	}
 
 	/**
-	 * @covers \DateTimeValueObject::createFromFormat
+	 * @covers ::createFromFormat
 	 */
 	public function testCanBeCreatedWithGivenFormat(): void
 	{
-		static::assertInstanceOf(
+		$this->assertInstanceOf(
 			DateTimeValueObject::class,
 			DateTimeValueObject::createFromFormat('Y-m-d H:i:s', self::DATETIME)
 		);
 	}
 
 	/**
-	 * @covers \DateTimeValueObject::create
+	 * @covers ::create
 	 */
 	public function testCannotBeCreatedFromInvalidDatetimeString(): void
 	{
@@ -73,7 +77,7 @@ final class DateTimeValueObjectTest extends TestCase
 	}
 
 	/**
-	 * @covers \DateTimeValueObject::createFromFormat
+	 * @covers ::createFromFormat
 	 */
 	public function testCannotBeCreatedIfDatetimeStringAndFormatDiffers(): void
 	{
@@ -83,14 +87,14 @@ final class DateTimeValueObjectTest extends TestCase
 	}
 
 	/**
-	 * @covers \DateTimeValueObject::__toString
-	 * @covers \DateTimeValueObject::createFromFormat
+	 * @covers ::__toString
+	 * @covers ::createFromFormat
 	 */
 	public function testEnsureItReturnsExpectedFormat(): void
 	{
 		$datetime = DateTimeValueObject::createFromFormat('Y-m-d H:i:s', self::DATETIME);
 
-		static::assertSame(
+		$this->assertSame(
 			self::DATETIME,
 			(string) $datetime
 		);
