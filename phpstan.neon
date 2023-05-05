@@ -1,5 +1,5 @@
 includes:
-	- vendor/getonecms/dev-tools/phpstan-default.neon
+	- vendor/webifycms/dev-tools/phpstan-default.neon
 
 parameters:
 	bootstrapFiles:

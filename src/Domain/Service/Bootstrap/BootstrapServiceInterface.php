@@ -1,19 +1,22 @@
 <?php
+/**
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
+ *
+ * @see https://webifycms.com/extension/base
+ *
+ * @copyright Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
+ * @author  Mohammed Shifreen <mshifreen@gmail.com>
+ */
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Service\Bootstrap;
+namespace Webify\Base\Domain\Service\Bootstrap;
 
-use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 
 /**
  * BootstrapServiceInterface.
- *
- * @version 0.0.1
- *
- * @since   0.0.1
- *
- * @author  Mohammed Shifreen
  */
 interface BootstrapServiceInterface
 {
@@ -23,7 +26,7 @@ interface BootstrapServiceInterface
 	public function init(): void;
 
 	/**
-	 * Returns the dependecny service instance.
+	 * Returns the dependency service instance.
 	 */
 	public function getDependencyService(): DependencyServiceInterface;
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
 /**
  * Interface RegisterDependencyBootstrapInterface.

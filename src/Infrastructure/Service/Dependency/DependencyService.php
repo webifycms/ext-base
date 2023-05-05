@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Service\Dependency;
+namespace Webify\Base\Infrastructure\Service\Dependency;
 
-use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use Yii;
 use yii\di\Container;
 

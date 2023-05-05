@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Service\Application;
+namespace Webify\Base\Infrastructure\Service\Application;
 
 use yii\console\Application;
 

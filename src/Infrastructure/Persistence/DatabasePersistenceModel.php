@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Persistence;
+namespace Webify\Base\Infrastructure\Persistence;
 
 use yii\db\ActiveRecord;
 

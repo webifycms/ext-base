@@ -1,25 +1,25 @@
 <?php
 /**
- * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
- * @see https://getonecms.com/extension/base
+ * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 OneCMS
- * @license https://getonecms.com/extension/base/license
+ * @license Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure;
+namespace Webify\Base\Infrastructure;
 
 use Dotenv\Dotenv;
-use OneCMS\Base\Domain\Exception\FileNotExistException;
-use OneCMS\Base\Domain\Service\Administration\AdministrationServiceInterface;
-use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use OneCMS\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
-use OneCMS\Base\Infrastructure\Service\Application\ConsoleApplicationService;
-use OneCMS\Base\Infrastructure\Service\Application\WebApplicationService;
-use OneCMS\Base\Infrastructure\Service\Dependency\DependencyService;
+use Webify\Base\Domain\Exception\FileNotExistException;
+use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationService;
+use Webify\Base\Infrastructure\Service\Application\WebApplicationService;
+use Webify\Base\Infrastructure\Service\Dependency\DependencyService;
 use yii\base\Application;
 use yii\base\View;
 use yii\console\Application as ConsoleApplication;

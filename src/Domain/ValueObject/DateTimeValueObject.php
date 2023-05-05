@@ -1,18 +1,18 @@
 <?php
 /**
- * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
- * @see https://getonecms.com/extension/base
+ * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 OneCMS
- * @license https://getonecms.com/extension/base/license
+ * @license Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\ValueObject;
+namespace Webify\Base\Domain\ValueObject;
 
-use OneCMS\Base\Domain\Exception\InvalidDatetimeException;
+use Webify\Base\Domain\Exception\InvalidDatetimeException;
 
 /**
  * It's a value object that holds a datetime object and provides a method
@@ -60,18 +60,18 @@ final class DateTimeValueObject
 	/**
 	 * Creates datetime value object from the given datetime string or object.
 	 */
-	public static function create(\DateTimeImmutable|string $datetime = 'now'): static
+	public static function create(\DateTimeImmutable|string $datetime = 'now'): self
 	{
-		return new static($datetime);
+		return new self($datetime);
 	}
 
 	/**
 	 * Creates datetime value object from the given format and datetime strings.
 	 */
-	public static function createFromFormat(string $format, string $datetime): static
+	public static function createFromFormat(string $format, string $datetime): self
 	{
 		try {
-			return new static(
+			return new self(
 				\DateTimeImmutable::createFromFormat($format, $datetime),
 				$format
 			);

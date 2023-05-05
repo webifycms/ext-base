@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Framework\Theme;
+namespace Webify\Base\Infrastructure\Framework\Theme;
 
 /**
  * Interface ThemeInterface.

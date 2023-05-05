@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Framework\Form;
+namespace Webify\Base\Infrastructure\Framework\Form;
 
 use yii\base\Model;
 
@@ -14,7 +14,7 @@ class FormModel extends Model
 	/**
 	 * This redirection url will be used on validation failed.
 	 *
-	 * @see \OneCMS\Base\Infrastructure\Framework\Controller\WebController::redirect()
+	 * @see \WebifyCMS\Base\Infrastructure\Framework\Controller\WebController::redirect()
 	 */
 	private string|array|null $redirectUrlOnValidationFailed = null;
 
@@ -63,7 +63,7 @@ class FormModel extends Model
 	/**
 	 * Set the value of redirectUrlOnValidationFailed.
 	 *
-	 * @see \OneCMS\Base\Infrastructure\Framework\Controller\WebController::redirect()
+	 * @see \WebifyCMS\Base\Infrastructure\Framework\Controller\WebController::redirect()
 	 */
 	public function setRedirectUrlOnValidationFailed(string|array $redirectUrlOnValidationFailed): self
 	{

@@ -1,3 +1,3 @@
-# OneCMS Base
+# WebifyCMS Base
 
-The foundation of the OneCMS.
+The foundation of the WebifyCMS.

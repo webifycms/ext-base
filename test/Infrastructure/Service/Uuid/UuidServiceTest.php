@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Test\Infrastructure\Service\Uuid;
+namespace Webify\Base\Test\Infrastructure\Service\Uuid;
 
 use PHPUnit\Framework\TestCase;
 

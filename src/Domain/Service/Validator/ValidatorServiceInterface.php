@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Service\Dependency;
+namespace Webify\Base\Domain\Service\Validator;
 
 /**
- * Interface DependencyServiceInterface.
+ * Undocumented interface.
  */
-interface DependencyServiceInterface
+interface ValidatorServiceInterface
 {
 	/**
-	 * Returns the dependency injection provider's container object.
+	 * Check the given value is valid.
 	 */
-	public function getContainer(): object;
+	public function isValid(mixed $value): bool;
 }

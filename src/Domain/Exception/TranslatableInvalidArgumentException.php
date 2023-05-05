@@ -1,18 +1,18 @@
 <?php
 /**
- * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
- * @see https://getonecms.com/extension/base
+ * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 OneCMS
- * @license https://getonecms.com/extension/base/license
+ * @license Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\Exception;
+namespace Webify\Base\Domain\Exception;
 
-use OneCMS\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
+use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 
 /**
  * It's a translatable invalid argument exception class that can be extends.

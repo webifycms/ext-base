@@ -1,20 +1,20 @@
 <?php
 
 /**
- * The file is part of the "getonecms/ext-base", OneCMS extension package.
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
- * @see https://getonecms.com/extension/base
+ * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 OneCMS
- * @license https://getonecms.com/extension/base/license
+ * @license Copyright (c) 2022 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Domain\ValueObject;
+namespace Webify\Base\Domain\ValueObject;
 
-use OneCMS\Base\Domain\Exception\InvalidUniqueIdException;
+use Webify\Base\Domain\Exception\InvalidUniqueIdException;
 
 /**
  * UniqueIdValueObject that helps to generate and validate an unique ID
@@ -32,7 +32,7 @@ abstract class UniqueIdValueObject
 	];
 
 	/**
-	 * Allowed characters length.
+	 * Allowed characters' length.
 	 */
 	protected const LENGTH = [
 		'min' => 10,
@@ -100,7 +100,7 @@ abstract class UniqueIdValueObject
 	/**
 	 * It helps to throw custom exceptions according to the context when validation failed.
 	 *
-	 * @param string[] $params Additional params that can be used in the exception message.
+	 * @param string[] $params additional params that can be used in the exception message
 	 */
 	abstract protected function throwException(array $params): void;
 

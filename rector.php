@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use OneCMS\Tools\Rector;
+use Webify\Tools\Rector;
 
 return (new Rector())->initialize([
 	__DIR__ . '/src',

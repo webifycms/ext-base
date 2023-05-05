@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Framework\Controller;
+namespace Webify\Base\Infrastructure\Framework\Controller;
 
-use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use yii\base\Module;
 use yii\web\Controller;
 

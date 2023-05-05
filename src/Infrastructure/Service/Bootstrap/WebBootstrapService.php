@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace OneCMS\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
-use OneCMS\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
-use OneCMS\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use OneCMS\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
-use OneCMS\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
+use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use yii\web\Application;
 
 /**
