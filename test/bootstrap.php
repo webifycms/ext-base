@@ -10,17 +10,6 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Application;
+require __DIR__ . '/../vendor/autoload.php';
 
-use yii\console\Application;
-
-/**
- * ConsoleApplicationServiceInterface.
- */
-interface ConsoleApplicationServiceInterface
-{
-	/**
-	 * Returns the console application instance.
-	 */
-	public function getApplication(): Application;
-}
+require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';

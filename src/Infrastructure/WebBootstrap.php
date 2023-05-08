@@ -4,11 +4,10 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure;
@@ -22,7 +21,7 @@ use yii\validators\EmailValidator;
 /**
  * WebBootstrap bootstrap file for the extension.
  */
-class WebBootstrap extends WebBootstrapService implements RegisterDependencyBootstrapInterface
+final class WebBootstrap extends WebBootstrapService implements RegisterDependencyBootstrapInterface
 {
 	/**
 	 * {@inheritDoc}
@@ -32,5 +31,12 @@ class WebBootstrap extends WebBootstrapService implements RegisterDependencyBoot
 		return [
 			EmailValidatorServiceInterface::class => fn () => new EmailValidatorService(new EmailValidator()),
 		];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function init(): void
+	{
 	}
 }

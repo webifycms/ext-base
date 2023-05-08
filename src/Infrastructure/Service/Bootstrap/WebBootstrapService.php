@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
+ *
+ * @see https://webifycms.com/extension/base
+ *
+ * @copyright Copyright (c) 2023 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
+ */
 declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
@@ -11,16 +19,13 @@ use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterfac
 use yii\web\Application;
 
 /**
- * WebBootstrapService.
- *
- * @version 0.0.1
- *
- * @since   0.0.1
- *
- * @author  Mohammed Shifreen
+ * Web application bootstrap service class that helps to bootstrap components.
  */
-class WebBootstrapService implements BootstrapServiceInterface, WebBootstrapServiceInterface
+abstract class WebBootstrapService implements BootstrapServiceInterface, WebBootstrapServiceInterface
 {
+	/**
+	 * The object constructor.
+	 */
 	public function __construct(
 		private readonly DependencyServiceInterface $dependencyService,
 		private readonly ApplicationServiceInterface|WebApplicationServiceInterface $appService,
@@ -30,15 +35,23 @@ class WebBootstrapService implements BootstrapServiceInterface, WebBootstrapServ
 		}
 
 		if ($this instanceof RegisterControllersBootstrapInterface) {
-			$appService->setApplicaitonProperty(
+			$appService->setApplicationProperty(
 				'controllerMap',
-				array_merge($appService->getApplicaitonProperty('controllerMap'), $this->controllers())
+				array_merge($appService->getApplicationProperty('controllerMap'), $this->controllers())
 			);
 		}
 
 		if ($this instanceof RegisterRoutesBootstrapInterface) {
 			$appService->getApplication()->getUrlManager()->addRules($this->routes(), false);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getApplication(): Application
+	{
+		return $this->appService->getApplication();
 	}
 
 	/**
@@ -55,22 +68,5 @@ class WebBootstrapService implements BootstrapServiceInterface, WebBootstrapServ
 	public function getApplicationService(): ApplicationServiceInterface|WebApplicationServiceInterface
 	{
 		return $this->appService;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getApplication(): Application
-	{
-		return $this->appService->getApplication();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * Note: If you override this method, you should call the parent implementation on top of it.
-	 */
-	public function init(): void
-	{
 	}
 }
