@@ -4,23 +4,22 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Framework\Theme;
+namespace Webify\Base\Infrastructure\Service\Theme;
 
-use function WebifyCMS\Base\Infrastructure\set_alias;
-
+use Webify\Base\Domain\Service\Theme\ThemeInterface;
 use yii\base\Theme as BaseTheme;
+use function Webify\Base\Infrastructure\set_alias;
 
 /**
- * Class Theme.
+ * Theme abstraction class based on framework theme class.
  */
-class Theme extends BaseTheme implements ThemeInterface
+abstract class Theme extends BaseTheme implements ThemeInterface
 {
 	private string $id;
 
@@ -40,7 +39,7 @@ class Theme extends BaseTheme implements ThemeInterface
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * {@inheritDoc}
 	 */
 	public function getId(): string
 	{

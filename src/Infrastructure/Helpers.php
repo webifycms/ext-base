@@ -4,7 +4,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -15,8 +15,8 @@ namespace Webify\Base\Infrastructure;
 use Dotenv\Dotenv;
 use Webify\Base\Domain\Exception\FileNotExistException;
 use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
+use Webify\Base\Domain\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationService;
 use Webify\Base\Infrastructure\Service\Application\WebApplicationService;
 use Webify\Base\Infrastructure\Service\Dependency\DependencyService;
@@ -35,27 +35,12 @@ if (!\function_exists('log_message')) {
 	 */
 	function log_message(string $type, array|string $message, string $category = 'application'): void
 	{
-		switch ($type) {
-			case 'info':
-				\Yii::info($message, $category);
-
-				break;
-
-			case 'warning':
-				\Yii::warning($message, $category);
-
-				break;
-
-			case 'debug'|'trace':
-				\Yii::debug($message, $category);
-
-				break;
-
-			default:
-				\Yii::error($message, $category);
-
-				break;
-		}
+		match ($type) {
+			'info'    => \Yii::info($message, $category),
+			'warning' => \Yii::warning($message, $category),
+			'debug', 'trace' => \Yii::debug($message, $category),
+			default => \Yii::error($message, $category),
+		};
 	}
 }
 
@@ -157,8 +142,8 @@ if (!\function_exists('configure')) {
 	/**
 	 * Configure the application.
 	 *
-	 * @param array<mixed> $configurations
-	 * @param string       $type           allowed value is only 'console' because default is always 'web' app
+	 * @param array<string, mixed> $configurations
+	 * @param null|string          $type           allowed value is only 'console' because default is always 'web' app
 	 */
 	function configure(array $configurations = [], ?string $type = null): void
 	{

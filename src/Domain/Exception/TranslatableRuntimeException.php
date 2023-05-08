@@ -4,7 +4,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -15,7 +15,7 @@ namespace Webify\Base\Domain\Exception;
 use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 
 /**
- * It's a translatable runtime exception class that can be extends.
+ * It's a translatable runtime exception class that can be extended.
  */
 class TranslatableRuntimeException extends \RuntimeException implements TranslatableExceptionServiceInterface
 {

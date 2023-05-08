@@ -4,11 +4,10 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
 namespace Webify\Base\Domain\Exception;
@@ -21,12 +20,11 @@ final class InvalidDatetimeException extends TranslatableInvalidArgumentExceptio
 	/**
 	 * The class constructor.
 	 *
-	 * @param string   $messageKey
 	 * @param string[] $params
 	 */
 	public function __construct(
-		$messageKey = 'invalid_datetime',
-		$params = []
+		string $messageKey = 'invalid_datetime',
+		array $params = []
 	) {
 		parent::__construct($messageKey, $params);
 	}

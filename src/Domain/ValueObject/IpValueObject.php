@@ -4,15 +4,13 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
 namespace Webify\Base\Domain\ValueObject;
-
-use Webify\Base\Domain\Exception\InvalidIpException;
 
 /**
  * A value object that represents an IP address.
@@ -22,7 +20,7 @@ abstract class IpValueObject
 	/**
 	 * The object constructor.
 	 *
-	 * @throws InvalidIpException
+	 * @throws \Throwable
 	 */
 	final public function __construct(
 		public readonly string $ip
@@ -44,6 +42,8 @@ abstract class IpValueObject
 
 	/**
 	 * Creates IP address value object for the given IP.
+	 *
+	 * @throws \Throwable
 	 */
 	public static function create(string $ip): static
 	{
@@ -53,7 +53,7 @@ abstract class IpValueObject
 	/**
 	 * It helps to throw custom exceptions according to the context when validation failed.
 	 *
-	 * @param string[] $params Additional params that can be used in the exception message.
+	 * @param string[] $params additional params that can be used in the exception message
 	 */
 	abstract protected function throwException(array $params): void;
 

@@ -4,7 +4,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -19,6 +19,8 @@ abstract class IncrementalIdValueObject
 {
 	/**
 	 * The object constructor.
+	 *
+	 * @throws \Throwable
 	 */
 	final private function __construct(
 		private readonly int $id
@@ -38,6 +40,8 @@ abstract class IncrementalIdValueObject
 
 	/**
 	 * Factory method to create this object.
+	 *
+	 * @throws \Throwable
 	 */
 	public static function create(int $id): static
 	{

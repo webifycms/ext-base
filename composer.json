@@ -58,6 +58,9 @@
         ],
         "code-analyze": [
             "phpstan"
+        ],
+        "test": [
+            "phpunit --testdox test"
         ]
     }
 }

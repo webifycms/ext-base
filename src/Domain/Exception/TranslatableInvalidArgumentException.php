@@ -4,7 +4,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -15,14 +15,15 @@ namespace Webify\Base\Domain\Exception;
 use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 
 /**
- * It's a translatable invalid argument exception class that can be extends.
+ * It's a translatable invalid argument exception class that can be extended.
  */
 class TranslatableInvalidArgumentException extends \InvalidArgumentException implements TranslatableExceptionServiceInterface
 {
 	/**
 	 * The class constructor.
 	 *
-	 * @param string[] $params additional items that should be included in the message can be passed as `name => value` pairs
+	 * @param string[] $params additional items that should be included in the message can be
+	 *                         passed as `name => value` pairs
 	 */
 	public function __construct(
 		public readonly string $messageKey,

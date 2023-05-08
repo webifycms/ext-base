@@ -1,24 +1,20 @@
 <?php
-
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
-
 declare(strict_types=1);
 
 namespace Webify\Base\Domain\ValueObject;
 
-use Webify\Base\Domain\Exception\InvalidUniqueIdException;
-
 /**
- * UniqueIdValueObject that helps to generate and validate an unique ID
- * that contains alphanumeric characters and length between 10 to 14 as default.
+ * UniqueIdValueObject that helps to generate and validate a unique ID
+ * that contains alphanumeric characters and length between 10 and 14 as default.
  */
 abstract class UniqueIdValueObject
 {
@@ -42,7 +38,7 @@ abstract class UniqueIdValueObject
 	/**
 	 * The object constructor.
 	 *
-	 * @throws InvalidUniqueIdException
+	 * @throws \Throwable
 	 */
 	final public function __construct(
 		private readonly string $uniqueId
@@ -64,6 +60,8 @@ abstract class UniqueIdValueObject
 
 	/**
 	 * Creates an unique ID value object.
+	 *
+	 * @throws \Throwable
 	 */
 	public static function create(): static
 	{
@@ -91,6 +89,8 @@ abstract class UniqueIdValueObject
 
 	/**
 	 * Creates an unique ID value object from the given unique ID.
+	 *
+	 * @throws \Throwable
 	 */
 	public static function createFromString(string $uniqueId): static
 	{

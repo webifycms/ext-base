@@ -6,19 +6,19 @@
  *
  * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
- * @author  Mohammed Shifreen <mshifreen@gmail.com>
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Service\Dependency;
+namespace Webify\Base\Domain\Service\Theme;
 
 /**
- * Interface DependencyServiceInterface.
+ * Interface for defining theme functionalities.
  */
-interface DependencyServiceInterface
+interface ThemeInterface
 {
 	/**
-	 * Returns the dependency injection provider's container object.
+	 * Should return the theme ID as string.
 	 */
-	public function getContainer(): object;
+	public function getId(): string;
 }

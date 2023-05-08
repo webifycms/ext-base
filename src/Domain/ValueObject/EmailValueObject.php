@@ -4,7 +4,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @license Copyright (c) 2022 WebifyCMS
+ * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -21,6 +21,8 @@ abstract class EmailValueObject
 {
 	/**
 	 * The object constructor.
+	 *
+	 * @throws \Throwable
 	 */
 	final private function __construct(
 		private readonly string $email,
@@ -44,6 +46,8 @@ abstract class EmailValueObject
 
 	/**
 	 * Creates email value object from the given email address.
+	 *
+	 * @throws \Throwable
 	 */
 	public static function create(string $email, EmailValidatorServiceInterface $validator): static
 	{
