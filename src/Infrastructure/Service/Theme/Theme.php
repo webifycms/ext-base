@@ -14,6 +14,7 @@ namespace Webify\Base\Infrastructure\Service\Theme;
 
 use Webify\Base\Domain\Service\Theme\ThemeInterface;
 use yii\base\Theme as BaseTheme;
+
 use function Webify\Base\Infrastructure\set_alias;
 
 /**

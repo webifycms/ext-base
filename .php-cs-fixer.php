@@ -4,7 +4,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @copyright Copyright (c) 2023 WebifyCMS
+ * @copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -17,14 +17,12 @@ use PhpCsFixer\Finder;
 use Webify\Tools\Fixer;
 
 $finder = Finder::create()
-	->in([
-		__DIR__ . '/src',
-		__DIR__ . '/test',
-	])
-	->name('*.php')
-;
+    ->in([
+        __DIR__ . '/src',
+        __DIR__ . '/test',
+    ])
+    ->name('*.php');
 
 return (new Fixer($finder))
-	->getConfig()
-	->setUsingCache(false)
-;
+    ->getConfig()
+    ->setUsingCache(false);
