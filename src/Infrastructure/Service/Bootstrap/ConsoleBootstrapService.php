@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
+use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
@@ -27,7 +28,7 @@ abstract class ConsoleBootstrapService implements BootstrapServiceInterface, Con
 	 */
 	public function __construct(
 		private readonly DependencyServiceInterface $dependencyService,
-		private readonly ApplicationServiceInterface|ConsoleApplicationServiceInterface $appService,
+		private readonly DomainApplicationServiceInterface|ApplicationServiceInterface|ConsoleApplicationServiceInterface $appService,
 	) {
 		if ($this instanceof RegisterDependencyBootstrapInterface) {
 			$dependencyService->getContainer()->setdefinitions($this->dependencies());
@@ -52,7 +53,7 @@ abstract class ConsoleBootstrapService implements BootstrapServiceInterface, Con
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getApplicationService(): ApplicationServiceInterface|ConsoleApplicationServiceInterface
+	public function getApplicationService(): DomainApplicationServiceInterface|ApplicationServiceInterface|ConsoleApplicationServiceInterface
 	{
 		return $this->appService;
 	}
