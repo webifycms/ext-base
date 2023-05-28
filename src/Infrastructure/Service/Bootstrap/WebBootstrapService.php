@@ -70,4 +70,6 @@ abstract class WebBootstrapService implements BootstrapServiceInterface, WebBoot
 	{
 		return $this->appService;
 	}
+
+	abstract public function init(): void;
 }
