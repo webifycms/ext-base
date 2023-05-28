@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Application;
 
-use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use yii\web\Application;
 
 /**
@@ -26,17 +25,7 @@ interface WebApplicationServiceInterface
 	public function getApplication(): Application;
 
 	/**
-	 * @return bool returns true if in administration otherwise returns false
-	 */
-	public function inAdministration(): bool;
-
-	/**
 	 * Returns the administration path.
 	 */
 	public function getAdministrationPath(): string;
-
-	/**
-	 * Returns administration service instance.
-	 */
-	public function getAdministration(): AdministrationServiceInterface;
 }

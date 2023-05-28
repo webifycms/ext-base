@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Application;
 
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
-use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use yii\web\Application;
@@ -26,8 +25,6 @@ use function Webify\Base\Infrastructure\log_message;
 final class WebApplicationService implements DomainApplicationServiceInterface, ApplicationServiceInterface, WebApplicationServiceInterface
 {
 	private Application $application;
-
-	private ?AdministrationServiceInterface $administration = null;
 
 	private string $administrationPath = 'administration';
 
@@ -112,25 +109,9 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function inAdministration(): bool
-	{
-		return $this->administration instanceof AdministrationServiceInterface;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getAdministrationPath(): string
 	{
 		return $this->administrationPath;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getAdministration(): AdministrationServiceInterface
-	{
-		return $this->getService(AdministrationServiceInterface::class);
 	}
 
 	/**
