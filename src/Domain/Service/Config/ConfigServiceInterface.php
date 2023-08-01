@@ -10,24 +10,19 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Service\Application;
-
-use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+namespace Webify\Base\Domain\Service\Config;
 
 /**
- * ApplicationServiceInterface.
+ * The `ConfigServiceInterface` is an interface that defines the methods that a config service class should implement.
  */
-interface ApplicationServiceInterface
+interface ConfigServiceInterface
 {
 	/**
-	 * The default administration path.
+	 * Set a new configuration or override existing configuration value for the given key.
+	 *
+	 * @param string $key the config key can support any deep, you must separate with the period (e.g. "framework.component.user")
 	 */
-	public const DEFAULT_ADMINISTRATION_PATH = 'administration';
-
-	/**
-	 * Starts the application.
-	 */
-	public function bootstrap(): void;
+	public function setConfig(string $key, mixed $config): self;
 
 	/**
 	 * Retrieve the configuration value for the given key, if not found will return the given default value.
@@ -36,11 +31,4 @@ interface ApplicationServiceInterface
 	 * @param ?string $key the config key can support any deep, you must separate with the period (e.g. "framework.component.user").
 	 */
 	public function getConfig(?string $key, mixed $default): mixed;
-
-	/**
-	 * Returns the dependency service instance.
-	 *
-	 * @todo Should finds out, weather is it needed in the application service.
-	 */
-	public function getDependency(): DependencyServiceInterface;
 }

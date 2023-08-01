@@ -58,5 +58,5 @@ abstract class ConsoleBootstrapService implements BootstrapServiceInterface, Con
 		return $this->appService;
 	}
 
-    abstract public function init(): void;
+	abstract public function init(): void;
 }

@@ -14,6 +14,7 @@ namespace Webify\Base\Infrastructure\Service\Application;
 
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
 use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
+use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use yii\console\Application;
 
@@ -24,34 +25,63 @@ use function Webify\Base\Infrastructure\log_message;
  */
 final class ConsoleApplicationService implements DomainApplicationServiceInterface, ApplicationServiceInterface, ConsoleApplicationServiceInterface
 {
-	private Application $application;
+	private const DEFAULT_CONFIGURATIONS = ['id' => 'console'];
+
+	private readonly Application $application;
 
 	/**
 	 * Application constructor.
-	 *
-	 * @param array<string, mixed> $config
 	 */
 	public function __construct(
-		private readonly DependencyServiceInterface $dependency,
-		private readonly array $config
+		private readonly DependencyServiceInterface $dependencyService,
+		ConfigServiceInterface $config
 	) {
-		$this->initiateApplication();
+		// initialize framework console application
+		try {
+			// Register the configurations to the container, so where ever we need configurations we can use the ConfigServiceInterface.
+			$this->dependencyService->getContainer()->set(ConfigServiceInterface::class, $config);
+
+			$this->application = new Application($config->getConfig('framework', self::DEFAULT_CONFIGURATIONS));
+		} catch (\Throwable $throwable) {
+			log_message('debug', [
+				'message' => $throwable->getMessage(),
+				'trace'   => $throwable->getTraceAsString(),
+			]);
+
+			throw new TranslatableRuntimeException('unable_to_initiate_app');
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function start(): void
+	public function bootstrap(): void
 	{
-		$this->application->run();
+		$classes = $this->getConfig('bootstrap', null);
+
+		// initiate & run the bootstrap classes
+		if (!empty($classes)) {
+			foreach ($classes as $class) {
+				(new $class($this->dependencyService, $this))->init();
+			}
+		}
+
+		$output = $this->application->run();
+
+		exit($output);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getConfig(): array
+	public function getConfig(?string $key, mixed $default): mixed
 	{
-		return $this->config;
+		/**
+		 * @var ConfigServiceInterface $config
+		 */
+		$config = $this->getService(ConfigServiceInterface::class);
+
+		return $config->getConfig($key, $default);
 	}
 
 	/**
@@ -59,7 +89,7 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 	 */
 	public function getDependency(): DependencyServiceInterface
 	{
-		return $this->dependency;
+		return $this->dependencyService;
 	}
 
 	/**
@@ -107,25 +137,6 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 	 */
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
-		return $this->dependency->getContainer()->get($name, $params, $config);
-	}
-
-	/**
-	 * Initiates the framework application.
-	 */
-	private function initiateApplication(): void
-	{
-		$config = $this->config['framework'] ?? ['id' => 'console'];
-
-		try {
-			$this->application = new Application($config);
-		} catch (\Throwable $throwable) {
-			log_message('debug', [
-				'message' => $throwable->getMessage(),
-				'trace'   => $throwable->getTraceAsString(),
-			]);
-
-			throw new TranslatableRuntimeException('unable_to_initiate_app');
-		}
+		return $this->dependencyService->getContainer()->get($name, $params, $config);
 	}
 }

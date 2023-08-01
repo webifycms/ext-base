@@ -14,11 +14,9 @@ namespace Webify\Base\Infrastructure;
 
 use Dotenv\Dotenv;
 use Webify\Base\Domain\Exception\FileNotExistException;
-use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
+// use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use Webify\Base\Domain\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationService;
-use Webify\Base\Infrastructure\Service\Application\WebApplicationService;
 use Webify\Base\Infrastructure\Service\Dependency\DependencyService;
 use yii\base\Application;
 use yii\base\View;
@@ -70,11 +68,11 @@ if (!\function_exists('get_alias')) {
 	}
 }
 
-if (!\function_exists('enable_dev_env')) {
+if (!\function_exists('enable_debug')) {
 	/**
-	 * Enables the development environment.
+	 * Enables the debug mode.
 	 */
-	function enable_dev_env(): void
+	function enable_debug(): void
 	{
 		\defined('YII_DEBUG') || \define('YII_DEBUG', true);
 		\defined('YII_ENV') || \define('YII_ENV', 'dev');
@@ -138,37 +136,6 @@ if (!\function_exists('get_env_variable')) {
 	}
 }
 
-if (!\function_exists('configure')) {
-	/**
-	 * Configure the application.
-	 *
-	 * @param array<string, mixed> $configurations
-	 * @param null|string          $type           allowed value is only 'console' because default is always 'web' app
-	 */
-	function configure(array $configurations = [], ?string $type = null): void
-	{
-		// creating web application and register in the container
-		$app = new WebApplicationService(dependency(), $configurations);
-
-		// creating console application and register in the container
-		if ('console' === $type) {
-			$app = new ConsoleApplicationService(dependency(), $configurations);
-		}
-
-		dependency()->getContainer()->setSingleton(
-			ApplicationServiceInterface::class,
-			fn () => $app
-		);
-
-		// initiate the bootstrap classes
-		if (!empty($configurations['bootstrap'])) {
-			foreach ($configurations['bootstrap'] as $class) {
-				(new $class(dependency(), $app))->init();
-			}
-		}
-	}
-}
-
 if (!\function_exists('app')) {
 	/**
 	 * Returns the framework's application component.
@@ -176,46 +143,6 @@ if (!\function_exists('app')) {
 	function app(): Application|ConsoleApplication|WebApplication
 	{
 		return dependency()->getContainer()->get(ApplicationServiceInterface::class)->getApplication();
-	}
-}
-
-if (!\function_exists('administration')) {
-	/**
-	 * Returns the administration service instance.
-	 */
-	function administration(): AdministrationServiceInterface
-	{
-		return dependency()->getContainer()->get(AdministrationServiceInterface::class);
-	}
-}
-
-if (!\function_exists('in_administration')) {
-	/**
-	 * Check weather in administration.
-	 */
-	function in_administration(): bool
-	{
-		return administration()->inAdministration();
-	}
-}
-
-if (!\function_exists('administration_path')) {
-	/**
-	 * Returns the administration path.
-	 */
-	function administration_path(): string
-	{
-		return administration()->getPath();
-	}
-}
-
-if (!\function_exists('administration_url')) {
-	/**
-	 * Returns the administration url.
-	 */
-	function administration_url(): string
-	{
-		return administration()->getUrl();
 	}
 }
 
