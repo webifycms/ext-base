@@ -32,7 +32,7 @@ abstract class WebBootstrapService implements BootstrapServiceInterface, WebBoot
 		private readonly DomainApplicationServiceInterface|ApplicationServiceInterface|WebApplicationServiceInterface $appService,
 	) {
 		if ($this instanceof RegisterDependencyBootstrapInterface) {
-			$dependencyService->getContainer()->setdefinitions($this->dependencies());
+			$dependencyService->getContainer()->setDefinitions($this->dependencies());
 		}
 
 		if ($this instanceof RegisterControllersBootstrapInterface) {
@@ -47,25 +47,16 @@ abstract class WebBootstrapService implements BootstrapServiceInterface, WebBoot
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getApplication(): Application
 	{
 		return $this->appService->getApplication();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getDependencyService(): DependencyServiceInterface
 	{
 		return $this->dependencyService;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getApplicationService(): DomainApplicationServiceInterface|ApplicationServiceInterface|WebApplicationServiceInterface
 	{
 		return $this->appService;

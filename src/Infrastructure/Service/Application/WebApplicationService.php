@@ -38,9 +38,6 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		private readonly DependencyServiceInterface $dependencyService,
 		ConfigServiceInterface $config
 	) {
-		// Register the configurations to the container, so where ever we need configurations we can use the ConfigServiceInterface.
-		$this->dependencyService->getContainer()->set(ConfigServiceInterface::class, $config);
-
 		$this->administrationPath = $config->getConfig('administrationPath', self::DEFAULT_ADMINISTRATION_PATH);
 
 		// initialize framework web application
@@ -54,11 +51,14 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 
 			throw new TranslatableRuntimeException('unable_to_initiate_app');
 		}
+
+		// let's register the application service and the configurations to the container
+		$this->dependencyService->getContainer()->setDefinitions([
+			DomainApplicationServiceInterface::class => fn () => $this,
+			ConfigServiceInterface::class            => fn () => $config,
+		]);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function bootstrap(): void
 	{
 		$classes = $this->getConfig('bootstrap', null);
@@ -73,9 +73,6 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		$this->application->run();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getConfig(?string $key, mixed $default): mixed
 	{
 		/**
@@ -86,25 +83,17 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		return $config->getConfig($key, $default);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getDependency(): DependencyServiceInterface
 	{
 		return $this->dependencyService;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getApplication(): Application
 	{
 		return $this->application;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @throws TranslatableRuntimeException if property not exist or set
 	 */
 	public function getApplicationProperty(string $name): mixed
@@ -122,9 +111,6 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		]);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setApplicationProperty(string $name, mixed $value): void
 	{
 		if ($this->application->canSetProperty($name)) {
@@ -134,17 +120,11 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		$this->application->params[$name] = $value;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getAdministrationPath(): string
 	{
 		return $this->administrationPath;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
 		return $this->dependencyService->getContainer()->get($name, $params, $config);
