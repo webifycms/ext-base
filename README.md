@@ -8,7 +8,11 @@ Please refer to the application installation guide [here](https://github.com/web
 
 ## 🤝 Like to contribute?
 
-Contributions, issues and feature requests are welcome!<br>Feel free to check [issues page](https://github.com/webifycms/ext-base/issues).
+Contributions, issues and feature requests are welcome! Feel free to check the following pages:
+
+* [Contribution notes](https://github.com/webifycms/ext-base/blob/main/CONTRIBUTING.md).
+* [Issues page](https://github.com/webifycms/ext-base/issues).
+* [Code of conduct notes](https://github.com/webifycms/ext-base/blob/main/CODE_OF_CONDUCT.md).
 
 ## ⭐️ Show your support
 

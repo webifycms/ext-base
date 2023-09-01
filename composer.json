@@ -1,6 +1,6 @@
 {
     "name": "webifycms/ext-base",
-    "description": "WebifyCMS base extension.",
+    "description": "The WebifyCMS base extension serves as the foundation for the entire application, holding abstractions and reusable components.",
     "type": "webifycms-extension",
     "authors": [
         {
