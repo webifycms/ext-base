@@ -4,11 +4,11 @@
 
 The WebifyCMS base extension serves as the foundation for the entire application, holding abstractions and reusable components. It is adjusted as needed when new features are introduced.
 
-Please refer to the installation guide [here](https://github.com/webifycms/app/blob/main/README.md#Quick-Start). It will be installed under the `extensions` 📁.
+Please refer to the application installation guide [here](https://github.com/webifycms/app/blob/main/README.md#Quick-Start). It will be installed under the `extensions` 📁.
 
 ## 🤝 Like to contribute?
 
-Contributions, issues and feature requests are welcome!<br>Feel free to check [issues page](https://github.com/webifycms/app/issues).
+Contributions, issues and feature requests are welcome!<br>Feel free to check [issues page](https://github.com/webifycms/ext-base/issues).
 
 ## ⭐️ Show your support
 
@@ -24,4 +24,4 @@ If this project interests you, please consider giving it a ⭐️!
 
 ## License
 
-WebifyCMS is licensed under MIT license and see the [LICENSE.md](https://github.com/webifycms/app/blob/main/LICENSE.md) file for details.
+WebifyCMS is licensed under MIT license and see the [LICENSE.md](https://github.com/webifycms/ext-base/blob/main/LICENSE.md) file for details.
