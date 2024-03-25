@@ -27,12 +27,8 @@ final class ConfigService implements ConfigServiceInterface
 	 */
 	public function __construct(
 		private array $config
-	) {
-	}
+	) {}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setConfig(string $key, mixed $config): self
 	{
 		ArrayHelper::setValue($this->config, $key, $config);
@@ -40,9 +36,6 @@ final class ConfigService implements ConfigServiceInterface
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getConfig(?string $key = null, mixed $default = null): mixed
 	{
 		if (null === $key) {

@@ -33,9 +33,6 @@ final class DependencyService implements DependencyServiceInterface
 		$this->container->setSingleton(DependencyServiceInterface::class, $this);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getContainer(): Container
 	{
 		return $this->container;

@@ -29,7 +29,7 @@ abstract class WebBootstrapService implements BootstrapServiceInterface, WebBoot
 	 */
 	public function __construct(
 		private readonly DependencyServiceInterface $dependencyService,
-		private readonly DomainApplicationServiceInterface|ApplicationServiceInterface|WebApplicationServiceInterface $appService,
+		private readonly ApplicationServiceInterface|DomainApplicationServiceInterface|WebApplicationServiceInterface $appService,
 	) {
 		if ($this instanceof RegisterDependencyBootstrapInterface) {
 			$dependencyService->getContainer()->setDefinitions($this->dependencies());
@@ -57,7 +57,7 @@ abstract class WebBootstrapService implements BootstrapServiceInterface, WebBoot
 		return $this->dependencyService;
 	}
 
-	public function getApplicationService(): DomainApplicationServiceInterface|ApplicationServiceInterface|WebApplicationServiceInterface
+	public function getApplicationService(): ApplicationServiceInterface|DomainApplicationServiceInterface|WebApplicationServiceInterface
 	{
 		return $this->appService;
 	}

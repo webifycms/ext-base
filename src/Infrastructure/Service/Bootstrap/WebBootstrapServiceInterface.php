@@ -25,7 +25,7 @@ interface WebBootstrapServiceInterface
 	/**
 	 * Returns the web application service instance.
 	 */
-	public function getApplicationService(): DomainApplicationServiceInterface|ApplicationServiceInterface|WebApplicationServiceInterface;
+	public function getApplicationService(): ApplicationServiceInterface|DomainApplicationServiceInterface|WebApplicationServiceInterface;
 
 	/**
 	 * Returns the web application instance.

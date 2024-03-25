@@ -25,6 +25,24 @@ use yii\helpers\Url;
 use yii\web\Application as WebApplication;
 use yii\web\View as WebView;
 
+// The constant define to run the application in which environment such as production, local, staging, etc, defaults to production.
+\defined('APP_ENVIRONMENT') || \define('APP_ENVIRONMENT', 'production');
+
+// The constant define to run the application in debug mode, defaults to false.
+\defined('APP_DEBUG') || \define('APP_DEBUG', false);
+
+if (!\function_exists('define_environment')) {
+	/**
+	 * Define the environment that application should run.
+	 */
+	function define_environment(string $environment, bool $enableDebug): void
+	{
+		\defined('APP_ENVIRONMENT') || \define('APP_ENVIRONMENT', $environment);
+		\defined('APP_DEBUG') || \define('APP_DEBUG', $enableDebug);
+		\defined('YII_DEBUG') || \define('YII_DEBUG', APP_DEBUG);
+	}
+}
+
 if (!\function_exists('log_message')) {
 	/**
 	 * @param string               $type     supported types: info, warning, debug, trace
@@ -65,17 +83,6 @@ if (!\function_exists('get_alias')) {
 		$alias = \Yii::getAlias($alias, false);
 
 		return !$alias ? null : $alias;
-	}
-}
-
-if (!\function_exists('enable_debug')) {
-	/**
-	 * Enables the debug mode.
-	 */
-	function enable_debug(): void
-	{
-		\defined('YII_DEBUG') || \define('YII_DEBUG', true);
-		\defined('YII_ENV') || \define('YII_ENV', 'dev');
 	}
 }
 

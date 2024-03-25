@@ -24,9 +24,6 @@ abstract class Theme extends BaseTheme implements ThemeInterface
 {
 	private string $id;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function init(): void
 	{
 		set_alias('@Theme', $this->getBasePath());
@@ -39,9 +36,6 @@ abstract class Theme extends BaseTheme implements ThemeInterface
 		parent::init();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getId(): string
 	{
 		return $this->id;

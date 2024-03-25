@@ -52,9 +52,6 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function bootstrap(): void
 	{
 		$classes = $this->getConfig('bootstrap', null);
@@ -71,9 +68,6 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		exit($output);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getConfig(?string $key, mixed $default): mixed
 	{
 		/**
@@ -84,25 +78,17 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		return $config->getConfig($key, $default);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getDependency(): DependencyServiceInterface
 	{
 		return $this->dependencyService;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getApplication(): Application
 	{
 		return $this->application;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @throws TranslatableRuntimeException if property not exist or set
 	 */
 	public function getApplicationProperty(string $name): mixed
@@ -120,9 +106,6 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		]);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setApplicationProperty(string $name, mixed $value): void
 	{
 		if ($this->application->canSetProperty($name)) {
@@ -132,9 +115,6 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		$this->application->params[$name] = $value;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
 		return $this->dependencyService->getContainer()->get($name, $params, $config);

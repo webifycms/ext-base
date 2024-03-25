@@ -23,9 +23,6 @@ use yii\validators\EmailValidator;
  */
 final class WebBootstrap extends WebBootstrapService implements RegisterDependencyBootstrapInterface
 {
-	/**
-	 * {@inheritDoc}
-	 */
 	public function dependencies(): array
 	{
 		return [
@@ -33,10 +30,5 @@ final class WebBootstrap extends WebBootstrapService implements RegisterDependen
 		];
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function init(): void
-	{
-	}
+	public function init(): void {}
 }
