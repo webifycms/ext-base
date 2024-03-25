@@ -24,5 +24,5 @@ interface ConsoleBootstrapServiceInterface
 	/**
 	 * Returns the console application service instance.
 	 */
-	public function getApplicationService(): DomainApplicationServiceInterface|ApplicationServiceInterface|ConsoleApplicationServiceInterface;
+	public function getApplicationService(): ApplicationServiceInterface|ConsoleApplicationServiceInterface|DomainApplicationServiceInterface;
 }

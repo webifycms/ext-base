@@ -19,12 +19,8 @@ final class EmailValidatorService implements EmailValidatorServiceInterface
 {
 	public function __construct(
 		public readonly EmailValidator $validator
-	) {
-	}
+	) {}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isValid(mixed $value): bool
 	{
 		return $this->validator->validate($value);

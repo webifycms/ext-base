@@ -14,15 +14,16 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 
 use PhpCsFixer\Finder;
-use Webify\Tools\Fixer;
+use Webify\Tools\Fixer\Fixer;
 
 $finder = Finder::create()
-    ->in([
-        __DIR__ . '/src',
-        __DIR__ . '/test',
-    ])
-    ->name('*.php');
+	->in(__DIR__)
+	->exclude([
+		__DIR__ . '/resources',
+		__DIR__ . '/vendor',
+	])
+	->ignoreDotFiles(false)
+	->name('*.php')
+;
 
-return (new Fixer($finder))
-    ->getConfig()
-    ->setUsingCache(false);
+return (new Fixer($finder))->getConfig()->setUsingCache(false);

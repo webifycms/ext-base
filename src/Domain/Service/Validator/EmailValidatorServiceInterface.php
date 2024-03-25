@@ -12,6 +12,4 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Service\Validator;
 
-interface EmailValidatorServiceInterface extends ValidatorServiceInterface
-{
-}
+interface EmailValidatorServiceInterface extends ValidatorServiceInterface {}

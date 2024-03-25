@@ -28,7 +28,7 @@ abstract class ConsoleBootstrapService implements BootstrapServiceInterface, Con
 	 */
 	public function __construct(
 		private readonly DependencyServiceInterface $dependencyService,
-		private readonly DomainApplicationServiceInterface|ApplicationServiceInterface|ConsoleApplicationServiceInterface $appService,
+		private readonly ApplicationServiceInterface|ConsoleApplicationServiceInterface|DomainApplicationServiceInterface $appService,
 	) {
 		if ($this instanceof RegisterDependencyBootstrapInterface) {
 			$dependencyService->getContainer()->setDefinitions($this->dependencies());
@@ -47,7 +47,7 @@ abstract class ConsoleBootstrapService implements BootstrapServiceInterface, Con
 		return $this->dependencyService;
 	}
 
-	public function getApplicationService(): DomainApplicationServiceInterface|ApplicationServiceInterface|ConsoleApplicationServiceInterface
+	public function getApplicationService(): ApplicationServiceInterface|ConsoleApplicationServiceInterface|DomainApplicationServiceInterface
 	{
 		return $this->appService;
 	}

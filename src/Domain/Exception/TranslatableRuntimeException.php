@@ -31,17 +31,11 @@ class TranslatableRuntimeException extends \RuntimeException implements Translat
 		parent::__construct();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getMessageKey(): string
 	{
 		return $this->messageKey;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getParam(string $key): ?string
 	{
 		return $this->params[$key] ?? null;
