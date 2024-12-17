@@ -12,11 +12,14 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Config;
 
+use Webify\Base\Domain\Exception\ConfigNotFoundException;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use yii\helpers\ArrayHelper;
 
 /**
- * Config service implementation.
+ * A service for handling configuration data.
+ * This class provides methods to store, retrieve, and manage configurations
+ * with support for hierarchical keys and default values.
  */
 final class ConfigService implements ConfigServiceInterface
 {
@@ -36,12 +39,21 @@ final class ConfigService implements ConfigServiceInterface
 		return $this;
 	}
 
-	public function getConfig(?string $key = null, mixed $default = null): mixed
+    /**
+     * @throws \Exception
+     */
+    public function getConfig(?string $key = null, mixed $default = null): mixed
 	{
 		if (null === $key) {
 			return $this->config;
 		}
 
-		return ArrayHelper::getValue($this->config, $key, $default);
+        try {
+            return ArrayHelper::getValue($this->config, $key, $default);
+        } catch (\Throwable $exception) {
+            throw new ConfigNotFoundException(
+                ConfigNotFoundException::MESSAGE_KEY, ['key' => $key], 0, $exception
+            );
+        }
 	}
 }

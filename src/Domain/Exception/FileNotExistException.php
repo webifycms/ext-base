@@ -13,19 +13,23 @@ declare(strict_types=1);
 namespace Webify\Base\Domain\Exception;
 
 /**
- * It's a runtime exception that's thrown when a file doesn't exist.
+ * It's a runtime exception that's can use to throw when a file doesn't exist.
  */
 final class FileNotExistException extends TranslatableRuntimeException
 {
+    public const MESSAGE_KEY = 'base.file_not_exist';
+
 	/**
 	 * The class constructor.
 	 *
 	 * @param string[] $params
 	 */
 	public function __construct(
-		string $messageKey = 'file_not_exist',
-		array $params = []
+        string      $messageKey = self::MESSAGE_KEY,
+        array       $params = [],
+        int         $code = 0,
+        ?\Throwable $previous = null
 	) {
-		parent::__construct($messageKey, $params);
+		parent::__construct($messageKey, $params, $code, $previous);
 	}
 }

@@ -16,19 +16,20 @@ use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as Domain
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
+use yii\web\Application;
 
 /**
- * Console application bootstrap service class that helps to bootstrap components.
+ * Web application bootstrap service class that helps to bootstrap components.
  */
-abstract class ConsoleBootstrapService implements BootstrapServiceInterface, ConsoleBootstrapServiceInterface
+abstract class BaseWebBootstrapService implements BootstrapServiceInterface, WebBootstrapServiceInterface
 {
 	/**
 	 * The object constructor.
 	 */
 	public function __construct(
 		private readonly DependencyServiceInterface $dependencyService,
-		private readonly ApplicationServiceInterface|ConsoleApplicationServiceInterface|DomainApplicationServiceInterface $appService,
+		private readonly ApplicationServiceInterface|DomainApplicationServiceInterface|WebApplicationServiceInterface $appService,
 	) {
 		if ($this instanceof RegisterDependencyBootstrapInterface) {
 			$dependencyService->getContainer()->setDefinitions($this->dependencies());
@@ -40,6 +41,15 @@ abstract class ConsoleBootstrapService implements BootstrapServiceInterface, Con
 				array_merge($appService->getApplicationProperty('controllerMap'), $this->controllers())
 			);
 		}
+
+		if ($this instanceof RegisterRoutesBootstrapInterface) {
+			$appService->getApplication()->getUrlManager()->addRules($this->routes(), false);
+		}
+	}
+
+	public function getApplication(): Application
+	{
+		return $this->appService->getApplication();
 	}
 
 	public function getDependencyService(): DependencyServiceInterface
@@ -47,7 +57,7 @@ abstract class ConsoleBootstrapService implements BootstrapServiceInterface, Con
 		return $this->dependencyService;
 	}
 
-	public function getApplicationService(): ApplicationServiceInterface|ConsoleApplicationServiceInterface|DomainApplicationServiceInterface
+	public function getApplicationService(): ApplicationServiceInterface|DomainApplicationServiceInterface|WebApplicationServiceInterface
 	{
 		return $this->appService;
 	}

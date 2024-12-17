@@ -13,22 +13,29 @@ declare(strict_types=1);
 namespace Webify\Base\Domain\Service\Config;
 
 /**
- * The `ConfigServiceInterface` is an interface that defines the methods that a config service class should implement.
+ * Interface ConfigServiceInterface
+ *
+ * Provides an abstraction for managing configuration settings.
+ * Allows setting new configuration values, overriding existing ones,
+ * and retrieving configuration values based on a key. The keys can represent
+ * a hierarchy separated by periods.
  */
 interface ConfigServiceInterface
 {
-	/**
-	 * Set a new configuration or override existing configuration value for the given key.
-	 *
-	 * @param string $key the config key can support any deep, you must separate with the period (e.g. "framework.component.user")
-	 */
-	public function setConfig(string $key, mixed $config): self;
+    /**
+     * Set a new configuration or override existing configuration value for the given key.
+     *
+     * @param string $key the config key can support any deep,
+     * you must separate with the period (e.g. "framework.component.user")
+     */
+    public function setConfig(string $key, mixed $config): self;
 
-	/**
-	 * Retrieve the configuration value for the given key, if not found will return the given default value.
-	 * If the key is not specified the entire configurations will return.
-	 *
-	 * @param ?string $key the config key can support any deep, you must separate with the period (e.g. "framework.component.user").
-	 */
-	public function getConfig(?string $key, mixed $default): mixed;
+    /**
+     * Retrieve the configuration value for the given key, if not found will return the given default value.
+     * If the key is not specified the entire configurations will return.
+     *
+     * @param ?string $key the config key can support any deep,
+     * you must separate with the period (e.g. "framework.component.user").
+     */
+    public function getConfig(?string $key, mixed $default): mixed;
 }

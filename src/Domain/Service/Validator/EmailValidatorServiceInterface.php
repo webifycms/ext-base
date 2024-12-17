@@ -12,4 +12,10 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Service\Validator;
 
+/**
+ * Interface representing a service to validate email addresses.
+ *
+ * Extends the ValidatorServiceInterface for general validation capabilities
+ * while specifically focusing on email validation functionality.
+ */
 interface EmailValidatorServiceInterface extends ValidatorServiceInterface {}

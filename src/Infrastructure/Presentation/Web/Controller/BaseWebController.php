@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Presentation\Web\Controller;
+namespace Webify\Base\Infrastructure\Presentation\Web\Controller;
 
 use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use yii\base\Module;
@@ -19,7 +19,7 @@ use yii\web\Controller;
 /**
  * WebController class is the parent class for web request controller classes.
  */
-abstract class WebController extends Controller
+abstract class BaseWebController extends Controller
 {
 	/**
 	 * The object constructor.
