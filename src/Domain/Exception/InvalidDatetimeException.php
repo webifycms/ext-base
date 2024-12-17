@@ -13,19 +13,23 @@ declare(strict_types=1);
 namespace Webify\Base\Domain\Exception;
 
 /**
- * It's a custom exception class that extends the `TranslatableInvalidArgumentException` class.
+ * An exception class can be used when datetime validation failed.
  */
 final class InvalidDatetimeException extends TranslatableInvalidArgumentException
 {
+    public const MESSAGE_KEY = 'base.invalid_datetime';
+
 	/**
 	 * The class constructor.
 	 *
 	 * @param string[] $params
 	 */
 	public function __construct(
-		string $messageKey = 'invalid_datetime',
-		array $params = []
+        string      $messageKey = self::MESSAGE_KEY,
+        array       $params = [],
+        int         $code = 0,
+        ?\Throwable $previous = null
 	) {
-		parent::__construct($messageKey, $params);
+		parent::__construct($messageKey, $params, $code, $previous);
 	}
 }

@@ -15,30 +15,45 @@ namespace Webify\Base\Domain\Exception;
 use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 
 /**
- * It's a translatable invalid argument exception class that can be extended.
+ * Represents a translatable invalid argument exception that includes a
+ * translatable message key and associated parameters.
+ *
+ * This exception is designed to provide additional context for messaging systems by
+ * including a message key for translation and an array of parameters that can be used
+ * to populate the message dynamically.
  */
-class TranslatableInvalidArgumentException extends \InvalidArgumentException implements TranslatableExceptionServiceInterface
+class TranslatableInvalidArgumentException extends \InvalidArgumentException
+    implements TranslatableExceptionServiceInterface
 {
-	/**
-	 * The class constructor.
-	 *
-	 * @param string[] $params additional items that should be included in the message can be
-	 *                         passed as `name => value` pairs
-	 */
-	public function __construct(
-		public readonly string $messageKey,
-		public readonly array $params = []
-	) {
-		parent::__construct();
-	}
+    /**
+     * The class constructor.
+     *
+     * @param string[] $params additional items that should be included in the message can be
+     *                         passed as `name => value` pairs.
+     */
+    public function __construct(
+        public readonly string      $messageKey,
+        public readonly array       $params = [],
+        public                      $code = 0,
+        public readonly ?\Throwable $previous = null
+    )
+    {
+        parent::__construct('', $code, $previous);
+    }
 
-	public function getMessageKey(): string
-	{
-		return $this->messageKey;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getMessageKey(): string
+    {
+        return $this->messageKey;
+    }
 
-	public function getParam(string $key): ?string
-	{
-		return $this->params[$key] ?? null;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getParam(string $key): ?string
+    {
+        return $this->params[$key] ?? null;
+    }
 }

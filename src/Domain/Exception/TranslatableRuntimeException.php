@@ -15,29 +15,45 @@ namespace Webify\Base\Domain\Exception;
 use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 
 /**
- * It's a translatable runtime exception class that can be extended.
+ * Represents a translatable runtime exception that incorporates a message key
+ * and additional parameters for localization or dynamic message generation.
+ *
+ * This class extends the base RuntimeException and provides additional
+ * functionality for managing translatable messages. It allows for structured
+ * access to message keys and parameters.
  */
-class TranslatableRuntimeException extends \RuntimeException implements TranslatableExceptionServiceInterface
+class TranslatableRuntimeException extends \RuntimeException
+    implements TranslatableExceptionServiceInterface
 {
-	/**
-	 * The object constructor.
-	 *
-	 * @param string[] $params additional items that should be included in the message can be passed as `name => value` pairs
-	 */
-	public function __construct(
-		public readonly string $messageKey,
-		public readonly array $params = []
-	) {
-		parent::__construct();
-	}
+    /**
+     * The class constructor.
+     *
+     * @param string[] $params additional items that should be included in the message can
+     * be passed as `name => value` pairs
+     */
+    public function __construct(
+        public readonly string      $messageKey,
+        public readonly array       $params = [],
+        public                      $code = 0,
+        public readonly ?\Throwable $previous = null
+    )
+    {
+        parent::__construct('', $code, $previous);
+    }
 
-	public function getMessageKey(): string
-	{
-		return $this->messageKey;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getMessageKey(): string
+    {
+        return $this->messageKey;
+    }
 
-	public function getParam(string $key): ?string
-	{
-		return $this->params[$key] ?? null;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getParam(string $key): ?string
+    {
+        return $this->params[$key] ?? null;
+    }
 }

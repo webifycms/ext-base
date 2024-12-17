@@ -14,7 +14,6 @@ namespace Webify\Base\Infrastructure;
 
 use Dotenv\Dotenv;
 use Webify\Base\Domain\Exception\FileNotExistException;
-// use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use Webify\Base\Domain\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use Webify\Base\Infrastructure\Service\Dependency\DependencyService;
@@ -86,13 +85,13 @@ if (!\function_exists('get_alias')) {
 	}
 }
 
-if (!\function_exists('in_debug')) {
+if (!\function_exists('is_debug_enabled')) {
 	/**
 	 * Check in debug.
 	 */
-	function in_debug(): bool
+	function is_debug_enabled(): bool
 	{
-		return YII_DEBUG;
+		return APP_DEBUG;
 	}
 }
 
@@ -123,7 +122,7 @@ if (!\function_exists('load_evn_variables')) {
 		$file = $path . '/' . $fileName;
 
 		if (!file_exists($file)) {
-			throw new FileNotExistException('file_not_exist', ['file' => $file]);
+			throw new FileNotExistException(FileNotExistException::MESSAGE_KEY, ['file' => $file]);
 		}
 
 		Dotenv::createImmutable($path)->load();
@@ -197,7 +196,7 @@ if (!\function_exists('home_url')) {
 
 if (!\function_exists('remember_url')) {
 	/**
-	 * Sets the URL to be remember and later it can be retrieve by previous_url().
+	 * Sets the URL to be remembered, and later it can be retrieved by previous_url().
 	 *
 	 * @param array<string,string>|string $url
 	 */

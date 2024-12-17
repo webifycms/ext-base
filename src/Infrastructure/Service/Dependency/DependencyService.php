@@ -16,14 +16,17 @@ use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use yii\di\Container;
 
 /**
- * DependencyService.
+ * Represents a service responsible for handling application dependencies.
+ *
+ * This class implements the `DependencyServiceInterface` and manages
+ * a dependency injection container to provide services and their dependencies.
  */
 final class DependencyService implements DependencyServiceInterface
 {
 	private readonly Container $container;
 
 	/**
-	 * DependencyContainer constructor.
+	 * The class constructor.
 	 */
 	public function __construct()
 	{
@@ -33,6 +36,9 @@ final class DependencyService implements DependencyServiceInterface
 		$this->container->setSingleton(DependencyServiceInterface::class, $this);
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getContainer(): Container
 	{
 		return $this->container;
