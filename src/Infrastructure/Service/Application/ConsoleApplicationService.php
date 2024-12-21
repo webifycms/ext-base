@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Application;
 
+use JetBrains\PhpStorm\NoReturn;
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
-use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use yii\console\Application;
@@ -23,7 +23,7 @@ use function Webify\Base\Infrastructure\log_message;
 /**
  * Console application service that is contains the console application instance.
  */
-final class ConsoleApplicationService implements DomainApplicationServiceInterface, ApplicationServiceInterface, ConsoleApplicationServiceInterface
+final class ConsoleApplicationService implements ConsoleApplicationServiceInterface
 {
 	private const DEFAULT_CONFIGURATIONS = ['id' => 'console'];
 
@@ -38,8 +38,12 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 	) {
 		// initialize framework console application
 		try {
-			// Register the configurations to the container, so where ever we need configurations we can use the ConfigServiceInterface.
-			$this->dependencyService->getContainer()->set(ConfigServiceInterface::class, $config);
+			// Register the configurations to the container,
+            // so where ever we need configurations we can use the ConfigServiceInterface.
+			$this->dependencyService->getContainer()->setDefinitions([
+                ConsoleApplicationServiceInterface::class => fn () => $this,
+                ConfigServiceInterface::class => fn() => $config
+            ]);
 
 			$this->application = new Application($config->getConfig('framework', self::DEFAULT_CONFIGURATIONS));
 		} catch (\Throwable $throwable) {
@@ -52,7 +56,10 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		}
 	}
 
-	public function bootstrap(): void
+    /**
+     * @inheritDoc
+     */
+	#[NoReturn] public function bootstrap(): void
 	{
 		$classes = $this->getConfig('bootstrap', null);
 
@@ -68,6 +75,9 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		exit($output);
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getConfig(?string $key, mixed $default): mixed
 	{
 		/**
@@ -78,11 +88,17 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		return $config->getConfig($key, $default);
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getDependency(): DependencyServiceInterface
 	{
 		return $this->dependencyService;
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getApplication(): Application
 	{
 		return $this->application;
@@ -101,11 +117,12 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 			return $this->application['params'][$name];
 		}
 
-		throw new TranslatableRuntimeException('property_not_exist', [
-			'property' => $name,
-		]);
+		throw new TranslatableRuntimeException('property_not_exist', ['property' => $name]);
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function setApplicationProperty(string $name, mixed $value): void
 	{
 		if ($this->application->canSetProperty($name)) {
@@ -115,6 +132,9 @@ final class ConsoleApplicationService implements DomainApplicationServiceInterfa
 		$this->application->params[$name] = $value;
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
 		return $this->dependencyService->getContainer()->get($name, $params, $config);

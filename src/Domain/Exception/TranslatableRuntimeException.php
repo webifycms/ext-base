@@ -22,8 +22,7 @@ use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
  * functionality for managing translatable messages. It allows for structured
  * access to message keys and parameters.
  */
-class TranslatableRuntimeException extends \RuntimeException
-    implements TranslatableExceptionServiceInterface
+class TranslatableRuntimeException extends \RuntimeException implements TranslatableExceptionServiceInterface
 {
     /**
      * The class constructor.

@@ -15,7 +15,7 @@ namespace Webify\Base\Domain\Service\Application;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 
 /**
- * ApplicationServiceInterface.
+ * Defines the contract for the application service.
  */
 interface ApplicationServiceInterface
 {

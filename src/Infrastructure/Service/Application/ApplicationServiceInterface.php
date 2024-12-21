@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Application;
 
+use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
+
 /**
- * ApplicationServiceInterface.
+ * Interface ApplicationServiceInterface
+ *
+ * Defines the contract for managing application services and properties.
  */
-interface ApplicationServiceInterface
+interface ApplicationServiceInterface extends DomainApplicationServiceInterface
 {
 	/**
 	 * Returns the service instance for the given name if registered in the container.

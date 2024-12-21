@@ -17,7 +17,7 @@ use yii\web\Application;
 /**
  * Interface WebApplicationServiceInterface.
  */
-interface WebApplicationServiceInterface
+interface WebApplicationServiceInterface extends ApplicationServiceInterface
 {
 	/**
 	 * Returns the web application instance.

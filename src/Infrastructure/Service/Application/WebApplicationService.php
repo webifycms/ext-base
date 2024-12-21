@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Application;
 
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
-use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use yii\web\Application;
@@ -23,7 +22,7 @@ use function Webify\Base\Infrastructure\log_message;
 /**
  * Web application service that is contains the web application instance.
  */
-final class WebApplicationService implements DomainApplicationServiceInterface, ApplicationServiceInterface, WebApplicationServiceInterface
+final class WebApplicationService implements WebApplicationServiceInterface
 {
 	private const DEFAULT_CONFIGURATIONS = ['id' => 'web'];
 
@@ -54,11 +53,14 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 
 		// let's register the application service and the configurations to the container
 		$this->dependencyService->getContainer()->setDefinitions([
-			DomainApplicationServiceInterface::class => fn () => $this,
+            WebApplicationServiceInterface::class => fn () => $this,
 			ConfigServiceInterface::class            => fn () => $config,
 		]);
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function bootstrap(): void
 	{
 		$classes = $this->getConfig('bootstrap', null);
@@ -73,6 +75,9 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		$this->application->run();
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getConfig(?string $key, mixed $default): mixed
 	{
 		/**
@@ -83,11 +88,17 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		return $config->getConfig($key, $default);
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getDependency(): DependencyServiceInterface
 	{
 		return $this->dependencyService;
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getApplication(): Application
 	{
 		return $this->application;
@@ -111,6 +122,9 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		]);
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function setApplicationProperty(string $name, mixed $value): void
 	{
 		if ($this->application->canSetProperty($name)) {
@@ -120,11 +134,17 @@ final class WebApplicationService implements DomainApplicationServiceInterface, 
 		$this->application->params[$name] = $value;
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getAdministrationPath(): string
 	{
 		return $this->administrationPath;
 	}
 
+    /**
+     * @inheritDoc
+     */
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
 		return $this->dependencyService->getContainer()->get($name, $params, $config);

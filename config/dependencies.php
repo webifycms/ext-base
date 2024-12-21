@@ -12,8 +12,15 @@ declare(strict_types=1);
 
 use Webify\Base\Domain\Service\Validator\EmailValidatorServiceInterface;
 use Webify\Base\Infrastructure\Service\Validator\EmailValidatorService;
+use yii\di\Container;
 use yii\validators\EmailValidator;
+use function Webify\Base\Infrastructure\dependency;
+
+/**
+ * @var Container $container
+ */
+$container = dependency()->getContainer();
 
 return [
-    EmailValidatorServiceInterface::class => fn () => new EmailValidatorService(new EmailValidator()),
+    EmailValidatorServiceInterface::class => fn() => new EmailValidatorService(new EmailValidator()),
 ];
