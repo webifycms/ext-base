@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -36,9 +37,6 @@ final class DependencyService implements DependencyServiceInterface
 		$this->container->setSingleton(DependencyServiceInterface::class, $this);
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getContainer(): Container
 	{
 		return $this->container;

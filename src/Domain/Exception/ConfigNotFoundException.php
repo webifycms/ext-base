@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -20,20 +21,19 @@ namespace Webify\Base\Domain\Exception;
  */
 final class ConfigNotFoundException extends TranslatableRuntimeException
 {
-    public const MESSAGE_KEY = 'base.config_not_found';
+	public const MESSAGE_KEY = 'base.config_not_found';
 
-    /**
-     * The class constructor.
-     *
-     * @param string[] $params
-     */
-    public function __construct(
-        string      $messageKey = self::MESSAGE_KEY,
-        array       $params = [],
-        int         $code = 0,
-        ?\Throwable $previous = null
-    )
-    {
-        parent::__construct($messageKey, $params, $code, $previous);
-    }
+	/**
+	 * The class constructor.
+	 *
+	 * @param string[] $params
+	 */
+	public function __construct(
+		string $messageKey = self::MESSAGE_KEY,
+		array $params = [],
+		int $code = 0,
+		?\Throwable $previous = null
+	) {
+		parent::__construct($messageKey, $params, $code, $previous);
+	}
 }
