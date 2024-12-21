@@ -10,17 +10,14 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Application;
+namespace Webify\Base\Infrastructure\Presentation\Console\Controller;
 
-use yii\console\Application;
+use yii\console\Controller;
 
 /**
- * ConsoleApplicationServiceInterface.
+ * ConsoleController class is the parent class for console commands controller classes.
  */
-interface ConsoleApplicationServiceInterface extends ApplicationServiceInterface
+class ConsoleController extends Controller
 {
-	/**
-	 * Returns the console application instance.
-	 */
-	public function getApplication(): Application;
+
 }

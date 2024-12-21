@@ -10,17 +10,14 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Application;
+namespace Webify\Base\Infrastructure\Presentation\Web\Controller;
 
-use yii\console\Application;
+use yii\web\Controller;
 
 /**
- * ConsoleApplicationServiceInterface.
+ * WebController class is the parent class for API request controller classes.
  */
-interface ConsoleApplicationServiceInterface extends ApplicationServiceInterface
+class WebController extends Controller
 {
-	/**
-	 * Returns the console application instance.
-	 */
-	public function getApplication(): Application;
+
 }
