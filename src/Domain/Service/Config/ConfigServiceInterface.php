@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -13,7 +14,7 @@ declare(strict_types=1);
 namespace Webify\Base\Domain\Service\Config;
 
 /**
- * Interface ConfigServiceInterface
+ * Interface ConfigServiceInterface.
  *
  * Provides an abstraction for managing configuration settings.
  * Allows setting new configuration values, overriding existing ones,
@@ -22,20 +23,20 @@ namespace Webify\Base\Domain\Service\Config;
  */
 interface ConfigServiceInterface
 {
-    /**
-     * Set a new configuration or override existing configuration value for the given key.
-     *
-     * @param string $key the config key can support any deep,
-     * you must separate with the period (e.g. "framework.component.user")
-     */
-    public function setConfig(string $key, mixed $config): self;
+	/**
+	 * Set a new configuration or override existing configuration value for the given key.
+	 *
+	 * @param string $key the config key can support any deep,
+	 *                    you must separate with the period (e.g. "framework.component.user")
+	 */
+	public function setConfig(string $key, mixed $config): self;
 
-    /**
-     * Retrieve the configuration value for the given key, if not found will return the given default value.
-     * If the key is not specified the entire configurations will return.
-     *
-     * @param ?string $key the config key can support any deep,
-     * you must separate with the period (e.g. "framework.component.user").
-     */
-    public function getConfig(?string $key, mixed $default): mixed;
+	/**
+	 * Retrieve the configuration value for the given key, if not found will return the given default value.
+	 * If the key is not specified the entire configurations will return.
+	 *
+	 * @param ?string $key the config key can support any deep,
+	 *                     you must separate with the period (e.g. "framework.component.user").
+	 */
+	public function getConfig(?string $key, mixed $default): mixed;
 }

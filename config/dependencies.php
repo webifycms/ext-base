@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -14,6 +15,7 @@ use Webify\Base\Domain\Service\Validator\EmailValidatorServiceInterface;
 use Webify\Base\Infrastructure\Service\Validator\EmailValidatorService;
 use yii\di\Container;
 use yii\validators\EmailValidator;
+
 use function Webify\Base\Infrastructure\dependency;
 
 /**
@@ -22,5 +24,5 @@ use function Webify\Base\Infrastructure\dependency;
 $container = dependency()->getContainer();
 
 return [
-    EmailValidatorServiceInterface::class => fn() => new EmailValidatorService(new EmailValidator()),
+	EmailValidatorServiceInterface::class => fn () => new EmailValidatorService(new EmailValidator()),
 ];

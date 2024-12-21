@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -17,7 +18,4 @@ use yii\web\Controller;
 /**
  * WebController class is the parent class for API request controller classes.
  */
-class WebController extends Controller
-{
-
-}
+class WebController extends Controller {}

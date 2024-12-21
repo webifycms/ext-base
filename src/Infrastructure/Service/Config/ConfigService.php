@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -39,21 +40,24 @@ final class ConfigService implements ConfigServiceInterface
 		return $this;
 	}
 
-    /**
-     * @throws \Exception
-     */
-    public function getConfig(?string $key = null, mixed $default = null): mixed
+	/**
+	 * @throws \Exception
+	 */
+	public function getConfig(?string $key = null, mixed $default = null): mixed
 	{
 		if (null === $key) {
 			return $this->config;
 		}
 
-        try {
-            return ArrayHelper::getValue($this->config, $key, $default);
-        } catch (\Throwable $exception) {
-            throw new ConfigNotFoundException(
-                ConfigNotFoundException::MESSAGE_KEY, ['key' => $key], 0, $exception
-            );
-        }
+		try {
+			return ArrayHelper::getValue($this->config, $key, $default);
+		} catch (\Throwable $exception) {
+			throw new ConfigNotFoundException(
+				ConfigNotFoundException::MESSAGE_KEY,
+				['key' => $key],
+				0,
+				$exception
+			);
+		}
 	}
 }

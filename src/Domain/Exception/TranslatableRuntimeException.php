@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -24,35 +25,29 @@ use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
  */
 class TranslatableRuntimeException extends \RuntimeException implements TranslatableExceptionServiceInterface
 {
-    /**
-     * The class constructor.
-     *
-     * @param string[] $params additional items that should be included in the message can
-     * be passed as `name => value` pairs
-     */
-    public function __construct(
-        public readonly string      $messageKey,
-        public readonly array       $params = [],
-        public                      $code = 0,
-        public readonly ?\Throwable $previous = null
-    )
-    {
-        parent::__construct('', $code, $previous);
-    }
+	/**
+	 * The class constructor.
+	 *
+	 * @param string[] $params additional items that should be included in the message can
+	 *                         be passed as `name => value` pairs
+	 * @param mixed    $code
+	 */
+	public function __construct(
+		public readonly string $messageKey,
+		public readonly array $params = [],
+		public $code = 0,
+		public readonly ?\Throwable $previous = null
+	) {
+		parent::__construct('', $code, $previous);
+	}
 
-    /**
-     * @inheritDoc
-     */
-    public function getMessageKey(): string
-    {
-        return $this->messageKey;
-    }
+	public function getMessageKey(): string
+	{
+		return $this->messageKey;
+	}
 
-    /**
-     * @inheritDoc
-     */
-    public function getParam(string $key): ?string
-    {
-        return $this->params[$key] ?? null;
-    }
+	public function getParam(string $key): ?string
+	{
+		return $this->params[$key] ?? null;
+	}
 }

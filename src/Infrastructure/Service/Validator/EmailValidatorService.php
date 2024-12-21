@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -23,16 +24,13 @@ use yii\validators\EmailValidator;
  */
 final class EmailValidatorService implements EmailValidatorServiceInterface
 {
-    /**
-     * The class constructor
-     */
+	/**
+	 * The class constructor.
+	 */
 	public function __construct(
 		public readonly EmailValidator $validator
 	) {}
 
-    /**
-     * @inheritDoc
-     */
 	public function isValid(mixed $value): bool
 	{
 		return $this->validator->validate($value);

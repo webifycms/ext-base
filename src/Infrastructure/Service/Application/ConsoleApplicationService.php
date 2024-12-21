@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -39,11 +40,11 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		// initialize framework console application
 		try {
 			// Register the configurations to the container,
-            // so where ever we need configurations we can use the ConfigServiceInterface.
+			// so where ever we need configurations we can use the ConfigServiceInterface.
 			$this->dependencyService->getContainer()->setDefinitions([
-                ConsoleApplicationServiceInterface::class => fn () => $this,
-                ConfigServiceInterface::class => fn() => $config
-            ]);
+				ConsoleApplicationServiceInterface::class => fn () => $this,
+				ConfigServiceInterface::class             => fn () => $config,
+			]);
 
 			$this->application = new Application($config->getConfig('framework', self::DEFAULT_CONFIGURATIONS));
 		} catch (\Throwable $throwable) {
@@ -56,10 +57,8 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		}
 	}
 
-    /**
-     * @inheritDoc
-     */
-	#[NoReturn] public function bootstrap(): void
+	#[NoReturn]
+	public function bootstrap(): void
 	{
 		$classes = $this->getConfig('bootstrap', null);
 
@@ -75,9 +74,6 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		exit($output);
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getConfig(?string $key, mixed $default): mixed
 	{
 		/**
@@ -88,17 +84,11 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		return $config->getConfig($key, $default);
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getDependency(): DependencyServiceInterface
 	{
 		return $this->dependencyService;
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getApplication(): Application
 	{
 		return $this->application;
@@ -120,9 +110,6 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		throw new TranslatableRuntimeException('property_not_exist', ['property' => $name]);
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function setApplicationProperty(string $name, mixed $value): void
 	{
 		if ($this->application->canSetProperty($name)) {
@@ -132,9 +119,6 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		$this->application->params[$name] = $value;
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
 		return $this->dependencyService->getContainer()->get($name, $params, $config);

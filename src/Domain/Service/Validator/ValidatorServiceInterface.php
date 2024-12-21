@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -17,11 +18,12 @@ namespace Webify\Base\Domain\Service\Validator;
  */
 interface ValidatorServiceInterface
 {
-    /**
-     * Validates the given value based on specified criteria.
-     *
-     * @param mixed $value The value to be validated.
-     * @return bool Returns true if the value is valid, otherwise false.
-     */
+	/**
+	 * Validates the given value based on specified criteria.
+	 *
+	 * @param mixed $value the value to be validated
+	 *
+	 * @return bool returns true if the value is valid, otherwise false
+	 */
 	public function isValid(mixed $value): bool;
 }

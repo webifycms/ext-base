@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -15,7 +16,7 @@ namespace Webify\Base\Infrastructure\Service\Application;
 use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
 
 /**
- * Interface ApplicationServiceInterface
+ * Interface ApplicationServiceInterface.
  *
  * Defines the contract for managing application services and properties.
  */

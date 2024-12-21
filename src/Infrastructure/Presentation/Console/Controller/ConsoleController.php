@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -17,7 +18,4 @@ use yii\console\Controller;
 /**
  * ConsoleController class is the parent class for console commands controller classes.
  */
-class ConsoleController extends Controller
-{
-
-}
+class ConsoleController extends Controller {}

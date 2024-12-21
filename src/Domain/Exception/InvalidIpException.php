@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -17,7 +18,7 @@ namespace Webify\Base\Domain\Exception;
  */
 final class InvalidIpException extends TranslatableInvalidArgumentException
 {
-    public const MESSAGE_KEY = 'base.invalid_ip';
+	public const MESSAGE_KEY = 'base.invalid_ip';
 
 	/**
 	 * The object constructor.
@@ -25,10 +26,10 @@ final class InvalidIpException extends TranslatableInvalidArgumentException
 	 * @param string[] $params
 	 */
 	public function __construct(
-        string      $messageKey = self::MESSAGE_KEY,
-        array       $params = [],
-        int         $code = 0,
-        ?\Throwable $previous = null
+		string $messageKey = self::MESSAGE_KEY,
+		array $params = [],
+		int $code = 0,
+		?\Throwable $previous = null
 	) {
 		parent::__construct($messageKey, $params, $code, $previous);
 	}

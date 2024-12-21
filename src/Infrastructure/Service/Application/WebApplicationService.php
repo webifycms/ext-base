@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
@@ -53,14 +54,11 @@ final class WebApplicationService implements WebApplicationServiceInterface
 
 		// let's register the application service and the configurations to the container
 		$this->dependencyService->getContainer()->setDefinitions([
-            WebApplicationServiceInterface::class => fn () => $this,
+			WebApplicationServiceInterface::class    => fn () => $this,
 			ConfigServiceInterface::class            => fn () => $config,
 		]);
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function bootstrap(): void
 	{
 		$classes = $this->getConfig('bootstrap', null);
@@ -75,9 +73,6 @@ final class WebApplicationService implements WebApplicationServiceInterface
 		$this->application->run();
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getConfig(?string $key, mixed $default): mixed
 	{
 		/**
@@ -88,17 +83,11 @@ final class WebApplicationService implements WebApplicationServiceInterface
 		return $config->getConfig($key, $default);
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getDependency(): DependencyServiceInterface
 	{
 		return $this->dependencyService;
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getApplication(): Application
 	{
 		return $this->application;
@@ -122,9 +111,6 @@ final class WebApplicationService implements WebApplicationServiceInterface
 		]);
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function setApplicationProperty(string $name, mixed $value): void
 	{
 		if ($this->application->canSetProperty($name)) {
@@ -134,17 +120,11 @@ final class WebApplicationService implements WebApplicationServiceInterface
 		$this->application->params[$name] = $value;
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getAdministrationPath(): string
 	{
 		return $this->administrationPath;
 	}
 
-    /**
-     * @inheritDoc
-     */
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
 		return $this->dependencyService->getContainer()->get($name, $params, $config);
