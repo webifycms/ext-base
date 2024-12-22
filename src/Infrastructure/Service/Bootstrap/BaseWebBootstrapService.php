@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
-use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use yii\web\Application;
 
@@ -30,7 +28,7 @@ abstract class BaseWebBootstrapService implements BootstrapServiceInterface, Web
 	 */
 	public function __construct(
 		private readonly DependencyServiceInterface $dependencyService,
-		private readonly ApplicationServiceInterface|DomainApplicationServiceInterface|WebApplicationServiceInterface $appService,
+		private readonly WebApplicationServiceInterface $appService,
 	) {
 		if ($this instanceof RegisterDependencyBootstrapInterface) {
 			$dependencyService->getContainer()->setDefinitions($this->dependencies());
@@ -58,7 +56,7 @@ abstract class BaseWebBootstrapService implements BootstrapServiceInterface, Web
 		return $this->dependencyService;
 	}
 
-	public function getApplicationService(): ApplicationServiceInterface|DomainApplicationServiceInterface|WebApplicationServiceInterface
+	public function getApplicationService(): WebApplicationServiceInterface
 	{
 		return $this->appService;
 	}

@@ -15,10 +15,10 @@ namespace Webify\Base\Infrastructure;
 
 use Dotenv\Dotenv;
 use Webify\Base\Domain\Exception\FileNotExistException;
-use Webify\Base\Domain\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
+use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use Webify\Base\Infrastructure\Service\Dependency\DependencyService;
-use yii\base\Application;
 use yii\base\View;
 use yii\console\Application as ConsoleApplication;
 use yii\helpers\Url;
@@ -134,22 +134,33 @@ if (!\function_exists('get_env_variable')) {
 	/**
 	 * Returns the env variable value for the given name.
 	 *
-	 * @param string $name variable name
+	 * @param string $name    variable name
+	 * @param mixed  $default default value will be assign if the variable not set in the env
 	 */
-	function get_env_variable(string $name): mixed
+	function get_env_variable(string $name, mixed $default = null): mixed
 	{
 		// @todo Should we check first before call it?
-		return $_ENV[$name];
+		return $_ENV[$name] ?? $default;
 	}
 }
 
 if (!\function_exists('app')) {
 	/**
-	 * Returns the framework's application component.
+	 * Returns the framework's web application component.
 	 */
-	function app(): Application|ConsoleApplication|WebApplication
+	function app(): WebApplication
 	{
-		return dependency()->getContainer()->get(ApplicationServiceInterface::class)->getApplication();
+		return dependency()->getContainer()->get(WebApplicationServiceInterface::class)->getApplication();
+	}
+}
+
+if (!\function_exists('console_app')) {
+	/**
+	 * Returns the framework's console application component.
+	 */
+	function console_app(): ConsoleApplication
+	{
+		return dependency()->getContainer()->get(ConsoleApplicationServiceInterface::class)->getApplication();
 	}
 }
 

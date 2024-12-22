@@ -13,9 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
-use Webify\Base\Domain\Service\Application\ApplicationServiceInterface as DomainApplicationServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 
 use function Webify\Base\Infrastructure\get_alias;
@@ -36,7 +34,7 @@ final class WebBootstrapService extends BaseWebBootstrapService implements Regis
 	 */
 	public function __construct(
 		DependencyServiceInterface $dependencyService,
-		ApplicationServiceInterface|DomainApplicationServiceInterface|WebApplicationServiceInterface $appService
+		WebApplicationServiceInterface $appService
 	) {
 		set_alias('@Base', '@Extensions/ext-base');
 		parent::__construct($dependencyService, $appService);
