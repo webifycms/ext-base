@@ -23,22 +23,14 @@ use function Webify\Base\Infrastructure\set_alias;
  */
 abstract class Theme extends BaseTheme implements ThemeInterface
 {
-	private string $id;
-
+	/**
+	 * Initializes the theme component by setting the current theme path as `@Theme` alias.
+	 */
 	public function init(): void
 	{
 		set_alias('@Theme', $this->getBasePath());
-
-		if (empty($this->id)) {
-			$explode  = explode('/', $this->getBasePath());
-			$this->id = end($explode);
-		}
-
 		parent::init();
 	}
 
-	public function getId(): string
-	{
-		return $this->id;
-	}
+	abstract public function getId(): string;
 }
