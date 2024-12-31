@@ -19,7 +19,6 @@ use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use Webify\Base\Infrastructure\Service\Dependency\DependencyService;
-use yii\base\View;
 use yii\console\Application as ConsoleApplication;
 use yii\helpers\Url;
 use yii\web\Application as WebApplication;
@@ -168,7 +167,7 @@ if (!\function_exists('view')) {
 	/**
 	 * Returns the framework's view component.
 	 */
-	function view(): View|WebView
+	function view(): WebView
 	{
 		return app()->getView();
 	}

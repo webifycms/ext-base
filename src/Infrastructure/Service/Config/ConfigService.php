@@ -40,9 +40,6 @@ final class ConfigService implements ConfigServiceInterface
 		return $this;
 	}
 
-	/**
-	 * @throws \Exception
-	 */
 	public function getConfig(?string $key = null, mixed $default = null): mixed
 	{
 		if (null === $key) {
@@ -51,12 +48,12 @@ final class ConfigService implements ConfigServiceInterface
 
 		try {
 			return ArrayHelper::getValue($this->config, $key, $default);
-		} catch (\Throwable $exception) {
+		} catch (\Throwable $e) {
 			throw new ConfigNotFoundException(
 				ConfigNotFoundException::MESSAGE_KEY,
-				['key' => $key],
-				0,
-				$exception
+				['config_key' => $key],
+				null,
+				$e
 			);
 		}
 	}

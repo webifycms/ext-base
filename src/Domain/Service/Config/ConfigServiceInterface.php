@@ -38,5 +38,5 @@ interface ConfigServiceInterface
 	 * @param ?string $key the config key can support any deep,
 	 *                     you must separate with the period (e.g. "framework.component.user").
 	 */
-	public function getConfig(?string $key, mixed $default): mixed;
+	public function getConfig(?string $key, mixed $default = null): mixed;
 }

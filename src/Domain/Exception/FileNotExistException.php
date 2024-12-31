@@ -23,12 +23,12 @@ final class FileNotExistException extends TranslatableRuntimeException
 	/**
 	 * The class constructor.
 	 *
-	 * @param string[] $params
+	 * @param array<string>|array{} $params
 	 */
 	public function __construct(
 		string $messageKey = self::MESSAGE_KEY,
 		array $params = [],
-		int $code = 0,
+		?int $code = null,
 		?\Throwable $previous = null
 	) {
 		parent::__construct($messageKey, $params, $code, $previous);
