@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
-use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use yii\web\Application;
 
@@ -27,39 +27,57 @@ abstract class BaseWebBootstrapService implements BootstrapServiceInterface, Web
 	 * The object constructor.
 	 */
 	public function __construct(
-		private readonly DependencyServiceInterface $dependencyService,
-		private readonly WebApplicationServiceInterface $appService,
+		private readonly ConfigServiceInterface $configService,
+		private readonly WebApplicationServiceInterface $webApplicationService
 	) {
-		if ($this instanceof RegisterDependencyBootstrapInterface) {
-			$dependencyService->getContainer()->setDefinitions($this->dependencies());
-		}
-
-		if ($this instanceof RegisterControllersBootstrapInterface) {
-			$appService->setApplicationProperty(
-				'controllerMap',
-				array_merge($appService->getApplicationProperty('controllerMap'), $this->controllers())
-			);
-		}
-
-		if ($this instanceof RegisterRoutesBootstrapInterface) {
-			$appService->getApplication()->getUrlManager()->addRules($this->routes(), false);
-		}
+		$this->registerDependencies();
+		$this->registerControllers();
+		$this->registerRoutes();
 	}
 
 	public function getApplication(): Application
 	{
-		return $this->appService->getApplication();
+		return $this->webApplicationService->getApplication();
 	}
 
-	public function getDependencyService(): DependencyServiceInterface
+	public function getAdministrationPath(): string
 	{
-		return $this->dependencyService;
+		return $this->webApplicationService->getAdministrationPath();
 	}
 
-	public function getApplicationService(): WebApplicationServiceInterface
+	private function registerDependencies(): void
 	{
-		return $this->appService;
+		if ($this instanceof RegisterDependencyBootstrapInterface) {
+			$dependencies = array_merge(
+				$this->configService->getConfig('framework.container', []),
+				$this->dependencies()
+			);
+
+			$this->configService->setConfig('framework.container', $dependencies);
+		}
 	}
 
-	abstract public function init(): void;
+	private function registerControllers(): void
+	{
+		if ($this instanceof RegisterControllersBootstrapInterface) {
+			$controllerMap = array_merge(
+				$this->configService->getConfig('framework.controllerMap', []),
+				$this->controllers()
+			);
+
+			$this->configService->setConfig('framework.controllerMap', $controllerMap);
+		}
+	}
+
+	private function registerRoutes(): void
+	{
+		if ($this instanceof RegisterRoutesBootstrapInterface) {
+			$routes = array_merge(
+				$this->configService->getConfig('framework.components.urlManager.rules', []),
+				$this->routes()
+			);
+
+			$this->configService->setConfig('framework.components.urlManager.rules', $routes);
+		}
+	}
 }

@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Service\Application;
 
-use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
-
 /**
  * Defines the contract for the application service.
  */
@@ -37,11 +35,4 @@ interface ApplicationServiceInterface
 	 * @param ?string $key the config key can support any deep, you must separate with the period (e.g. "framework.component.user").
 	 */
 	public function getConfig(?string $key, mixed $default): mixed;
-
-	/**
-	 * Returns the dependency service instance.
-	 *
-	 * @todo Should finds out, weather is it needed in the application service.
-	 */
-	public function getDependency(): DependencyServiceInterface;
 }

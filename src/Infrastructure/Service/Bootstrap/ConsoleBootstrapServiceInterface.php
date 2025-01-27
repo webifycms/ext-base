@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
-use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
+use yii\console\Application;
 
 /**
  * ConsoleBootstrapServiceInterface.
@@ -21,7 +21,7 @@ use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInte
 interface ConsoleBootstrapServiceInterface
 {
 	/**
-	 * Returns the console application service instance.
+	 * Returns the console application instance.
 	 */
-	public function getApplicationService(): ConsoleApplicationServiceInterface;
+	public function getApplication(): Application;
 }

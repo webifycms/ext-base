@@ -37,16 +37,17 @@ final class DateTimeValueObject
 		\DateTimeInterface|string $datetime,
 		?string $format = null
 	) {
-		try {
-			$datetime = !$datetime instanceof \DateTimeImmutable ?
-				new \DateTimeImmutable($datetime) : $datetime;
-		} catch (\Throwable $exception) {
-			throw new InvalidDatetimeException(
-				InvalidDatetimeException::MESSAGE_KEY,
-				['datetime' => $datetime],
-				0,
-				$exception
-			);
+		if (is_string($datetime)) {
+			try {
+				$datetime = new \DateTimeImmutable($datetime);
+			} catch (\Throwable $exception) {
+				throw new InvalidDatetimeException(
+					InvalidDatetimeException::MESSAGE_KEY,
+					['datetime' => $datetime],
+					$exception->getCode(),
+					$exception
+				);
+			}
 		}
 
 		$this->datetime = $datetime;
@@ -66,7 +67,7 @@ final class DateTimeValueObject
 	/**
 	 * Creates datetime value object from the given datetime string or object.
 	 */
-	public static function create(\DateTimeImmutable|string $datetime = 'now'): self
+	public static function create(\DateTimeInterface|string $datetime = 'now'): self
 	{
 		return new self($datetime);
 	}
@@ -76,22 +77,19 @@ final class DateTimeValueObject
 	 */
 	public static function createFromFormat(string $format, string $datetime): self
 	{
-		try {
-			return new self(
-				\DateTimeImmutable::createFromFormat($format, $datetime),
-				$format
-			);
-		} catch (\Throwable $exception) {
+		$datetimeObj = \DateTimeImmutable::createFromFormat($format, $datetime);
+
+		if (false === $datetimeObj) {
 			throw new InvalidDatetimeException(
 				'base.invalid_format_or_datetime',
 				[
 					'datetime' => $datetime,
 					'format'   => $format,
-				],
-				0,
-				$exception
+				]
 			);
 		}
+
+		return new self($datetimeObj, $format);
 	}
 
 	/**

@@ -32,12 +32,12 @@ interface ApplicationServiceInterface extends DomainApplicationServiceInterface
 	public function getService(string $name, array $params, array $config): mixed;
 
 	/**
-	 * Shortcut and safe method to get the value of the application property.
+	 * Shortcut and safe method to get the value of the framework application property.
 	 */
 	public function getApplicationProperty(string $name): mixed;
 
 	/**
-	 * Shortcut and safe method to set the value of the application property.
+	 * Shortcut and safe method to set the value of the framework application property.
 	 */
 	public function setApplicationProperty(string $name, mixed $value): void;
 }

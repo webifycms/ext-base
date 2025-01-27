@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
-use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
+use yii\console\Application;
 
 /**
  * Console application bootstrap service class that helps to bootstrap components.
@@ -26,30 +27,39 @@ abstract class BaseConsoleBootstrapService implements BootstrapServiceInterface,
 	 * The object constructor.
 	 */
 	public function __construct(
-		private readonly DependencyServiceInterface $dependencyService,
-		private readonly ConsoleApplicationServiceInterface $appService,
+		private readonly ConfigServiceInterface $configService,
+		private readonly ConsoleApplicationServiceInterface $consoleApplicationService,
 	) {
+		$this->registerDependencies();
+		$this->registerControllers();
+	}
+
+	public function getApplication(): Application
+	{
+		return $this->consoleApplicationService->getApplication();
+	}
+
+	private function registerDependencies(): void
+	{
 		if ($this instanceof RegisterDependencyBootstrapInterface) {
-			$dependencyService->getContainer()->setDefinitions($this->dependencies());
-		}
-
-		if ($this instanceof RegisterControllersBootstrapInterface) {
-			$appService->setApplicationProperty(
-				'controllerMap',
-				array_merge($appService->getApplicationProperty('controllerMap'), $this->controllers())
+			$dependencies = array_merge(
+				$this->configService->getConfig('framework.container', []),
+				$this->dependencies()
 			);
+
+			$this->configService->setConfig('framework.container', $dependencies);
 		}
 	}
 
-	public function getDependencyService(): DependencyServiceInterface
+	private function registerControllers(): void
 	{
-		return $this->dependencyService;
-	}
+		if ($this instanceof RegisterControllersBootstrapInterface) {
+			$controllerMap = array_merge(
+				$this->configService->getConfig('framework.controllerMap', []),
+				$this->controllers()
+			);
 
-	public function getApplicationService(): ConsoleApplicationServiceInterface
-	{
-		return $this->appService;
+			$this->configService->setConfig('framework.controllerMap', $controllerMap);
+		}
 	}
-
-	abstract public function init(): void;
 }

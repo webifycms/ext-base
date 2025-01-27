@@ -14,19 +14,18 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Application;
 
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
+use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
+use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Infrastructure\Service\Administration\AdministrationService;
 use yii\web\Application;
-
-use function Webify\Base\Infrastructure\log_message;
 
 /**
  * Web application service that is contains the web application instance.
  */
 final class WebApplicationService implements WebApplicationServiceInterface
 {
-	private const DEFAULT_CONFIGURATIONS = ['id' => 'web'];
-
 	private readonly Application $application;
 
 	private readonly string $administrationPath;
@@ -36,37 +35,54 @@ final class WebApplicationService implements WebApplicationServiceInterface
 	 */
 	public function __construct(
 		private readonly DependencyServiceInterface $dependencyService,
-		ConfigServiceInterface $config
+		private readonly ConfigServiceInterface $configService
 	) {
-		$this->administrationPath = $config->getConfig('administrationPath', self::DEFAULT_ADMINISTRATION_PATH);
+		$this->administrationPath = $configService->getConfig(
+			'administrationPath',
+			self::DEFAULT_ADMINISTRATION_PATH
+		);
+		$adminService = new AdministrationService($this->administrationPath);
+
+		// let's register the high level services to container
+		// @phpstan-ignore-next-line
+		$this->dependencyService->getContainer()->setDefinitions(
+			[
+				WebApplicationServiceInterface::class    => fn () => $this,
+				ConfigServiceInterface::class            => fn () => $this->configService,
+				AdministrationServiceInterface::class    => fn () => $adminService,
+			]
+		);
 
 		// initialize framework web application
 		try {
-			$this->application = new Application($config->getConfig('framework', self::DEFAULT_CONFIGURATIONS));
+			$this->application = new Application(
+				$this->configService->getConfig('framework')
+			);
 		} catch (\Throwable $throwable) {
-			log_message('debug', [
-				'message' => $throwable->getMessage(),
-				'trace'   => $throwable->getTraceAsString(),
-			]);
-
-			throw new TranslatableRuntimeException('unable_to_initiate_app');
+			throw new TranslatableRuntimeException(
+				'unable_to_init_app',
+				[],
+				$throwable->getCode(),
+				$throwable
+			);
 		}
 
-		// let's register the application service and the configurations to the container
-		$this->dependencyService->getContainer()->setDefinitions([
-			WebApplicationServiceInterface::class    => fn () => $this,
-			ConfigServiceInterface::class            => fn () => $config,
-		]);
+		$this->bootstrap();
 	}
 
 	public function bootstrap(): void
 	{
-		$classes = $this->getConfig('bootstrap', null);
+		$classes = $this->configService->getConfig('bootstrap', null);
 
-		// if have bootstrap classes, initiate & run them
+		// let's initialize the bootstrap classes
 		if (!empty($classes)) {
 			foreach ($classes as $class) {
-				(new $class($this->dependencyService, $this))->init();
+				/**
+				 * @var BootstrapServiceInterface $object
+				 */
+				$object = new $class($this->configService, $this);
+
+				$object->init();
 			}
 		}
 
@@ -75,17 +91,7 @@ final class WebApplicationService implements WebApplicationServiceInterface
 
 	public function getConfig(?string $key, mixed $default): mixed
 	{
-		/**
-		 * @var ConfigServiceInterface $config
-		 */
-		$config = $this->getService(ConfigServiceInterface::class);
-
-		return $config->getConfig($key, $default);
-	}
-
-	public function getDependency(): DependencyServiceInterface
-	{
-		return $this->dependencyService;
+		return $this->configService->getConfig($key, $default);
 	}
 
 	public function getApplication(): Application
@@ -102,8 +108,8 @@ final class WebApplicationService implements WebApplicationServiceInterface
 			return $this->application->{$name};
 		}
 
-		if (isset($this->application['params'][$name])) {
-			return $this->application['params'][$name];
+		if (isset($this->application->params[$name])) {
+			return $this->application->params[$name];
 		}
 
 		throw new TranslatableRuntimeException('property_not_exist', [
@@ -127,6 +133,7 @@ final class WebApplicationService implements WebApplicationServiceInterface
 
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
+		// @phpstan-ignore-next-line
 		return $this->dependencyService->getContainer()->get($name, $params, $config);
 	}
 }
