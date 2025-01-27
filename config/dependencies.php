@@ -24,5 +24,8 @@ use function Webify\Base\Infrastructure\dependency;
 $container = dependency()->getContainer();
 
 return [
-	EmailValidatorServiceInterface::class => fn () => new EmailValidatorService(new EmailValidator()),
+	'definitions' => [
+		EmailValidatorServiceInterface::class => fn () => new EmailValidatorService(new EmailValidator()),
+	],
+	'singletons' => [],
 ];

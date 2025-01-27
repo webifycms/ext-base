@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Service\Bootstrap;
 
-use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
-
 /**
  * BootstrapServiceInterface.
  */
@@ -24,9 +22,4 @@ interface BootstrapServiceInterface
 	 * Initialize the bootstrap service.
 	 */
 	public function init(): void;
-
-	/**
-	 * Returns the dependency service instance.
-	 */
-	public function getDependencyService(): DependencyServiceInterface;
 }

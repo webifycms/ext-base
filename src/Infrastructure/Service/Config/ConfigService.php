@@ -42,6 +42,7 @@ final class ConfigService implements ConfigServiceInterface
 
 	public function getConfig(?string $key = null, mixed $default = null): mixed
 	{
+		// if `$key` not specified, returns the entire configurations
 		if (null === $key) {
 			return $this->config;
 		}
@@ -52,7 +53,7 @@ final class ConfigService implements ConfigServiceInterface
 			throw new ConfigNotFoundException(
 				ConfigNotFoundException::MESSAGE_KEY,
 				['config_key' => $key],
-				null,
+				$e->getCode(),
 				$e
 			);
 		}

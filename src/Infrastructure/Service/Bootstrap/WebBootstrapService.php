@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
-use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 
 use function Webify\Base\Infrastructure\get_alias;
@@ -33,16 +33,16 @@ final class WebBootstrapService extends BaseWebBootstrapService implements Regis
 	 * The class constructor.
 	 */
 	public function __construct(
-		DependencyServiceInterface $dependencyService,
-		WebApplicationServiceInterface $appService
+		ConfigServiceInterface $configService,
+		WebApplicationServiceInterface $webApplicationService,
 	) {
 		set_alias('@Base', '@Extensions/ext-base');
-		parent::__construct($dependencyService, $appService);
+		parent::__construct($configService, $webApplicationService);
 	}
 
 	public function dependencies(): array
 	{
-		return include_once get_alias('@Base/config/dependencies.php');
+		return require get_alias('@Base/config/dependencies.php');
 	}
 
 	public function init(): void {}

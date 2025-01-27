@@ -15,10 +15,13 @@ namespace Webify\Base\Infrastructure;
 
 use Dotenv\Dotenv;
 use Webify\Base\Domain\Exception\FileNotExistException;
+use Webify\Base\Domain\Exception\TranslatableRuntimeException;
+use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
 use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
 use Webify\Base\Infrastructure\Service\Dependency\DependencyService;
+use Yii;
+use yii\base\View as BaseView;
 use yii\console\Application as ConsoleApplication;
 use yii\helpers\Url;
 use yii\web\Application as WebApplication;
@@ -102,10 +105,15 @@ if (!\function_exists('dependency')) {
 	function dependency(): DependencyServiceInterface
 	{
 		try {
-			return \Yii::$container->get(DependencyServiceInterface::class);
+			/**
+			 * @var DependencyServiceInterface $service
+			 */
+			$service = \Yii::$container->get(DependencyServiceInterface::class);
 		} catch (\Throwable) {
-			return new DependencyService();
+			$service = new DependencyService();
 		}
+
+		return $service;
 	}
 }
 
@@ -134,7 +142,7 @@ if (!\function_exists('get_env_variable')) {
 	 * Returns the env variable value for the given name.
 	 *
 	 * @param string $name    variable name
-	 * @param mixed  $default default value will be assign if the variable not set in the env
+	 * @param mixed  $default default value will be assigned if the variable not set in the env
 	 */
 	function get_env_variable(string $name, mixed $default = null): mixed
 	{
@@ -149,7 +157,11 @@ if (!\function_exists('app')) {
 	 */
 	function app(): WebApplication
 	{
-		return dependency()->getContainer()->get(WebApplicationServiceInterface::class)->getApplication();
+		if (\Yii::$app instanceof WebApplication) {
+			return \Yii::$app;
+		}
+
+		throw new TranslatableRuntimeException('web_app_not_initialized');
 	}
 }
 
@@ -159,7 +171,53 @@ if (!\function_exists('console_app')) {
 	 */
 	function console_app(): ConsoleApplication
 	{
-		return dependency()->getContainer()->get(ConsoleApplicationServiceInterface::class)->getApplication();
+		if (\Yii::$app instanceof ConsoleApplication) {
+			return \Yii::$app;
+		}
+
+		throw new TranslatableRuntimeException('console_app_not_initialized');
+	}
+}
+
+if (!\function_exists('administration_path')) {
+	/**
+	 * Returns the administration path.
+	 */
+	function administration_path(): string
+	{
+		// @phpstan-ignore-next-line
+		return dependency()->getContainer()->get(WebApplicationServiceInterface::class)->getAdministrationPath();
+	}
+}
+
+if (!\function_exists('administration')) {
+	/**
+	 * Returns the administration service instance.
+	 */
+	function administration(): AdministrationServiceInterface
+	{
+		// @phpstan-ignore-next-line
+		return dependency()->getContainer()->get(AdministrationServiceInterface::class);
+	}
+}
+
+if (!\function_exists('in_administration')) {
+	/**
+	 * Check weather in administration.
+	 */
+	function in_administration(): bool
+	{
+		return administration()->inAdministration();
+	}
+}
+
+if (!\function_exists('administration_url')) {
+	/**
+	 * Returns the administration url.
+	 */
+	function administration_url(): string
+	{
+		return url(administration()->getUrl());
 	}
 }
 
@@ -167,7 +225,7 @@ if (!\function_exists('view')) {
 	/**
 	 * Returns the framework's view component.
 	 */
-	function view(): WebView
+	function view(): BaseView|WebView
 	{
 		return app()->getView();
 	}
@@ -221,7 +279,7 @@ if (!\function_exists('previous_url')) {
 	/**
 	 * Returns the URL previously remember or remembered.
 	 */
-	function previous_url(?string $name = null): string
+	function previous_url(?string $name = null): ?string
 	{
 		return Url::previous($name);
 	}

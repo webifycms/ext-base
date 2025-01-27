@@ -13,21 +13,17 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Application;
 
-use JetBrains\PhpStorm\NoReturn;
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
+use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use yii\console\Application;
-
-use function Webify\Base\Infrastructure\log_message;
 
 /**
  * Console application service that is contains the console application instance.
  */
 final class ConsoleApplicationService implements ConsoleApplicationServiceInterface
 {
-	private const DEFAULT_CONFIGURATIONS = ['id' => 'console'];
-
 	private readonly Application $application;
 
 	/**
@@ -35,37 +31,43 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 	 */
 	public function __construct(
 		private readonly DependencyServiceInterface $dependencyService,
-		ConfigServiceInterface $config
+		private readonly ConfigServiceInterface $configService
 	) {
 		// initialize framework console application
 		try {
-			// Register the configurations to the container,
-			// so where ever we need configurations we can use the ConfigServiceInterface.
+			// let's register the high level services to container
+			// @phpstan-ignore-next-line
 			$this->dependencyService->getContainer()->setDefinitions([
 				ConsoleApplicationServiceInterface::class => fn () => $this,
-				ConfigServiceInterface::class             => fn () => $config,
+				ConfigServiceInterface::class             => fn () => $this->configService,
 			]);
 
-			$this->application = new Application($config->getConfig('framework', self::DEFAULT_CONFIGURATIONS));
+			$this->application = new Application(
+				$this->configService->getConfig('framework')
+			);
 		} catch (\Throwable $throwable) {
-			log_message('debug', [
-				'message' => $throwable->getMessage(),
-				'trace'   => $throwable->getTraceAsString(),
-			]);
-
-			throw new TranslatableRuntimeException('unable_to_initiate_app');
+			throw new TranslatableRuntimeException(
+				'unable_to_init_app',
+				[],
+				$throwable->getCode(),
+				$throwable
+			);
 		}
 	}
 
-	#[NoReturn]
 	public function bootstrap(): void
 	{
-		$classes = $this->getConfig('bootstrap', null);
+		$classes = $this->configService->getConfig('bootstrap', null);
 
 		// initiate & run the bootstrap classes
 		if (!empty($classes)) {
 			foreach ($classes as $class) {
-				(new $class($this->dependencyService, $this))->init();
+				/**
+				 * @var BootstrapServiceInterface $object
+				 */
+				$object = new $class($this->configService, $this);
+
+				$object->init();
 			}
 		}
 
@@ -76,17 +78,7 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 
 	public function getConfig(?string $key, mixed $default): mixed
 	{
-		/**
-		 * @var ConfigServiceInterface $config
-		 */
-		$config = $this->getService(ConfigServiceInterface::class);
-
-		return $config->getConfig($key, $default);
-	}
-
-	public function getDependency(): DependencyServiceInterface
-	{
-		return $this->dependencyService;
+		return $this->configService->getConfig($key, $default);
 	}
 
 	public function getApplication(): Application
@@ -103,8 +95,8 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 			return $this->application->{$name};
 		}
 
-		if (isset($this->application['params'][$name])) {
-			return $this->application['params'][$name];
+		if (isset($this->application->params[$name])) {
+			return $this->application->params[$name];
 		}
 
 		throw new TranslatableRuntimeException('property_not_exist', ['property' => $name]);
@@ -121,6 +113,7 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
+		// @phpstan-ignore-next-line
 		return $this->dependencyService->getContainer()->get($name, $params, $config);
 	}
 }
