@@ -32,7 +32,7 @@ final class AdministrationService implements AdministrationServiceInterface
 	public function __construct(
 		public readonly string $path
 	) {
-		$this->url    = '/' . $this->path;
+		$this->url = '/' . $this->path;
 
 		if (str_starts_with($_SERVER['REQUEST_URI'], $this->url)) {
 			$this->inAdministration = true;

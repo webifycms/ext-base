@@ -18,17 +18,28 @@ use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Infrastructure\Component\Application\WebApplicationComponent;
 use Webify\Base\Infrastructure\Service\Administration\AdministrationService;
-use yii\web\Application;
+use Webify\Base\Infrastructure\Service\Bootstrap\WebBootstrapServiceInterface;
+use yii\base\InvalidConfigException;
+use yii\di\Container;
+use yii\di\NotInstantiableException;
 
 /**
  * Web application service that is contains the web application instance.
  */
 final class WebApplicationService implements WebApplicationServiceInterface
 {
-	private readonly Application $application;
+	private WebApplicationComponent $application;
 
 	private readonly string $administrationPath;
+
+	/**
+	 * @var array<BootstrapServiceInterface>
+	 */
+	private array $bootstrap = [];
+
+	private readonly Container $container;
 
 	/**
 	 * Application constructor.
@@ -37,52 +48,54 @@ final class WebApplicationService implements WebApplicationServiceInterface
 		private readonly DependencyServiceInterface $dependencyService,
 		private readonly ConfigServiceInterface $configService
 	) {
-		$this->administrationPath = $configService->getConfig(
+		/**
+		 * @var Container $container
+		 */
+		$container                      = $this->dependencyService->getContainer();
+		$this->container                = $container;
+		$this->administrationPath       = $configService->getConfig(
 			'administrationPath',
 			self::DEFAULT_ADMINISTRATION_PATH
 		);
-		$adminService = new AdministrationService($this->administrationPath);
 
-		// let's register the high level services to container
-		// @phpstan-ignore-next-line
-		$this->dependencyService->getContainer()->setDefinitions(
+		// let's register the high level services to the container
+		$this->container->setSingletons(
 			[
-				WebApplicationServiceInterface::class    => fn () => $this,
-				ConfigServiceInterface::class            => fn () => $this->configService,
-				AdministrationServiceInterface::class    => fn () => $adminService,
+				ConfigServiceInterface::class         => fn () => $this->configService,
+				WebApplicationServiceInterface::class => fn () => $this,
+				AdministrationServiceInterface::class => fn () => new AdministrationService($this->administrationPath),
 			]
 		);
 
-		// initialize framework web application
-		try {
-			$this->application = new Application(
-				$this->configService->getConfig('framework')
-			);
-		} catch (\Throwable $throwable) {
-			throw new TranslatableRuntimeException(
-				'unable_to_init_app',
-				[],
-				$throwable->getCode(),
-				$throwable
-			);
-		}
-
-		$this->bootstrap();
-	}
-
-	public function bootstrap(): void
-	{
-		$classes = $this->configService->getConfig('bootstrap', null);
+		$bootstrapClasses = $this->configService->getConfig('bootstrap', []);
 
 		// let's initialize the bootstrap classes
-		if (!empty($classes)) {
-			foreach ($classes as $class) {
+		if (!empty($bootstrapClasses)) {
+			foreach ($bootstrapClasses as $class) {
 				/**
-				 * @var BootstrapServiceInterface $object
+				 * @var BootstrapServiceInterface $class
 				 */
-				$object = new $class($this->configService, $this);
+				$class             = new $class($this->dependencyService, $this->configService);
+				$this->bootstrap[] = $class;
+			}
+		}
+	}
 
-				$object->init();
+	/**
+	 * @throws InvalidConfigException
+	 */
+	public function run(): void
+	{
+		// initialize framework web application
+		$this->application = new WebApplicationComponent(
+			$this->configService->getConfig('framework')
+		);
+
+		if (!empty($this->bootstrap)) {
+			foreach ($this->bootstrap as $object) {
+				if ($object instanceof WebBootstrapServiceInterface) {
+					$object->bootstrap($this);
+				}
 			}
 		}
 
@@ -94,13 +107,13 @@ final class WebApplicationService implements WebApplicationServiceInterface
 		return $this->configService->getConfig($key, $default);
 	}
 
-	public function getApplication(): Application
+	public function getApplication(): WebApplicationComponent
 	{
 		return $this->application;
 	}
 
 	/**
-	 * @throws TranslatableRuntimeException if property not exist or set
+	 * @throws TranslatableRuntimeException if property not exist
 	 */
 	public function getApplicationProperty(string $name): mixed
 	{
@@ -133,7 +146,15 @@ final class WebApplicationService implements WebApplicationServiceInterface
 
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
-		// @phpstan-ignore-next-line
-		return $this->dependencyService->getContainer()->get($name, $params, $config);
+		try {
+			return $this->container->get($name, $params, $config);
+		} catch (InvalidConfigException|NotInstantiableException $e) {
+			throw new TranslatableRuntimeException(
+				'service_not_exist',
+				['service' => $name],
+				$e->getCode(),
+				$e
+			);
+		}
 	}
 }

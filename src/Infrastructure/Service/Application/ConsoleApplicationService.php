@@ -17,14 +17,24 @@ use Webify\Base\Domain\Exception\TranslatableRuntimeException;
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Webify\Base\Infrastructure\Service\Bootstrap\ConsoleBootstrapServiceInterface;
+use yii\base\InvalidConfigException;
 use yii\console\Application;
+use yii\di\Container;
 
 /**
  * Console application service that is contains the console application instance.
  */
 final class ConsoleApplicationService implements ConsoleApplicationServiceInterface
 {
-	private readonly Application $application;
+	private Application $application;
+
+	private readonly Container $container;
+
+	/**
+	 * @var array<BootstrapServiceInterface>
+	 */
+	private array $bootstrap = [];
 
 	/**
 	 * Application constructor.
@@ -33,41 +43,48 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		private readonly DependencyServiceInterface $dependencyService,
 		private readonly ConfigServiceInterface $configService
 	) {
-		// initialize framework console application
-		try {
-			// let's register the high level services to container
-			// @phpstan-ignore-next-line
-			$this->dependencyService->getContainer()->setDefinitions([
-				ConsoleApplicationServiceInterface::class => fn () => $this,
-				ConfigServiceInterface::class             => fn () => $this->configService,
-			]);
+		/**
+		 * @var Container $container
+		 */
+		$container                      = $this->dependencyService->getContainer();
+		$this->container                = $container;
 
-			$this->application = new Application(
-				$this->configService->getConfig('framework')
-			);
-		} catch (\Throwable $throwable) {
-			throw new TranslatableRuntimeException(
-				'unable_to_init_app',
-				[],
-				$throwable->getCode(),
-				$throwable
-			);
+		// let's register the high level services to the container
+		$this->container->setSingletons(
+			[
+				ConfigServiceInterface::class             => fn () => $this->configService,
+				ConsoleApplicationServiceInterface::class => fn () => $this,
+			]
+		);
+
+		$bootstrapClasses = $this->configService->getConfig('bootstrap', []);
+
+		// let's initialize the bootstrap classes
+		if (!empty($bootstrapClasses)) {
+			foreach ($bootstrapClasses as $class) {
+				/**
+				 * @var BootstrapServiceInterface $class
+				 */
+				$class             = new $class($this->dependencyService, $this->configService);
+				$this->bootstrap[] = $class;
+			}
 		}
 	}
 
-	public function bootstrap(): void
+	/**
+	 * @throws InvalidConfigException
+	 */
+	public function run(): void
 	{
-		$classes = $this->configService->getConfig('bootstrap', null);
+		$this->application = new Application(
+			$this->configService->getConfig('framework')
+		);
 
-		// initiate & run the bootstrap classes
-		if (!empty($classes)) {
-			foreach ($classes as $class) {
-				/**
-				 * @var BootstrapServiceInterface $object
-				 */
-				$object = new $class($this->configService, $this);
-
-				$object->init();
+		if (!empty($this->bootstrap)) {
+			foreach ($this->bootstrap as $object) {
+				if ($object instanceof ConsoleBootstrapServiceInterface) {
+					$object->bootstrap($this);
+				}
 			}
 		}
 

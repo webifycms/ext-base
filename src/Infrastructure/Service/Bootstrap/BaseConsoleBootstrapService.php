@@ -15,8 +15,8 @@ namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\ConsoleApplicationServiceInterface;
-use yii\console\Application;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use yii\di\Container;
 
 /**
  * Console application bootstrap service class that helps to bootstrap components.
@@ -27,39 +27,42 @@ abstract class BaseConsoleBootstrapService implements BootstrapServiceInterface,
 	 * The object constructor.
 	 */
 	public function __construct(
-		private readonly ConfigServiceInterface $configService,
-		private readonly ConsoleApplicationServiceInterface $consoleApplicationService,
+		private readonly DependencyServiceInterface $dependencyService,
+		private readonly ConfigServiceInterface $configService
 	) {
-		$this->registerDependencies();
-		$this->registerControllers();
+		/**
+		 * @var Container $container
+		 */
+		$container = $this->dependencyService->getContainer();
+
+		$this->registerDependencies($container);
+		$this->registerControllers($this->configService);
 	}
 
-	public function getApplication(): Application
+	private function registerDependencies(Container $container): void
 	{
-		return $this->consoleApplicationService->getApplication();
-	}
+		if ($this instanceof RegisterDependenciesBootstrapInterface) {
+			$dependencies = $this->dependencies();
 
-	private function registerDependencies(): void
-	{
-		if ($this instanceof RegisterDependencyBootstrapInterface) {
-			$dependencies = array_merge(
-				$this->configService->getConfig('framework.container', []),
-				$this->dependencies()
-			);
+			if (isset($dependencies['definitions'])) {
+				$container->setDefinitions($dependencies['definitions']);
+			}
 
-			$this->configService->setConfig('framework.container', $dependencies);
+			if (isset($dependencies['singletons'])) {
+				$container->setSingletons($dependencies['singletons']);
+			}
 		}
 	}
 
-	private function registerControllers(): void
+	private function registerControllers(ConfigServiceInterface $configService): void
 	{
-		if ($this instanceof RegisterControllersBootstrapInterface) {
+		if ($this instanceof RegisterControllerMapBootstrapInterface) {
 			$controllerMap = array_merge(
-				$this->configService->getConfig('framework.controllerMap', []),
-				$this->controllers()
+				$configService->getConfig('framework.controllerMap', []),
+				$this->controllerMap()
 			);
 
-			$this->configService->setConfig('framework.controllerMap', $controllerMap);
+			$configService->setConfig('framework.controllerMap', $controllerMap);
 		}
 	}
 }

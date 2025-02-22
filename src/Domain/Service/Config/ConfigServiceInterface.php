@@ -24,6 +24,11 @@ namespace Webify\Base\Domain\Service\Config;
 interface ConfigServiceInterface
 {
 	/**
+	 * Caching key.
+	 */
+	public const CACHE_KEY = 'config';
+
+	/**
 	 * Set a new configuration or override existing configuration value for the given key.
 	 *
 	 * @param string $key the config key can support any deep,

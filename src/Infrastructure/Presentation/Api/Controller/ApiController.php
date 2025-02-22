@@ -16,6 +16,6 @@ namespace Webify\Base\Infrastructure\Presentation\Api\Controller;
 use yii\rest\Controller;
 
 /**
- * ApiController class is the parent class for web request controller classes.
+ * ApiController class is the parent class for API request controller classes.
  */
 class ApiController extends Controller {}

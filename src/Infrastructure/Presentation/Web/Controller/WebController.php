@@ -16,6 +16,6 @@ namespace Webify\Base\Infrastructure\Presentation\Web\Controller;
 use yii\web\Controller;
 
 /**
- * WebController class is the parent class for API request controller classes.
+ * WebController class is the parent class for web request controller classes.
  */
 class WebController extends Controller {}

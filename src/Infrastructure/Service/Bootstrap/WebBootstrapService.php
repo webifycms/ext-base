@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
+use Webify\Base\Domain\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 
 use function Webify\Base\Infrastructure\get_alias;
 use function Webify\Base\Infrastructure\set_alias;
@@ -27,17 +28,18 @@ use function Webify\Base\Infrastructure\set_alias;
  * RegisterDependencyBootstrapInterface, ensuring that all necessary dependencies
  * are registered and initialized during the application's lifecycle.
  */
-final class WebBootstrapService extends BaseWebBootstrapService implements RegisterDependencyBootstrapInterface
+final class WebBootstrapService extends BaseWebBootstrapService implements RegisterDependenciesBootstrapInterface
 {
 	/**
 	 * The class constructor.
 	 */
 	public function __construct(
+		DependencyServiceInterface $dependencyService,
 		ConfigServiceInterface $configService,
-		WebApplicationServiceInterface $webApplicationService,
 	) {
 		set_alias('@Base', '@Extensions/ext-base');
-		parent::__construct($configService, $webApplicationService);
+
+		parent::__construct($dependencyService, $configService);
 	}
 
 	public function dependencies(): array
@@ -45,5 +47,5 @@ final class WebBootstrapService extends BaseWebBootstrapService implements Regis
 		return require get_alias('@Base/config/dependencies.php');
 	}
 
-	public function init(): void {}
+	public function bootstrap(ApplicationServiceInterface $appService): void {}
 }
