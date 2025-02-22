@@ -14,12 +14,14 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
 /**
- * Interface RegisterControllersBootstrapInterface.
+ * Interface RegisterDependencyBootstrapInterface.
  */
-interface RegisterControllersBootstrapInterface
+interface RegisterDependenciesBootstrapInterface
 {
 	/**
+	 * Define dependencies.
+	 *
 	 * @return array<string, mixed>
 	 */
-	public function controllers(): array;
+	public function dependencies(): array;
 }

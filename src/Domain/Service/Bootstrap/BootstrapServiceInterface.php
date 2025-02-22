@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Service\Bootstrap;
 
+use Webify\Base\Domain\Service\Application\ApplicationServiceInterface;
+
 /**
  * BootstrapServiceInterface.
  */
 interface BootstrapServiceInterface
 {
 	/**
-	 * Initialize the bootstrap service.
+	 * Bootstrap the service needs.
 	 */
-	public function init(): void;
+	public function bootstrap(ApplicationServiceInterface $appService): void;
 }

@@ -14,6 +14,12 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
 /**
- * ConsoleBootstrapServiceInterface.
+ * Interface RegisterControllersBootstrapInterface.
  */
-interface ConsoleBootstrapServiceInterface {}
+interface RegisterControllerMapBootstrapInterface
+{
+	/**
+	 * @return array<string, string>
+	 */
+	public function controllerMap(): array;
+}

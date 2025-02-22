@@ -13,10 +13,13 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
+use Webify\Base\Domain\Service\Application\ApplicationServiceInterface;
 use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
-use Webify\Base\Infrastructure\Service\Application\WebApplicationServiceInterface;
-use yii\web\Application;
+use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use yii\di\Container;
+use yii\web\GroupUrlRule;
+use yii\web\UrlRule;
 
 /**
  * Web application bootstrap service class that helps to bootstrap components.
@@ -27,57 +30,80 @@ abstract class BaseWebBootstrapService implements BootstrapServiceInterface, Web
 	 * The object constructor.
 	 */
 	public function __construct(
+		private readonly DependencyServiceInterface $dependencyService,
 		private readonly ConfigServiceInterface $configService,
-		private readonly WebApplicationServiceInterface $webApplicationService
 	) {
-		$this->registerDependencies();
-		$this->registerControllers();
-		$this->registerRoutes();
+		/**
+		 * @var Container $container
+		 */
+		$container = $this->dependencyService->getContainer();
+
+		$this->registerDependencies($container);
+		$this->registerControllerNamespaces($this->configService);
+		$this->registerRoutes($this->configService);
+		$this->registerAdminRoutes($this->configService);
 	}
 
-	public function getApplication(): Application
+	private function registerDependencies(Container $container): void
 	{
-		return $this->webApplicationService->getApplication();
-	}
+		if ($this instanceof RegisterDependenciesBootstrapInterface) {
+			$dependencies = $this->dependencies();
 
-	public function getAdministrationPath(): string
-	{
-		return $this->webApplicationService->getAdministrationPath();
-	}
+			if (isset($dependencies['definitions'])) {
+				$container->setDefinitions($dependencies['definitions']);
+			}
 
-	private function registerDependencies(): void
-	{
-		if ($this instanceof RegisterDependencyBootstrapInterface) {
-			$dependencies = array_merge(
-				$this->configService->getConfig('framework.container', []),
-				$this->dependencies()
-			);
-
-			$this->configService->setConfig('framework.container', $dependencies);
+			if (isset($dependencies['singletons'])) {
+				$container->setSingletons($dependencies['singletons']);
+			}
 		}
 	}
 
-	private function registerControllers(): void
-	{
-		if ($this instanceof RegisterControllersBootstrapInterface) {
-			$controllerMap = array_merge(
-				$this->configService->getConfig('framework.controllerMap', []),
-				$this->controllers()
-			);
-
-			$this->configService->setConfig('framework.controllerMap', $controllerMap);
-		}
-	}
-
-	private function registerRoutes(): void
+	private function registerRoutes(ConfigServiceInterface $configService): void
 	{
 		if ($this instanceof RegisterRoutesBootstrapInterface) {
-			$routes = array_merge(
-				$this->configService->getConfig('framework.components.urlManager.rules', []),
-				$this->routes()
-			);
+			$existingRoutes = $configService->getConfig('framework.components.urlManager.rules', []);
 
-			$this->configService->setConfig('framework.components.urlManager.rules', $routes);
+			$configService->setConfig(
+				'framework.components.urlManager.rules',
+				array_merge($existingRoutes, $this->routes())
+			);
+		}
+	}
+
+	private function registerAdminRoutes(ConfigServiceInterface $configService): void
+	{
+		if ($this instanceof RegisterAdminRoutesBootstrapInterface) {
+			$groupRule = new GroupUrlRule([
+				'prefix' => $configService->getConfig(
+					'administrationPath',
+					ApplicationServiceInterface::DEFAULT_ADMINISTRATION_PATH
+				),
+				'routePrefix' => '',
+				'ruleConfig'  => [
+					'class'  => UrlRule::class,
+					'suffix' => '',
+				],
+				'rules' => $this->adminRoutes(),
+			]);
+			$existingRoutes = $configService->getConfig('framework.components.urlManager.rules', []);
+
+			$configService->setConfig(
+				'framework.components.urlManager.rules',
+				array_merge($existingRoutes, [$groupRule])
+			);
+		}
+	}
+
+	private function registerControllerNamespaces(ConfigServiceInterface $configService): void
+	{
+		if ($this instanceof RegisterControllerNamespaceBootstrapInterface) {
+			$controllerMap = $configService->getConfig('framework.controllerNamespaces', []);
+
+			$configService->setConfig(
+				'framework.controllerNamespaces',
+				array_merge($controllerMap, $this->controllerNamespaces())
+			);
 		}
 	}
 }

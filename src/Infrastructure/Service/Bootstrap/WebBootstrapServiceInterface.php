@@ -13,20 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
-use yii\web\Application;
-
 /**
  * WebBootstrapServiceInterface.
  */
-interface WebBootstrapServiceInterface
-{
-	/**
-	 * Returns the web application instance.
-	 */
-	public function getApplication(): Application;
-
-	/**
-	 * Returns the administration path.
-	 */
-	public function getAdministrationPath(): string;
-}
+interface WebBootstrapServiceInterface {}

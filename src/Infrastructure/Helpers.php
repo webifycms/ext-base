@@ -27,21 +27,22 @@ use yii\helpers\Url;
 use yii\web\Application as WebApplication;
 use yii\web\View as WebView;
 
-// The constant define to run the application in which environment such as production, local, staging, etc, defaults to production.
-\defined('APP_ENVIRONMENT') || \define('APP_ENVIRONMENT', 'production');
-
-// The constant define to run the application in debug mode, defaults to false.
+\defined('APP_ENVIRONMENT') || \define('APP_ENVIRONMENT', 'prod');
 \defined('APP_DEBUG') || \define('APP_DEBUG', false);
 
 if (!\function_exists('define_environment')) {
 	/**
 	 * Define the environment that application should run.
+	 *
+	 * @param string $environment possible values are 'prod' & 'dev'
+	 * @param bool   $enableDebug if true will enable debugging
 	 */
 	function define_environment(string $environment, bool $enableDebug): void
 	{
 		\defined('APP_ENVIRONMENT') || \define('APP_ENVIRONMENT', $environment);
 		\defined('APP_DEBUG') || \define('APP_DEBUG', $enableDebug);
-		\defined('YII_DEBUG') || \define('YII_DEBUG', APP_DEBUG);
+		\defined('YII_DEBUG') || \define('YII_DEBUG', $enableDebug);
+		\defined('YII_ENV') || \define('YII_ENV', $environment);
 	}
 }
 
@@ -122,7 +123,7 @@ if (!\function_exists('load_evn_variables')) {
 	 * Loads the environment variables that were added in the '.env' file.
 	 * So those variables can be now access from $_ENV or $_SERVER globals.
 	 *
-	 * @param string $path     the '.env' file exist directory
+	 * @param string $path     the '.env' file exist directory path
 	 * @param string $fileName defaults to '.env'
 	 */
 	function load_env_variables(string $path, string $fileName = '.env'): void

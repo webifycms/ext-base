@@ -11,17 +11,15 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Domain\Service\Theme;
 
 /**
- * Interface RegisterDependencyBootstrapInterface.
+ * Interface for defining theme functionalities.
  */
-interface RegisterDependencyBootstrapInterface
+interface ThemeServiceInterface
 {
 	/**
-	 * Define dependencies.
-	 *
-	 * @return array<string, mixed>
+	 * Should return the theme ID as string.
 	 */
-	public function dependencies(): array;
+	public function getId(): string;
 }

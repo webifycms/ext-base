@@ -24,9 +24,9 @@ interface ApplicationServiceInterface
 	public const DEFAULT_ADMINISTRATION_PATH = 'administration';
 
 	/**
-	 * Starts the application.
+	 * Runs the application.
 	 */
-	public function bootstrap(): void;
+	public function run(): void;
 
 	/**
 	 * Retrieve the configuration value for the given key, if not found will return the given default value.

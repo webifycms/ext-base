@@ -11,15 +11,15 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Service\Theme;
+namespace Webify\Base\Infrastructure\Service\Bootstrap;
 
 /**
- * Interface for defining theme functionalities.
+ * Interface for register administration routes.
  */
-interface ThemeInterface
+interface RegisterAdminRoutesBootstrapInterface
 {
 	/**
-	 * Should return the theme ID as string.
+	 * @return array<array<string, mixed>>
 	 */
-	public function getId(): string;
+	public function adminRoutes(): array;
 }

@@ -11,9 +11,9 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Theme;
+namespace Webify\Base\Infrastructure\Component\Theme;
 
-use Webify\Base\Domain\Service\Theme\ThemeInterface;
+use Webify\Base\Domain\Service\Theme\ThemeServiceInterface;
 use yii\base\Theme as BaseTheme;
 
 use function Webify\Base\Infrastructure\set_alias;
@@ -21,7 +21,7 @@ use function Webify\Base\Infrastructure\set_alias;
 /**
  * Theme abstraction class based on framework theme class.
  */
-abstract class Theme extends BaseTheme implements ThemeInterface
+abstract class ThemeComponent extends BaseTheme implements ThemeServiceInterface
 {
 	/**
 	 * Initializes the theme component by setting the current theme path as `@Theme` alias.
@@ -32,5 +32,11 @@ abstract class Theme extends BaseTheme implements ThemeInterface
 		parent::init();
 	}
 
-	abstract public function getId(): string;
+	/**
+	 * @param array<string, string> $pathAndMap
+	 */
+	public function addToPathMap(array $pathAndMap): void
+	{
+		$this->pathMap = array_merge($this->pathMap ?? [], $pathAndMap);
+	}
 }
