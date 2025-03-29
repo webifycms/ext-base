@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Config;
 
+use Throwable;
 use Webify\Base\Domain\Exception\ConfigNotFoundException;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use yii\helpers\ArrayHelper;
@@ -49,7 +50,7 @@ final class ConfigService implements ConfigServiceInterface
 
 		try {
 			return ArrayHelper::getValue($this->config, $key, $default);
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			throw new ConfigNotFoundException(
 				ConfigNotFoundException::MESSAGE_KEY,
 				['config_key' => $key],

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\ValueObject;
 
+use Throwable;
+
 /**
  * A value object that represents an IP address.
  */
@@ -21,7 +23,7 @@ abstract class IpValueObject
 	/**
 	 * The object constructor.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	final public function __construct(
 		public readonly string $ip
@@ -44,7 +46,7 @@ abstract class IpValueObject
 	/**
 	 * Creates IP address value object for the given IP.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public static function create(string $ip): static
 	{

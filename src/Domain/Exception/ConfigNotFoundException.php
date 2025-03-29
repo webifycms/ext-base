@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Exception;
 
+use Throwable;
+
 /**
  * Exception thrown when a required configuration is not found.
  *
@@ -32,7 +34,7 @@ final class ConfigNotFoundException extends TranslatableRuntimeException
 		string $messageKey = self::MESSAGE_KEY,
 		array $params = [],
 		?int $code = null,
-		?\Throwable $previous = null
+		?Throwable $previous = null
 	) {
 		parent::__construct($messageKey, $params, $code, $previous);
 	}

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Test\Domain\ValueObject;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Webify\Base\Domain\Exception\InvalidDatetimeException;
 use Webify\Base\Domain\ValueObject\DateTimeValueObject;
@@ -44,7 +45,7 @@ final class DateTimeValueObjectTest extends TestCase
 	 */
 	public function testCanBeCreatedWithValidDatetimeStringOrObject(): void
 	{
-		$datetimeObj = new \DateTimeImmutable();
+		$datetimeObj = new DateTimeImmutable();
 
 		$this->assertInstanceOf(
 			DateTimeValueObject::class,

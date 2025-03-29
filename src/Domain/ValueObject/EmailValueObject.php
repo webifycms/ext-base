@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\ValueObject;
 
+use Throwable;
 use Webify\Base\Domain\Service\Validator\EmailValidatorServiceInterface;
 
 /**
@@ -23,7 +24,7 @@ abstract class EmailValueObject
 	/**
 	 * The object constructor.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	final private function __construct(
 		private readonly string $email,
@@ -48,7 +49,7 @@ abstract class EmailValueObject
 	/**
 	 * Creates email value object from the given email address.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public static function create(string $email, EmailValidatorServiceInterface $validator): static
 	{
