@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure;
 
 use Dotenv\Dotenv;
+use Throwable;
 use Webify\Base\Domain\Exception\FileNotExistException;
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
 use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
@@ -27,10 +28,14 @@ use yii\helpers\Url;
 use yii\web\Application as WebApplication;
 use yii\web\View as WebView;
 
-\defined('APP_ENVIRONMENT') || \define('APP_ENVIRONMENT', 'prod');
-\defined('APP_DEBUG') || \define('APP_DEBUG', false);
+use function define;
+use function defined;
+use function function_exists;
 
-if (!\function_exists('define_environment')) {
+defined('APP_ENVIRONMENT') || define('APP_ENVIRONMENT', 'prod');
+defined('APP_DEBUG') || define('APP_DEBUG', false);
+
+if (!function_exists('define_environment')) {
 	/**
 	 * Define the environment that application should run.
 	 *
@@ -39,14 +44,14 @@ if (!\function_exists('define_environment')) {
 	 */
 	function define_environment(string $environment, bool $enableDebug): void
 	{
-		\defined('APP_ENVIRONMENT') || \define('APP_ENVIRONMENT', $environment);
-		\defined('APP_DEBUG') || \define('APP_DEBUG', $enableDebug);
-		\defined('YII_DEBUG') || \define('YII_DEBUG', $enableDebug);
-		\defined('YII_ENV') || \define('YII_ENV', $environment);
+		defined('APP_ENVIRONMENT') || define('APP_ENVIRONMENT', $environment);
+		defined('APP_DEBUG') || define('APP_DEBUG', $enableDebug);
+		defined('YII_DEBUG') || define('YII_DEBUG', $enableDebug);
+		defined('YII_ENV') || define('YII_ENV', $environment);
 	}
 }
 
-if (!\function_exists('log_message')) {
+if (!function_exists('log_message')) {
 	/**
 	 * @param string               $type     supported types: info, warning, debug, trace
 	 * @param array<string>|string $message  the message to log
@@ -55,15 +60,15 @@ if (!\function_exists('log_message')) {
 	function log_message(string $type, array|string $message, string $category = 'application'): void
 	{
 		match ($type) {
-			'info'    => \Yii::info($message, $category),
-			'warning' => \Yii::warning($message, $category),
-			'debug', 'trace' => \Yii::debug($message, $category),
-			default => \Yii::error($message, $category),
+			'info'    => Yii::info($message, $category),
+			'warning' => Yii::warning($message, $category),
+			'debug', 'trace' => Yii::debug($message, $category),
+			default => Yii::error($message, $category),
 		};
 	}
 }
 
-if (!\function_exists('set_alias')) {
+if (!function_exists('set_alias')) {
 	/**
 	 * Sets an alias for a path.
 	 *
@@ -71,11 +76,11 @@ if (!\function_exists('set_alias')) {
 	 */
 	function set_alias(string $alias, string $path): void
 	{
-		\Yii::setAlias($alias, $path);
+		Yii::setAlias($alias, $path);
 	}
 }
 
-if (!\function_exists('get_alias')) {
+if (!function_exists('get_alias')) {
 	/**
 	 * Resolves a path from alias.
 	 *
@@ -83,13 +88,13 @@ if (!\function_exists('get_alias')) {
 	 */
 	function get_alias(string $alias): ?string
 	{
-		$alias = \Yii::getAlias($alias, false);
+		$alias = Yii::getAlias($alias, false);
 
 		return !$alias ? null : $alias;
 	}
 }
 
-if (!\function_exists('is_debug_enabled')) {
+if (!function_exists('is_debug_enabled')) {
 	/**
 	 * Check in debug.
 	 */
@@ -99,7 +104,7 @@ if (!\function_exists('is_debug_enabled')) {
 	}
 }
 
-if (!\function_exists('dependency')) {
+if (!function_exists('dependency')) {
 	/**
 	 * Returns the dependency service instance.
 	 */
@@ -109,8 +114,8 @@ if (!\function_exists('dependency')) {
 			/**
 			 * @var DependencyServiceInterface $service
 			 */
-			$service = \Yii::$container->get(DependencyServiceInterface::class);
-		} catch (\Throwable) {
+			$service = Yii::$container->get(DependencyServiceInterface::class);
+		} catch (Throwable) {
 			$service = new DependencyService();
 		}
 
@@ -118,7 +123,7 @@ if (!\function_exists('dependency')) {
 	}
 }
 
-if (!\function_exists('load_evn_variables')) {
+if (!function_exists('load_evn_variables')) {
 	/**
 	 * Loads the environment variables that were added in the '.env' file.
 	 * So those variables can be now access from $_ENV or $_SERVER globals.
@@ -138,7 +143,7 @@ if (!\function_exists('load_evn_variables')) {
 	}
 }
 
-if (!\function_exists('get_env_variable')) {
+if (!function_exists('get_env_variable')) {
 	/**
 	 * Returns the env variable value for the given name.
 	 *
@@ -152,35 +157,35 @@ if (!\function_exists('get_env_variable')) {
 	}
 }
 
-if (!\function_exists('app')) {
+if (!function_exists('app')) {
 	/**
 	 * Returns the framework's web application component.
 	 */
 	function app(): WebApplication
 	{
-		if (\Yii::$app instanceof WebApplication) {
-			return \Yii::$app;
+		if (Yii::$app instanceof WebApplication) {
+			return Yii::$app;
 		}
 
 		throw new TranslatableRuntimeException('web_app_not_initialized');
 	}
 }
 
-if (!\function_exists('console_app')) {
+if (!function_exists('console_app')) {
 	/**
 	 * Returns the framework's console application component.
 	 */
 	function console_app(): ConsoleApplication
 	{
-		if (\Yii::$app instanceof ConsoleApplication) {
-			return \Yii::$app;
+		if (Yii::$app instanceof ConsoleApplication) {
+			return Yii::$app;
 		}
 
 		throw new TranslatableRuntimeException('console_app_not_initialized');
 	}
 }
 
-if (!\function_exists('administration_path')) {
+if (!function_exists('administration_path')) {
 	/**
 	 * Returns the administration path.
 	 */
@@ -191,7 +196,7 @@ if (!\function_exists('administration_path')) {
 	}
 }
 
-if (!\function_exists('administration')) {
+if (!function_exists('administration')) {
 	/**
 	 * Returns the administration service instance.
 	 */
@@ -202,9 +207,9 @@ if (!\function_exists('administration')) {
 	}
 }
 
-if (!\function_exists('in_administration')) {
+if (!function_exists('in_administration')) {
 	/**
-	 * Check weather in administration.
+	 * Check the weather in administration.
 	 */
 	function in_administration(): bool
 	{
@@ -212,17 +217,39 @@ if (!\function_exists('in_administration')) {
 	}
 }
 
-if (!\function_exists('administration_url')) {
+if (!function_exists('administration_url')) {
 	/**
-	 * Returns the administration url.
+	 * Returns the administration url based on the given parameters.
+	 *
+	 * @param null|array<string,string>|string $url
 	 */
-	function administration_url(): string
+	function administration_url(null|array|string $url = null, bool|string $scheme = false): string
 	{
-		return url(administration()->getUrl());
+		$prefix = administration()->getUrl() . '/';
+
+		if (null === $url) {
+			return url(administration()->getUrl());
+		}
+
+		if (is_array($url)) {
+			foreach ($url as $key => $element) {
+				if (0 == $key) {
+					$url[$key] = $prefix . ltrim($element, '/');
+
+					break;
+				}
+			}
+		}
+
+		if (is_string($url)) {
+			$url = $prefix . ltrim($url, '/');
+		}
+
+		return url($url, $scheme);
 	}
 }
 
-if (!\function_exists('view')) {
+if (!function_exists('view')) {
 	/**
 	 * Returns the framework's view component.
 	 */
@@ -232,7 +259,7 @@ if (!\function_exists('view')) {
 	}
 }
 
-if (!\function_exists('url')) {
+if (!function_exists('url')) {
 	/**
 	 * Creates the url based on the given parameters.
 	 *
@@ -244,7 +271,7 @@ if (!\function_exists('url')) {
 	}
 }
 
-if (!\function_exists('request_url')) {
+if (!function_exists('request_url')) {
 	/**
 	 * Returns the current requested url.
 	 */
@@ -254,7 +281,7 @@ if (!\function_exists('request_url')) {
 	}
 }
 
-if (!\function_exists('home_url')) {
+if (!function_exists('home_url')) {
 	/**
 	 * Returns the home url.
 	 */
@@ -264,7 +291,7 @@ if (!\function_exists('home_url')) {
 	}
 }
 
-if (!\function_exists('remember_url')) {
+if (!function_exists('remember_url')) {
 	/**
 	 * Sets the URL to be remembered, and later it can be retrieved by previous_url().
 	 *
@@ -276,7 +303,7 @@ if (!\function_exists('remember_url')) {
 	}
 }
 
-if (!\function_exists('previous_url')) {
+if (!function_exists('previous_url')) {
 	/**
 	 * Returns the URL previously remember or remembered.
 	 */
@@ -286,13 +313,13 @@ if (!\function_exists('previous_url')) {
 	}
 }
 
-if (!\function_exists('translate')) {
+if (!function_exists('translate')) {
 	/**
 	 * Translate given string.
 	 *
 	 * @param array<string,string> $params
 	 *
-	 * @see \Yii::t()
+	 * @see Yii::t
 	 */
 	function translate(
 		string $category,
@@ -300,6 +327,6 @@ if (!\function_exists('translate')) {
 		array $params = [],
 		?string $language = null
 	): string {
-		return \Yii::t($category, $message, $params, $language);
+		return Yii::t($category, $message, $params, $language);
 	}
 }

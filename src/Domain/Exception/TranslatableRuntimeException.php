@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Exception;
 
+use RuntimeException;
+use Throwable;
 use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 
 /**
@@ -23,7 +25,7 @@ use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
  * functionality for managing translatable messages. It allows for structured
  * access to message keys and parameters.
  */
-class TranslatableRuntimeException extends \RuntimeException implements TranslatableExceptionServiceInterface
+class TranslatableRuntimeException extends RuntimeException implements TranslatableExceptionServiceInterface
 {
 	/**
 	 * The class constructor.
@@ -36,7 +38,7 @@ class TranslatableRuntimeException extends \RuntimeException implements Translat
 		public readonly string $messageKey,
 		public readonly array $params = [],
 		public $code = null,
-		public readonly ?\Throwable $previous = null
+		public readonly ?Throwable $previous = null
 	) {
 		$code ??= $this->previous?->getCode() ?? 0;
 

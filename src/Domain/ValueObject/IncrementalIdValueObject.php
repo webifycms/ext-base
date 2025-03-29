@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\ValueObject;
 
+use Throwable;
+
 /**
  * Incremental id value object.
  */
@@ -21,7 +23,7 @@ abstract class IncrementalIdValueObject
 	/**
 	 * The object constructor.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	final private function __construct(
 		private readonly int $id
@@ -42,7 +44,7 @@ abstract class IncrementalIdValueObject
 	/**
 	 * Factory method to create this object.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public static function create(int $id): static
 	{

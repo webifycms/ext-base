@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Exception;
 
+use InvalidArgumentException;
+use Throwable;
 use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
 
 /**
@@ -23,7 +25,7 @@ use Webify\Base\Domain\Service\Exception\TranslatableExceptionServiceInterface;
  * including a message key for translation and an array of parameters that can be used
  * to populate the message dynamically.
  */
-class TranslatableInvalidArgumentException extends \InvalidArgumentException implements TranslatableExceptionServiceInterface
+class TranslatableInvalidArgumentException extends InvalidArgumentException implements TranslatableExceptionServiceInterface
 {
 	/**
 	 * The class constructor.
@@ -36,7 +38,7 @@ class TranslatableInvalidArgumentException extends \InvalidArgumentException imp
 		public readonly string $messageKey,
 		public readonly array $params = [],
 		public $code = null,
-		public readonly ?\Throwable $previous = null
+		public readonly ?Throwable $previous = null
 	) {
 		$code ??= $this->previous?->getCode() ?? 0;
 

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Dependency;
 
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
+use Yii;
 use yii\di\Container;
 
 /**
@@ -32,7 +33,7 @@ final class DependencyService implements DependencyServiceInterface
 	public function __construct()
 	{
 		// gets the framework container
-		$this->container = \Yii::$container;
+		$this->container = Yii::$container;
 		// the class itself registers to the container
 		$this->container->setSingleton(DependencyServiceInterface::class, $this);
 	}

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Component\Application;
 
+use Yii;
 use yii\web\Application;
 
 /**
@@ -57,7 +58,7 @@ final class WebApplicationComponent extends Application
 				$className = $namespace . '\\' . ucfirst($id) . 'Controller';
 
 				if (class_exists($className)) {
-					$controller = \Yii::createObject($className, [$id, $this]);
+					$controller = Yii::createObject($className, [$id, $this]);
 
 					return [$controller, $route];
 				}
@@ -66,7 +67,7 @@ final class WebApplicationComponent extends Application
 
 		// check in the controller map
 		if (isset($this->controllerMap[$id])) {
-			$controller = \Yii::createObject($this->controllerMap[$id], [$id, $this]);
+			$controller = Yii::createObject($this->controllerMap[$id], [$id, $this]);
 
 			return [$controller, $route];
 		}

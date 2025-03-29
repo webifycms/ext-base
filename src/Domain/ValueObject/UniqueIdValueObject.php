@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\ValueObject;
 
+use Throwable;
+
+use function strlen;
+
 /**
  * UniqueIdValueObject that helps to generate and validate a unique ID
  * that contains alphanumeric characters and length between 10 and 14 as default.
@@ -39,7 +43,7 @@ abstract class UniqueIdValueObject
 	/**
 	 * The object constructor.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	final public function __construct(
 		private readonly string $uniqueId
@@ -62,7 +66,7 @@ abstract class UniqueIdValueObject
 	/**
 	 * Creates an unique ID value object.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public static function create(): static
 	{
@@ -73,7 +77,7 @@ abstract class UniqueIdValueObject
 
 		for ($i=1; $i <= $length; ++$i) {
 			$charSet       = self::CHARACTERS[$set];
-			$charSetLength = \strlen($charSet);
+			$charSetLength = strlen($charSet);
 			$pow           = $charSetLength ** random_int(1, $length);
 			$offset        = floor($decimal / $pow) % $charSetLength;
 			$uid .= substr($charSet, $offset, 1);
@@ -91,7 +95,7 @@ abstract class UniqueIdValueObject
 	/**
 	 * Creates an unique ID value object from the given unique ID.
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public static function createFromString(string $uniqueId): static
 	{

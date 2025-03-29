@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Webify\Base\Domain\Exception;
 
+use Throwable;
+
 /**
  * An exception class can be used when unique id validation failed.
  */
@@ -29,7 +31,7 @@ final class InvalidUniqueIdException extends TranslatableInvalidArgumentExceptio
 		string $messageKey = self::MESSAGE_KEY,
 		array $params = [],
 		?int $code = null,
-		?\Throwable $previous = null
+		?Throwable $previous = null
 	) {
 		parent::__construct($messageKey, $params, $code, $previous);
 	}
