@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
+ *
+ * @see https://webifycms.com/extension/base
+ *
+ * @copyright Copyright (c) 2023 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
+ */
+declare(strict_types=1);
+
+namespace Webify\Base\Infrastructure\Component\View;
+
+use Webify\Base\Infrastructure\Service\ViewInjector\ViewInjectorRegistryService;
+use yii\web\View;
+
+/**
+ * Represents a specialized view component that interacts with the ViewInjectorRegistryService
+ * to dynamically inject parameters into the rendering process.
+ */
+final class WebViewComponent extends View
+{
+	/**
+	 * @param array<string, mixed> $config
+	 */
+	public function __construct(
+		private readonly ViewInjectorRegistryService $viewInjectorRegistryService,
+		array $config = []
+	) {
+		foreach ($this->viewInjectorRegistryService->collectAll() as $key => $value) {
+			$this->params[$key] = $value;
+		}
+
+		parent::__construct($config);
+	}
+}

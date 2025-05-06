@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 use Webify\Base\Domain\Service\Validator\EmailValidatorServiceInterface;
 use Webify\Base\Infrastructure\Service\Validator\EmailValidatorService;
+use Webify\Base\Infrastructure\Service\ViewInjector\ViewInjectorRegistryService;
 use yii\di\Container;
 use yii\validators\EmailValidator;
 
@@ -27,5 +28,7 @@ return [
 	'definitions' => [
 		EmailValidatorServiceInterface::class => fn () => new EmailValidatorService(new EmailValidator()),
 	],
-	'singletons' => [],
+	'singletons' => [
+		ViewInjectorRegistryService::class => fn () => new ViewInjectorRegistryService(),
+	],
 ];
