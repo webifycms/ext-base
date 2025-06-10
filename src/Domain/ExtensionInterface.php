@@ -62,7 +62,7 @@ interface ExtensionInterface
 	/**
 	 * Retrieves the list of the classes that needs to register.
 	 *
-	 * @return array<string>
+	 * @return array<string>|array{}
 	 */
 	public function getRegisterServices(): array;
 

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Application;
 
+use Webify\Base\Domain\ConsoleExtensionInterface;
 use Webify\Base\Domain\ExtensionInterface;
 
 /**
@@ -35,8 +36,15 @@ trait InitialiseExtensionsApplicationServiceTrait
 			 */
 			$extension                                    = new $class();
 			$this->extensions[$extension->getInterface()] = $extension;
+			$services                                     = $extension->getRegisterServices();
 
-			$this->initialisePreRegisterServices($extension->getRegisterServices());
+			if (
+				$this instanceof ConsoleApplicationServiceInterface
+				&& $extension instanceof ConsoleExtensionInterface) {
+				$services = $extension->getConsoleRegisterServices();
+			}
+
+			$this->initialisePreRegisterServices($services);
 		}
 	}
 
@@ -49,7 +57,16 @@ trait InitialiseExtensionsApplicationServiceTrait
 	{
 		foreach ($extensions as $extension) {
 			$extension->initialize($this);
-			$this->initialisePostRegisterServices($extension->getRegisterServices());
+
+			$services = $extension->getRegisterServices();
+
+			if (
+				$this instanceof ConsoleApplicationServiceInterface
+				&& $extension instanceof ConsoleExtensionInterface) {
+				$services = $extension->getConsoleRegisterServices();
+			}
+
+			$this->initialisePostRegisterServices($services);
 		}
 	}
 }

@@ -11,15 +11,17 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Register\Controllers;
+namespace Webify\Base\Domain;
 
 /**
- * Interface for register a controller map.
+ * Interface for defining console register services for the extensions.
  */
-interface ControllerMapRegisterServiceInterface
+interface ConsoleExtensionInterface
 {
 	/**
-	 * @return array<string, array<string>>
+	 * Retrieves the list of the classes that needs to register in the console application.
+	 *
+	 * @return array<string>|array{}
 	 */
-	public function getMap(): array;
+	public function getConsoleRegisterServices(): array;
 }
