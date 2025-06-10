@@ -11,15 +11,15 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Infrastructure\Service\Register\Controllers;
 
 /**
- * Interface RegisterRoutesBootstrapInterface.
+ * Interface for register a controller map.
  */
-interface RegisterRoutesBootstrapInterface
+interface ControllerMapRegisterServiceInterface
 {
 	/**
-	 * @return array<array<string, mixed>>
+	 * @return array<string, string>
 	 */
-	public function routes(): array;
+	public function getMap(): array;
 }

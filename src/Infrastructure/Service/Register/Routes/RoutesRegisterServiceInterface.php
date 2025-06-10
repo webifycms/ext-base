@@ -11,15 +11,15 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Infrastructure\Service\Register\Routes;
 
 /**
- * Interface for register administration routes.
+ * Interface for register routes.
  */
-interface RegisterAdminRoutesBootstrapInterface
+interface RoutesRegisterServiceInterface
 {
 	/**
 	 * @return array<array<string, mixed>>
 	 */
-	public function adminRoutes(): array;
+	public function getRoutes(): array;
 }

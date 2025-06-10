@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
- * @author  Mohammed Shifreen <mshifreen@gmail.com>
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 

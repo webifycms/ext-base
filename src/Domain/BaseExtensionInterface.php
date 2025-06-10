@@ -11,9 +11,20 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Domain;
 
 /**
- * WebBootstrapServiceInterface.
+ * Interface for the base extension.
  */
-interface WebBootstrapServiceInterface {}
+interface BaseExtensionInterface extends ExtensionInterface
+{
+	/**
+	 * The extension name.
+	 */
+	public const NAME = 'Base';
+
+	/**
+	 * The extension version.
+	 */
+	public const VERSION = '0.0.1';
+}
