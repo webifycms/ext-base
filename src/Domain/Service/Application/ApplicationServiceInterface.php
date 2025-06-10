@@ -7,11 +7,13 @@
  *
  * @copyright Copyright (c) 2023 WebifyCMS
  * @license https://webifycms.com/extension/base/license
- * @author  Mohammed Shifreen <mshifreen@gmail.com>
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
 namespace Webify\Base\Domain\Service\Application;
+
+use Webify\Base\Domain\ExtensionInterface;
 
 /**
  * Defines the contract for the application service.
@@ -30,9 +32,22 @@ interface ApplicationServiceInterface
 
 	/**
 	 * Retrieve the configuration value for the given key, if not found will return the given default value.
-	 * If the key is not specified the entire configurations will return.
+	 * If the key is not specified, the entire configurations will return.
 	 *
-	 * @param ?string $key the config key can support any deep, you must separate with the period (e.g. "framework.component.user").
+	 * @param ?string $key the config key can support any deep, you must separate with the period
+	 *                     (e.g. "framework.component.user").
 	 */
 	public function getConfig(?string $key, mixed $default): mixed;
+
+	/**
+	 * Retrieves a specific extension by its name.
+	 */
+	public function getExtension(string $name): ExtensionInterface;
+
+	/**
+	 * Retrieves a list of extensions.
+	 *
+	 * @return array<string, ExtensionInterface> an array containing file extensions
+	 */
+	public function getExtensions(): array;
 }

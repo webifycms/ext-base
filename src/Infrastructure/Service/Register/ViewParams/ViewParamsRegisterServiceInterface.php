@@ -11,15 +11,19 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Infrastructure\Service\Register\ViewParams;
 
-/**
- * Interface RegisterControllerNamespaceBootstrapInterface.
- */
-interface RegisterControllerNamespaceBootstrapInterface
+interface ViewParamsRegisterServiceInterface
 {
 	/**
-	 * @return array<string>
+	 * The parameter key.
 	 */
-	public function controllerNamespaces(): array;
+	public function getKey(): string;
+
+	/**
+	 * Returns the parameters that should be registered.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function getParams(): array;
 }

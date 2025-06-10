@@ -13,9 +13,25 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Presentation\Web\Controller;
 
+use Webify\Base\Infrastructure\Component\Theme\ThemeComponent;
 use yii\web\Controller;
 
 /**
  * WebController class is the parent class for web request controller classes.
  */
-class WebController extends Controller {}
+abstract class WebController extends Controller
+{
+	/**
+	 * Add theme support for the view files.
+	 *
+	 * @param array<string> $pathMap
+	 */
+	final public function addThemeSupport(array $pathMap): void
+	{
+		$theme = $this->view->theme;
+
+		if ($theme instanceof ThemeComponent) {
+			$theme->addToPathMap($pathMap);
+		}
+	}
+}

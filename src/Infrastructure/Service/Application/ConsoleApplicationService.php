@@ -14,27 +14,28 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Application;
 
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
-use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
+use Webify\Base\Domain\ExtensionInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
-use Webify\Base\Infrastructure\Service\Bootstrap\ConsoleBootstrapServiceInterface;
 use yii\base\InvalidConfigException;
 use yii\console\Application;
 use yii\di\Container;
 
 /**
- * Console application service that is contains the console application instance.
+ * Console application service that contains the console application instance.
  */
 final class ConsoleApplicationService implements ConsoleApplicationServiceInterface
 {
+	use InitialiseExtensionsApplicationServiceTrait;
+
 	private Application $application;
 
 	private readonly Container $container;
 
 	/**
-	 * @var array<BootstrapServiceInterface>
+	 * @var array<string, ExtensionInterface>
 	 */
-	private array $bootstrap = [];
+	private array $extensions = [];
 
 	/**
 	 * Application constructor.
@@ -49,7 +50,7 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		$container                      = $this->dependencyService->getContainer();
 		$this->container                = $container;
 
-		// let's register the high level services to the container
+		// let's register the high-level services to the container
 		$this->container->setSingletons(
 			[
 				ConfigServiceInterface::class             => fn () => $this->configService,
@@ -57,18 +58,8 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 			]
 		);
 
-		$bootstrapClasses = $this->configService->getConfig('bootstrap', []);
-
-		// let's initialize the bootstrap classes
-		if (!empty($bootstrapClasses)) {
-			foreach ($bootstrapClasses as $class) {
-				/**
-				 * @var BootstrapServiceInterface $class
-				 */
-				$class             = new $class($this->dependencyService, $this->configService);
-				$this->bootstrap[] = $class;
-			}
-		}
+		// let's initialise the extensions
+		$this->initialiseExtensions($this->configService->getConfig('extensions', []));
 	}
 
 	/**
@@ -76,17 +67,12 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 	 */
 	public function run(): void
 	{
+		// initialise framework console application
 		$this->application = new Application(
 			$this->configService->getConfig('framework')
 		);
 
-		if (!empty($this->bootstrap)) {
-			foreach ($this->bootstrap as $object) {
-				if ($object instanceof ConsoleBootstrapServiceInterface) {
-					$object->bootstrap($this);
-				}
-			}
-		}
+		$this->postExtensionsInitialisation($this->extensions);
 
 		$output = $this->application->run();
 
@@ -104,7 +90,7 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 	}
 
 	/**
-	 * @throws TranslatableRuntimeException if property not exist or set
+	 * @throws TranslatableRuntimeException if property doesn't exist or set
 	 */
 	public function getApplicationProperty(string $name): mixed
 	{
@@ -130,7 +116,28 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 
 	public function getService(string $name, array $params = [], array $config = []): mixed
 	{
-		// @phpstan-ignore-next-line
-		return $this->dependencyService->getContainer()->get($name, $params, $config);
+		try {
+			return $this->container->get($name, $params, $config);
+		} catch (InvalidConfigException $e) {
+			throw new TranslatableRuntimeException(
+				'service_not_exist',
+				['service' => $name],
+				$e->getCode(),
+				$e
+			);
+		}
+	}
+
+	public function getExtension(string $name): ExtensionInterface
+	{
+		return $this->extensions[$name];
+	}
+
+	/**
+	 * @return array<string, ExtensionInterface>
+	 */
+	public function getExtensions(): array
+	{
+		return $this->extensions;
 	}
 }

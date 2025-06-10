@@ -12,23 +12,19 @@
 declare(strict_types=1);
 
 use Webify\Base\Domain\Service\Validator\EmailValidatorServiceInterface;
+use Webify\Base\Infrastructure\Service\Administration\PrimaryMenuAdministrationService;
+use Webify\Base\Infrastructure\Service\Administration\PrimaryMenuAdministrationServiceInterface;
 use Webify\Base\Infrastructure\Service\Validator\EmailValidatorService;
-use Webify\Base\Infrastructure\Service\ViewInjector\ViewInjectorRegistryService;
-use yii\di\Container;
 use yii\validators\EmailValidator;
 
-use function Webify\Base\Infrastructure\dependency;
-
-/**
- * @var Container $container
- */
-$container = dependency()->getContainer();
+use function Webify\Base\Infrastructure\app;
 
 return [
 	'definitions' => [
-		EmailValidatorServiceInterface::class => fn () => new EmailValidatorService(new EmailValidator()),
+		EmailValidatorServiceInterface::class            => fn () => new EmailValidatorService(new EmailValidator()),
+		PrimaryMenuAdministrationServiceInterface::class => fn () => new PrimaryMenuAdministrationService(
+			app()->getView() // @phpstan-ignore argument.type
+		),
 	],
-	'singletons' => [
-		ViewInjectorRegistryService::class => fn () => new ViewInjectorRegistryService(),
-	],
+	'singletons' => [],
 ];

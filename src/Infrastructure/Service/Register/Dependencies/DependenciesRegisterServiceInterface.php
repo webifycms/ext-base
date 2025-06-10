@@ -11,15 +11,15 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Infrastructure\Service\Register\Dependencies;
 
 /**
- * Interface RegisterControllersBootstrapInterface.
+ * Interface for register dependencies.
  */
-interface RegisterControllerMapBootstrapInterface
+interface DependenciesRegisterServiceInterface
 {
 	/**
-	 * @return array<string, string>
+	 * @return array<string, mixed>
 	 */
-	public function controllerMap(): array;
+	public function getDependencies(): array;
 }

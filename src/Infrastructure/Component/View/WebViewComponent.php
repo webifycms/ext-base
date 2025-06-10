@@ -13,26 +13,10 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Component\View;
 
-use Webify\Base\Infrastructure\Service\ViewInjector\ViewInjectorRegistryService;
 use yii\web\View;
 
 /**
- * Represents a specialized view component that interacts with the ViewInjectorRegistryService
+ * Represents a specialised view component that interacts with the ViewInjectorRegistryService
  * to dynamically inject parameters into the rendering process.
  */
-final class WebViewComponent extends View
-{
-	/**
-	 * @param array<string, mixed> $config
-	 */
-	public function __construct(
-		private readonly ViewInjectorRegistryService $viewInjectorRegistryService,
-		array $config = []
-	) {
-		foreach ($this->viewInjectorRegistryService->collectAll() as $key => $value) {
-			$this->params[$key] = $value;
-		}
-
-		parent::__construct($config);
-	}
-}
+final class WebViewComponent extends View {}

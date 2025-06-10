@@ -11,14 +11,17 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\ViewInjector;
+namespace Webify\Base\Infrastructure\Service\Administration;
 
-interface ViewInjectorServiceInterface
+/**
+ * Interface for registering primary menu items for the administration.
+ */
+interface PrimaryMenuItemsAdministrationServiceInterface
 {
 	/**
-	 * Collects and processes the provided data array.
+	 * Returns the items that should be added to the primary menu.
 	 *
-	 * @param array<string, mixed> $data the reference to the array that will be collected and modified
+	 * @return array<array<string, mixed>>
 	 */
-	public function collect(array &$data): void;
+	public function getItems(): array;
 }

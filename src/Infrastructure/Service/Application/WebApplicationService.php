@@ -14,30 +14,34 @@ declare(strict_types=1);
 namespace Webify\Base\Infrastructure\Service\Application;
 
 use Webify\Base\Domain\Exception\TranslatableRuntimeException;
+use Webify\Base\Domain\ExtensionInterface;
 use Webify\Base\Domain\Service\Administration\AdministrationServiceInterface;
-use Webify\Base\Domain\Service\Bootstrap\BootstrapServiceInterface;
 use Webify\Base\Domain\Service\Config\ConfigServiceInterface;
 use Webify\Base\Domain\Service\Dependency\DependencyServiceInterface;
 use Webify\Base\Infrastructure\Component\Application\WebApplicationComponent;
 use Webify\Base\Infrastructure\Service\Administration\AdministrationService;
-use Webify\Base\Infrastructure\Service\Bootstrap\WebBootstrapServiceInterface;
 use yii\base\InvalidConfigException;
 use yii\di\Container;
-use yii\di\NotInstantiableException;
 
 /**
- * Web application service that is contains the web application instance.
+ * The WebApplicationService is responsible for setting up and managing the lifecycle
+ * of the web application.
+ *
+ * It initialises dependencies, configuration, and bootstrap
+ * services required for the application to function properly.
  */
 final class WebApplicationService implements WebApplicationServiceInterface
 {
+	use InitialiseExtensionsApplicationServiceTrait;
+
 	private WebApplicationComponent $application;
 
 	private readonly string $administrationPath;
 
 	/**
-	 * @var array<BootstrapServiceInterface>
+	 * @var array<string, ExtensionInterface>
 	 */
-	private array $bootstrap = [];
+	private array $extensions = [];
 
 	private readonly Container $container;
 
@@ -58,7 +62,7 @@ final class WebApplicationService implements WebApplicationServiceInterface
 			self::DEFAULT_ADMINISTRATION_PATH
 		);
 
-		// let's register the high level services to the container
+		// let's register the high-level services to the container
 		$this->container->setSingletons(
 			[
 				ConfigServiceInterface::class         => fn () => $this->configService,
@@ -67,38 +71,18 @@ final class WebApplicationService implements WebApplicationServiceInterface
 			]
 		);
 
-		$bootstrapClasses = $this->configService->getConfig('bootstrap', []);
-
-		// let's initialize the bootstrap classes
-		if (!empty($bootstrapClasses)) {
-			foreach ($bootstrapClasses as $class) {
-				/**
-				 * @var BootstrapServiceInterface $class
-				 */
-				$class             = new $class($this->dependencyService, $this->configService);
-				$this->bootstrap[] = $class;
-			}
-		}
+		// let's initialise the extensions
+		$this->initialiseExtensions($this->configService->getConfig('extensions', []));
 	}
 
-	/**
-	 * @throws InvalidConfigException
-	 */
 	public function run(): void
 	{
-		// initialize framework web application
+		// initialise framework web application
 		$this->application = new WebApplicationComponent(
 			$this->configService->getConfig('framework')
 		);
 
-		if (!empty($this->bootstrap)) {
-			foreach ($this->bootstrap as $object) {
-				if ($object instanceof WebBootstrapServiceInterface) {
-					$object->bootstrap($this);
-				}
-			}
-		}
-
+		$this->postExtensionsInitialisation($this->extensions);
 		$this->application->run();
 	}
 
@@ -113,7 +97,7 @@ final class WebApplicationService implements WebApplicationServiceInterface
 	}
 
 	/**
-	 * @throws TranslatableRuntimeException if property not exist
+	 * @throws TranslatableRuntimeException if property doesn't exist
 	 */
 	public function getApplicationProperty(string $name): mixed
 	{
@@ -125,9 +109,12 @@ final class WebApplicationService implements WebApplicationServiceInterface
 			return $this->application->params[$name];
 		}
 
-		throw new TranslatableRuntimeException('property_not_exist', [
-			'property' => $name,
-		]);
+		throw new TranslatableRuntimeException(
+			'property_not_exist',
+			[
+				'property' => $name,
+			]
+		);
 	}
 
 	public function setApplicationProperty(string $name, mixed $value): void
@@ -148,7 +135,7 @@ final class WebApplicationService implements WebApplicationServiceInterface
 	{
 		try {
 			return $this->container->get($name, $params, $config);
-		} catch (InvalidConfigException|NotInstantiableException $e) {
+		} catch (InvalidConfigException $e) {
 			throw new TranslatableRuntimeException(
 				'service_not_exist',
 				['service' => $name],
@@ -156,5 +143,18 @@ final class WebApplicationService implements WebApplicationServiceInterface
 				$e
 			);
 		}
+	}
+
+	public function getExtension(string $name): ExtensionInterface
+	{
+		return $this->extensions[$name];
+	}
+
+	/**
+	 * @return array<string, ExtensionInterface>
+	 */
+	public function getExtensions(): array
+	{
+		return $this->extensions;
 	}
 }

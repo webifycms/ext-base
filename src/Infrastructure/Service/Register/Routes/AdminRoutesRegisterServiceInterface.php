@@ -11,9 +11,9 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Service\Bootstrap;
+namespace Webify\Base\Infrastructure\Service\Register\Routes;
 
 /**
- * ConsoleBootstrapServiceInterface.
+ * Interface for register administration routes.
  */
-interface ConsoleBootstrapServiceInterface {}
+interface AdminRoutesRegisterServiceInterface extends RoutesRegisterServiceInterface {}
