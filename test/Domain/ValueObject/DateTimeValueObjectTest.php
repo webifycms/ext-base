@@ -21,7 +21,7 @@ use Webify\Base\Domain\ValueObject\DateTimeValueObject;
 /**
  * Date time value object test class.
  *
- * @coversDefaultClass  \Webify\Base\Domain\ValueObject\DateTimeValueObject
+ * @coversDefaultClass \Webify\Base\Domain\ValueObject\DateTimeValueObject
  *
  * @internal
  */

@@ -25,11 +25,14 @@ interface ApplicationServiceInterface extends DomainApplicationServiceInterface
 	/**
 	 * Returns the service instance for the given name if registered in the container.
 	 *
-	 * @param string               $name   alias or fully qualified class name that has registered with the container
-	 * @param array<string, mixed> $params array of constructor parameters values @see \yii\di\Container::get
-	 * @param array<string, mixed> $config array of name-value pairs that will be used to initialize the object properties
+	 * @param string                       $name   alias or fully qualified class name that has
+	 *                                             registered with the container
+	 * @param array<string, mixed>|array{} $params array of constructor parameters
+	 *                                             values @see \yii\di\Container::get
+	 * @param array<string, mixed>|array{} $config array of name-value pairs that will be used to
+	 *                                             initialise the object properties
 	 */
-	public function getService(string $name, array $params, array $config): mixed;
+	public function getService(string $name, array $params = [], array $config = []): mixed;
 
 	/**
 	 * Shortcut and safe method to get the value of the framework application property.

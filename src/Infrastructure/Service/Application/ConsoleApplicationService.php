@@ -114,7 +114,12 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		$this->application->params[$name] = $value;
 	}
 
-	public function getService(string $name, array $params = [], array $config = []): mixed
+	/**
+	 * @inheritDoc
+	 *
+	 * @return object
+	 */
+	public function getService(string $name, array $params = [], array $config = []): object
 	{
 		try {
 			return $this->container->get($name, $params, $config);
