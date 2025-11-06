@@ -67,7 +67,11 @@ final class WebApplicationComponent extends Application
 
 		// check in the controller map
 		if (isset($this->controllerMap[$id])) {
-			$controller = Yii::createObject($this->controllerMap[$id], [$id, $this]);
+			/**
+			 * @var class-string $className
+			 */
+			$className  = $this->controllerMap[$id];
+			$controller = Yii::createObject($className, [$id, $this]);
 
 			return [$controller, $route];
 		}
