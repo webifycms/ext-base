@@ -192,7 +192,7 @@ if (!function_exists('administration_url')) {
 	 *
 	 * @param null|array<string,string>|string $url
 	 */
-	function administration_url(null|array|string $url = null, bool|string $scheme = false): string
+	function administration_url(array|string|null $url = null, bool|string $scheme = false): string
 	{
 		$prefix = administration()->getUrl() . '/';
 

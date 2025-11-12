@@ -114,11 +114,6 @@ final class ConsoleApplicationService implements ConsoleApplicationServiceInterf
 		$this->application->params[$name] = $value;
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @return object
-	 */
 	public function getService(string $name, array $params = [], array $config = []): object
 	{
 		try {

@@ -131,11 +131,6 @@ final class WebApplicationService implements WebApplicationServiceInterface
 		return $this->administrationPath;
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @return object
-	 */
 	public function getService(string $name, array $params = [], array $config = []): object
 	{
 		try {
