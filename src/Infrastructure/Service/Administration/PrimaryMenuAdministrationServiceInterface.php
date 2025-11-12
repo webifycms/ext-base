@@ -17,15 +17,11 @@ interface PrimaryMenuAdministrationServiceInterface
 {
 	/**
 	 * Primary menu items key.
-	 *
-	 * @const string
 	 */
 	public const PRIMARY_MENU_KEY = 'primaryMenuItems';
 
 	/**
 	 * Default sort order number.
-	 *
-	 * @const int
 	 */
 	public const DEFAULT_SORT_ORDER = 10;
 

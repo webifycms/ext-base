@@ -25,8 +25,6 @@ abstract class ControllerMapRegisterService implements PreRegisterServiceInterfa
 {
 	/**
 	 * Controller map config key.
-	 *
-	 * @const string
 	 */
 	private const CONFIG_KEY = 'framework.controllerMap';
 
