@@ -1,12 +1,12 @@
 <?php
 
 /**
- * The file is part of the "webifycms/app", WebifyCMS extension package.
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
  *
- * @see https://webifycms.com
+ * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 WebifyCMS
- * @license https://webifycms.com/license
+ * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -38,10 +38,10 @@ const ENV_DEVELOPMENT = 'dev';
 function log_message(string $type, array|string $message, string $category = 'application'): void
 {
 	match ($type) {
-		'info' => Yii::info($message, $category),
+		'info'    => Yii::info($message, $category),
 		'warning' => Yii::warning($message, $category),
 		'debug', 'trace' => Yii::debug($message, $category),
-		default => Yii::error($message, $category),
+		default   => Yii::error($message, $category),
 	};
 }
 

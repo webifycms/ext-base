@@ -24,5 +24,5 @@ return [
 			app()->getView() // @phpstan-ignore argument.type
 		),
 	],
-	'singletons' => [],
+	'singletons'  => [],
 ];
