@@ -6,6 +6,15 @@ The WebifyCMS base extension serves as the foundation for the entire application
 
 Please refer to the application installation guide [here](https://github.com/webifycms/app/blob/main/README.md#Quick-Start). It will be installed under the `extensions` 📁.
 
+## 📚 Documentation
+
+**For Extension Developers:**  
+If you're building a third-party extension for WebifyCMS, please review the [Extension Development Guidelines](docs/EXTENSION_DEVELOPMENT.md) to learn about:
+- Reserved global function names from the core
+- Best practices for avoiding naming conflicts
+- How to properly structure your extension helpers
+- Troubleshooting common issues
+
 ## 🤝 Like to contribute?
 
 Contributions, issues and feature requests are welcome! Feel free to check the following pages:

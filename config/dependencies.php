@@ -17,8 +17,6 @@ use Webify\Base\Infrastructure\Service\Administration\PrimaryMenuAdministrationS
 use Webify\Base\Infrastructure\Service\Validator\EmailValidatorService;
 use yii\validators\EmailValidator;
 
-use function Webify\Base\Infrastructure\app;
-
 return [
 	'definitions' => [
 		EmailValidatorServiceInterface::class            => fn () => new EmailValidatorService(new EmailValidator()),
