@@ -25,7 +25,7 @@
             "Webify\\Base\\": "src/"
         },
         "files": [
-            "src/Infrastructure/Helpers.php"
+            "src/helpers.php"
         ]
     },
     "autoload-dev": {

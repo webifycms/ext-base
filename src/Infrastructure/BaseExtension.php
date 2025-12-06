@@ -80,7 +80,7 @@ final class BaseExtension implements BaseExtensionInterface
 	public static function getInstance(): BaseExtensionInterface
 	{
 		// @phpstan-ignore-next-line
-		return dependency()
+		return di()
 			->getContainer()
 			->get(WebApplicationServiceInterface::class)
 			->getExtension(BaseExtensionInterface::class)

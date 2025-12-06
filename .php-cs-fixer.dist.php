@@ -53,6 +53,13 @@ $rules = [
 		'comment_type' => 'PHPDoc',
 		'separate'     => 'top',
 	],
+	'binary_operator_spaces'       	 	=> [
+		'operators' => [
+			'=>' => 'align_by_scope',
+			'='  => 'align',
+			'|'  => 'single_space',
+		],
+	],
 ];
 
 return (new Fixer($finder, $rules))

@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Service\Register\Dependencies;
 
-use function Webify\Base\Infrastructure\get_alias;
-
 /**
  * The service class to register dependencies for the Base extension.
  */
