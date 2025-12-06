@@ -37,17 +37,17 @@ $header = <<<'HEADER'
 	@author Mohammed Shifreen <mshifreen@gmail.com>
 	HEADER;
 $rules = [
-	'echo_tag_syntax' => [
+	'echo_tag_syntax'                 => [
 		'format'                         => 'short',
 		'shorten_simple_statements_only' => false,
 	],
-	'phpdoc_to_comment'       => false,
-	'global_namespace_import' => [
+	'phpdoc_to_comment'               => false,
+	'global_namespace_import'         => [
 		'import_classes'   => true,
 		'import_constants' => false,
 		'import_functions' => true,
 	],
-	'header_comment' => [
+	'header_comment'                  => [
 		'header'       => $header,
 		'location'     => 'after_open',
 		'comment_type' => 'PHPDoc',

@@ -55,7 +55,7 @@ abstract class RoutesRegisterService implements PreRegisterServiceInterface, Rou
 	private function registerAdminRoutes(ConfigServiceInterface $configService): void
 	{
 		$groupRule = new GroupUrlRule([
-			'prefix' => $configService->getConfig(
+			'prefix'      => $configService->getConfig(
 				'administrationPath',
 				ApplicationServiceInterface::DEFAULT_ADMINISTRATION_PATH
 			),
@@ -64,7 +64,7 @@ abstract class RoutesRegisterService implements PreRegisterServiceInterface, Rou
 				'class'  => UrlRule::class,
 				'suffix' => '',
 			],
-			'rules' => $this->getRoutes(),
+			'rules'       => $this->getRoutes(),
 		]);
 		$existingRoutes = $configService->getConfig('framework.components.urlManager.rules', []);
 
