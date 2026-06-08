@@ -1,0 +1,74 @@
+{
+    "name": "webifycms/ext-base",
+    "description": "The WebifyCMS base extension serves as the foundation for the entire application, holding abstractions and reusable components. It is adjusted as needed when new features are introduced.",
+    "type": "webifycms-extension",
+    "authors": [
+        {
+            "name": "Mohammed Shifreen",
+            "email": "mshifreen@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.4",
+        "psr/http-message": "^2.0",
+        "psr/http-factory": "^1.1",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "psr/event-dispatcher": "^1.0",
+        "psr/log": "^3.0",
+        "psr/container": "^2.0",
+        "psr/simple-cache": "^3.0",
+        "nyholm/psr7": "^1.8",
+        "nyholm/psr7-server": "^1.1",
+        "laminas/laminas-httphandlerrunner": "^2.13",
+        "league/route": "^6.2",
+        "php-di/php-di": "^7.1",
+        "league/event": "^3.0",
+        "illuminate/database": "^13.12",
+        "symfony/cache": "^8.1",
+        "symfony/translation": "^8.1",
+        "symfony/console": "^8.1",
+        "symfony/uid": "^8.1",
+        "symfony/string": "^8.1",
+        "monolog/monolog": "^3.10",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "require-dev": {
+        "webifycms/dev-tools": "^1.2",
+        "phpunit/phpunit": "^13.1",
+        "fakerphp/faker": "^1.24",
+        "phpat/phpat": "^0.12",
+        "filp/whoops": "^2.18",
+        "middlewares/whoops": "^2.1",
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webify\\Base\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webify\\Base\\Test\\": "test/",
+            "Webify\\Base\\Dev\\": "dev/"
+        }
+    },
+    "optimize-autoloader": true,
+    "scripts": {
+        "analyse": [
+            "phpstan"
+        ],
+        "sniff": [
+            "php-cs-fixer fix --show-progress=dots --diff --dry-run"
+        ],
+        "test": [
+            "phpunit test"
+        ],
+        "code-check": ["@analyse", "@sniff"],
+        "code-format": [
+            "php-cs-fixer fix --show-progress=dots"
+        ]
+    }
+}

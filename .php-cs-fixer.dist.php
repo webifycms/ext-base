@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * The file is part of the "webifycms/ext-base", WebifyCMS extension package.
+ *
+ * @see https://webifycms.com/extension/base
+ *
+ * @copyright Copyright (c) 2023 WebifyCMS
+ * @license https://webifycms.com/extension/base/license
+ * @author Mohammed Shifreen <mshifreen@gmail.com>
+ */
+declare(strict_types=1);
+
+// should require the composer autoloader on first
+require __DIR__ . '/vendor/autoload.php';
+
+use PhpCsFixer\Finder;
+use Webify\Tools\Fixer\Fixer;
+
+$finder = Finder::create()
+	->in(__DIR__)
+	->exclude(
+		[
+			'vendor',
+		]
+	)
+	->ignoreDotFiles(false)
+	->name('*.php')
+;
+$header = <<<'HEADER'
+	The file is part of the "webifycms/ext-base", WebifyCMS extension package.
+
+	@see https://webifycms.com/extension/base
+
+	@copyright Copyright (c) 2023 WebifyCMS
+	@license https://webifycms.com/extension/base/license
+	@author Mohammed Shifreen <mshifreen@gmail.com>
+	HEADER;
+$rules = [
+	'header_comment'                      => [
+		'header'       => $header,
+		'location'     => 'after_open',
+		'comment_type' => 'PHPDoc',
+		'separate'     => 'top',
+	],
+	'php_unit_test_class_requires_covers' => false,
+	'class_definition'                    => [
+		'multi_line_extends_each_single_line' => true,
+	],
+];
+
+return new Fixer($finder, $rules)
+	->getConfig()
+	->setUsingCache(false)
+;
