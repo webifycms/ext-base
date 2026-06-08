@@ -1,0 +1,19 @@
+includes:
+	- vendor/webifycms/dev-tools/phpstan-default.neon
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
+	- vendor/phpat/phpat/extension.neon
+
+parameters:
+	paths:
+		- src
+		- test
+	excludePaths:
+		- vendor
+
+services:
+	-
+		class: Webify\Base\Test\Architecture\ArchitectureSpec
+		tags:
+			- phpat.test
