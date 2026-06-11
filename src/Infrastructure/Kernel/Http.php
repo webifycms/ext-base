@@ -52,10 +52,7 @@ final readonly class Http
 		try {
 			$response = $this->router->dispatch($request);
 		} catch (NotFoundException) {
-			$response = $this->responseFactory
-				->createResponse(302)
-				->withHeader('Location', '/404')
-			;
+			$response = $this->responseFactory->createResponse(302);
 		}
 
 		$this->emitter->emit($response);

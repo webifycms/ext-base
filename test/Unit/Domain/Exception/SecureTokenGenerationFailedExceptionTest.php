@@ -16,7 +16,7 @@ namespace Webify\Base\Test\Unit\Domain\Exception;
 use PHPUnit\Framework\Attributes\{CoversClass, CoversMethod, Test, UsesClass};
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Webify\Base\Domain\Contract\Translation\ExceptionTranslation;
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 use Webify\Base\Domain\Exception\SecureTokenGenerationFailedException;
 
 /**

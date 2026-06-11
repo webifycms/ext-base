@@ -28,7 +28,7 @@ final readonly class ExampleSecureToken extends SecureToken
 	/**
 	 * {@inheritDoc}
 	 */
-	public function throwException(string $value): never
+	protected function throwException(string $value): never
 	{
 		throw new InvalidArgumentException('Invalid secure token: ' . $value);
 	}

@@ -11,10 +11,10 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Exception;
+namespace Webify\Base\Contract\Exception;
 
 use OutOfBoundsException;
-use Webify\Base\Domain\Contract\Translation\{ExceptionTranslation, TranslatableExceptionInterface};
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 
 /**
  * Thrown when trying to access an index that does not exist in the collection.

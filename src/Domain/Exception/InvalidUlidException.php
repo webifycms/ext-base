@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Webify\Base\Domain\Exception;
 
 use InvalidArgumentException;
-use Webify\Base\Domain\Contract\Translation\{ExceptionTranslation, TranslatableExceptionInterface};
+use Webify\Base\Contract\Exception\TranslatableExceptionInterface;
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 
 /**
  * Thrown when an invalid ULID is encountered.

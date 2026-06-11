@@ -15,8 +15,8 @@ namespace Webify\Base\Test\Unit\Domain\Exception;
 
 use PHPUnit\Framework\Attributes\{CoversClass, CoversMethod, Test, UsesClass};
 use PHPUnit\Framework\TestCase;
-use Webify\Base\Domain\Contract\Translation\ExceptionTranslation;
-use Webify\Base\Domain\Exception\InvalidCollectionIndexException;
+use Webify\Base\Contract\Exception\InvalidCollectionIndexException;
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 
 /**
  * InvalidCollectionIndexExceptionTest tests the functionality of the InvalidCollectionIndexException class.

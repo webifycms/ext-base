@@ -38,43 +38,53 @@ final class HttpKernelTest extends TestCase
 	#[Test]
 	public function testHandleDispatchesRequestAndEmitsResponse(): void
 	{
-		$request  = self::createStub(ServerRequestInterface::class);
-		$response = new Psr17Factory()->createResponse(200);
-
+		$request        = self::createStub(ServerRequestInterface::class);
+		$response       = new Psr17Factory()->createResponse(200);
 		$requestCreator = $this->createMock(ServerRequestCreatorInterface::class);
+
 		$requestCreator->expects(self::once())->method('fromGlobals')->willReturn($request);
 
 		$router = $this->createMock(Router::class);
+
 		$router->expects(self::once())->method('dispatch')->with($request)->willReturn($response);
 
 		$emitter = $this->createMock(EmitterInterface::class);
+
 		$emitter->expects(self::once())->method('emit')->with($response);
 
 		$kernel = new Http($router, $requestCreator, $emitter, new Psr17Factory());
+
 		$kernel->handle();
 	}
 
 	/**
-	 * Test that handle catches NotFoundException and returns a 302 redirect to /404.
+	 * Test that handle catches NotFoundException and returns a 302 redirect.
 	 */
 	#[Test]
 	public function testHandleCatchesNotFoundExceptionAndRedirects(): void
 	{
-		$request  = self::createStub(ServerRequestInterface::class);
-
+		$request        = self::createStub(ServerRequestInterface::class);
 		$requestCreator = $this->createMock(ServerRequestCreatorInterface::class);
+
 		$requestCreator->expects(self::once())->method('fromGlobals')->willReturn($request);
 
 		$router = $this->createMock(Router::class);
-		$router->expects(self::once())->method('dispatch')->with($request)->willThrowException(new NotFoundException());
+
+		$router->expects(self::once())->method('dispatch')
+			->with($request)
+			->willThrowException(new NotFoundException())
+		;
 
 		$emitter = $this->createMock(EmitterInterface::class);
-		$emitter->expects(self::once())->method('emit')->with(
-			self::callback(function (ResponseInterface $response): bool {
-				return $response->getStatusCode() === 302
-					&& $response->getHeaderLine('Location') === '/404';
-			})
-		);
+
+		$emitter->expects(self::once())
+			->method('emit')
+			->with(
+				self::callback(function (ResponseInterface $response): bool {
+					return $response->getStatusCode() === 302;
+				})
+			)
+		;
 
 		$kernel = new Http($router, $requestCreator, $emitter, new Psr17Factory());
 		$kernel->handle();

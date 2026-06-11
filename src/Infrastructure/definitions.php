@@ -16,8 +16,7 @@ use League\Event\EventDispatcher;
 use League\Route\Router;
 use League\Route\Strategy\ApplicationStrategy;
 use Monolog\Formatter\JsonFormatter;
-use Monolog\Handler\StreamHandler;
-use Monolog\{Level, Logger};
+use Monolog\{Handler\RotatingFileHandler, Level, Logger};
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\{ServerRequestCreator, ServerRequestCreatorInterface};
 use Psr\Container\ContainerInterface;
@@ -94,8 +93,9 @@ return [
 	// -------------------------------------------------------------------------
 	LoggerInterface::class                      => factory(
 		static function (ConfigInterface $config, Environment $environment): Logger {
-			$handler = new StreamHandler(
-				$config->logPath,
+			$handler = new RotatingFileHandler(
+				$config->logPath . '/app.log',
+				7,
 				$environment->isDebugEnabled() ? Level::Debug : Level::Warning,
 			);
 			$handler->setFormatter(new JsonFormatter());
@@ -122,10 +122,11 @@ return [
 	// Commands are added during each provider's boot() phase.
 	// -------------------------------------------------------------------------
 	ConsoleApplication::class                   => factory(
-		static function (ConfigInterface $config): ConsoleApplication {
+		static function (ConfigInterface $config, ContainerInterface $container): ConsoleApplication {
 			return new ConsoleApplication(
 				$config->get('name', 'WebifyCMS'),
-				$config->get('version', '0.0.1')
+				$config->get('version', '0.0.1'),
+				$container
 			);
 		}
 	),

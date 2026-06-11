@@ -15,7 +15,7 @@ namespace Webify\Base\Contract\Collection;
 
 use Countable;
 use Iterator;
-use Webify\Base\Domain\Exception\{InvalidCollectionIndexException, InvalidCollectionItemTypeException};
+use Webify\Base\Contract\Exception\{InvalidCollectionIndexException, InvalidCollectionItemTypeException};
 
 /**
  * Base type-safe collection class.
@@ -109,7 +109,13 @@ abstract class Collection implements Countable, Iterator
 	 */
 	final public function contains(callable $callable): bool
 	{
-		return array_any($this->items, fn ($item) => $callable($item));
+		foreach ($this->items as $item) {
+			if ($callable($item)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -121,7 +127,7 @@ abstract class Collection implements Countable, Iterator
 	 */
 	final public function find(callable $callable): mixed
 	{
-		return array_find($this->items, fn ($item) => $callable($item));
+		return array_find($this->items, $callable);
 	}
 
 	/**
