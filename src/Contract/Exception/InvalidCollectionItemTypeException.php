@@ -11,10 +11,10 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Exception;
+namespace Webify\Base\Contract\Exception;
 
 use InvalidArgumentException;
-use Webify\Base\Domain\Contract\Translation\{ExceptionTranslation, TranslatableExceptionInterface};
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 
 /**
  * Thrown when an item of an invalid type is added to a collection.

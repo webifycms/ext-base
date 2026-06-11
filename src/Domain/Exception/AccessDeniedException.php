@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Webify\Base\Domain\Exception;
 
 use RuntimeException;
-use Webify\Base\Domain\Contract\Translation\{ExceptionTranslation, TranslatableExceptionInterface};
+use Webify\Base\Contract\Exception\TranslatableExceptionInterface;
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 
 /**
  * Exception thrown when an access denied error occurs in the authorization domain.

@@ -15,7 +15,8 @@ namespace Webify\Base\Domain\Exception;
 
 use InvalidArgumentException;
 use Throwable;
-use Webify\Base\Domain\Contract\Translation\{ExceptionTranslation, TranslatableExceptionInterface};
+use Webify\Base\Contract\Exception\TranslatableExceptionInterface;
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 
 /**
  * Exception thrown when an invalid date and time value is encountered.

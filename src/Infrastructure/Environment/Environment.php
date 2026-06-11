@@ -41,7 +41,7 @@ final readonly class Environment
 		}
 
 		return new self(
-			Type::from($config->get('environment')),
+			Type::fromString($config->get('environment')),
 			(bool) $config->get('debug', false)
 		);
 	}

@@ -11,18 +11,16 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Contract\Authorization\Service;
+namespace Webify\Base\Domain\Contract\Authorization\Policy;
 
 use Webify\Base\Domain\Contract\Authorization\{AuthorizableResourceInterface, AuthorizableSubjectInterface};
 
 /**
- * AuthorizationInterface defines the contract for authorization service.
+ * AccessPolicyInterface defines the contract for authorization policy.
  *
- * The single contract that the entire application depends on for access checks.
- * This is the most important interface in the bounded context — every application service,
- * every console command, and every event handler that needs to enforce access calls this and nothing else.
+ * Checks whether the given subject is authorized to access the specified resource.
  */
-interface AuthorizationInterface
+interface AccessPolicyInterface
 {
 	/**
 	 * Checks whether the given subject is authorized to access the specified resource.
@@ -33,7 +31,7 @@ interface AuthorizationInterface
 	 *
 	 * @return bool returns true if the subject is authorized to access the resource, false otherwise
 	 */
-	public function authorize(
+	public function isAllowed(
 		string $action,
 		AuthorizableSubjectInterface $subject,
 		AuthorizableResourceInterface $resource

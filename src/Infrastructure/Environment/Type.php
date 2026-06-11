@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Webify\Base\Infrastructure\Environment;
 
+use ValueError;
+use Webify\Base\Infrastructure\Exception\ApplicationEnvironmentException;
+
 /**
  * The environment type.
  */
@@ -21,13 +24,31 @@ enum Type: string
 	case Production  = 'production';
 	case Development = 'development';
 
+	/**
+	 * Checks if the environment is production.
+	 */
 	public function isProduction(): bool
 	{
 		return self::Production === $this;
 	}
 
+	/**
+	 * Checks if the environment is development.
+	 */
 	public function isDevelopment(): bool
 	{
 		return self::Development === $this;
+	}
+
+	/**
+	 * Factory method to create an environment type from a string.
+	 */
+	public static function fromString(string $value): self
+	{
+		try {
+			return self::from($value);
+		} catch (ValueError) {
+			throw ApplicationEnvironmentException::notDefinedInConfig();
+		}
 	}
 }

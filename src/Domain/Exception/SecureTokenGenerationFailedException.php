@@ -15,7 +15,8 @@ namespace Webify\Base\Domain\Exception;
 
 use RuntimeException;
 use Throwable;
-use Webify\Base\Domain\Contract\Translation\{ExceptionTranslation, TranslatableExceptionInterface};
+use Webify\Base\Contract\Exception\TranslatableExceptionInterface;
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 
 /**
  * Exception thrown when a secure token generation fails.

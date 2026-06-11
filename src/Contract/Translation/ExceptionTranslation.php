@@ -11,7 +11,7 @@
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Domain\Contract\Translation;
+namespace Webify\Base\Contract\Translation;
 
 /**
  * Data transfer object to hold translation information for exceptions.

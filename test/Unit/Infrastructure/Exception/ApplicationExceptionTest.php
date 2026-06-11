@@ -15,7 +15,7 @@ namespace Webify\Base\Test\Unit\Infrastructure\Exception;
 
 use PHPUnit\Framework\Attributes\{CoversClass, CoversMethod, Test, UsesClass};
 use PHPUnit\Framework\TestCase;
-use Webify\Base\Domain\Contract\Translation\ExceptionTranslation;
+use Webify\Base\Contract\Translation\ExceptionTranslation;
 use Webify\Base\Infrastructure\Exception\ApplicationException;
 
 /**

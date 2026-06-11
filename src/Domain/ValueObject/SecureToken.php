@@ -96,7 +96,7 @@ abstract readonly class SecureToken
 	/**
 	 * Throws a domain-specific exception when validation fails.
 	 */
-	abstract public function throwException(string $value): never;
+	abstract protected function throwException(string $value): never;
 
 	/**
 	 * Checks if the current value meets the minimum length requirement.

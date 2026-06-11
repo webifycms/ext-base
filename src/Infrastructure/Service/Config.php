@@ -24,6 +24,11 @@ final class Config implements ConfigInterface
 	use ArraySearchHelper;
 
 	/**
+	 * Used to accept `null` as a valid value.
+	 */
+	private const string NULL_VALUE = 'null';
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public string $basePath {
@@ -99,9 +104,10 @@ final class Config implements ConfigInterface
 			return true;
 		}
 
-		$found = $this->search((string) $key, $this->config);
+		// Check if the key exists in the configuration
+		$found = $this->search((string) $key, $this->config, self::NULL_VALUE);
 
-		if (null !== $found) {
+		if (self::NULL_VALUE !== $found) {
 			// Cache the found key and value pair for future use
 			$this->cache[(string) $key] = $found;
 
