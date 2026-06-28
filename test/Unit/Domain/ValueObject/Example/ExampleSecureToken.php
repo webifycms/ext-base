@@ -5,7 +5,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @copyright Copyright (c) 2023 WebifyCMS
+ * @copyright Copyright (c) 2023 - Present WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */

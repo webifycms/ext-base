@@ -5,7 +5,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @copyright Copyright (c) 2023 WebifyCMS
+ * @copyright Copyright (c) 2023 - Present WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -17,7 +17,10 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use League\Route\Http\Exception\NotFoundException;
 use League\Route\Router;
 use Nyholm\Psr7Server\ServerRequestCreatorInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Log\LoggerInterface;
+use Throwable;
+use Webify\Base\Infrastructure\Contract\ErrorHandlerInterface;
+use Webify\Base\Infrastructure\Environment\Environment;
 
 /**
  * Http kernel handles the HTTP request/response lifecycle.
@@ -29,21 +32,24 @@ final readonly class Http
 {
 	/**
 	 * The constructor.
-	 *
-	 * @param Router                        $router               the router instance
-	 * @param ServerRequestCreatorInterface $serverRequestCreator the server request creator instance
-	 * @param EmitterInterface              $emitter              the emitter instance
-	 * @param ResponseFactoryInterface      $responseFactory      the response factory instance
 	 */
 	public function __construct(
 		private Router $router,
 		private ServerRequestCreatorInterface $serverRequestCreator,
 		private EmitterInterface $emitter,
-		private ResponseFactoryInterface $responseFactory
+		private Environment $environment,
+		private ErrorHandlerInterface $errorHandler,
+		private LoggerInterface $logger
 	) {}
 
 	/**
 	 * Handles the HTTP request/response lifecycle.
+	 *
+	 * In case of errors:
+	 * - In debug mode it re-throws so the registered development error handler can produce a rich diagnostic page
+	 * - In production, it logs the error and emits an appropriate HTTP error response using the error handler
+	 *
+	 * @throws Throwable
 	 */
 	public function handle(): void
 	{
@@ -51,8 +57,20 @@ final readonly class Http
 
 		try {
 			$response = $this->router->dispatch($request);
-		} catch (NotFoundException) {
-			$response = $this->responseFactory->createResponse(302);
+		} catch (Throwable $throwable) {
+			$this->logger->error($throwable->getMessage(), [
+				'exception' => $throwable,
+				'file'      => $throwable->getFile(),
+				'line'      => $throwable->getLine(),
+				'uri'       => (string) $request->getUri(),
+				'method'    => $request->getMethod(),
+			]);
+
+			if ($this->environment->isDebugEnabled() && !$throwable instanceof NotFoundException) {
+				throw $throwable;
+			}
+
+			$response = $this->errorHandler->handle($request, $throwable);
 		}
 
 		$this->emitter->emit($response);

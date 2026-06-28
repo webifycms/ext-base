@@ -5,7 +5,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @copyright Copyright (c) 2023 WebifyCMS
+ * @copyright Copyright (c) 2023 - Present WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -21,7 +21,7 @@ use Webify\Base\Contract\KeyValueReaderInterface;
 interface ConfigInterface extends KeyValueReaderInterface
 {
 	/**
-	 * @var string the application cache and log directories
+	 * The application cache and log directories.
 	 */
 	public const string CACHE_DIR = 'cache';
 	public const string LOG_DIR   = 'log';
@@ -60,4 +60,20 @@ interface ConfigInterface extends KeyValueReaderInterface
 	public string $logPath {
 		get;
 	}
+
+	/**
+	 * @var string the application base URL and support getter
+	 */
+	public string $baseUrl {
+		get;
+	}
+
+	/**
+	 * Create a new instance with the given configuration merged in.
+	 *
+	 * @param array<string, mixed> $config the configuration to merge
+	 *
+	 * @return ConfigInterface a new instance with the merged configuration
+	 */
+	public function with(array $config): ConfigInterface;
 }

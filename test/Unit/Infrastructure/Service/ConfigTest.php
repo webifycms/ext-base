@@ -5,7 +5,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @copyright Copyright (c) 2023 WebifyCMS
+ * @copyright Copyright (c) 2023 - Present WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -209,5 +209,72 @@ final class ConfigTest extends TestCase
 		]);
 
 		self::assertSame('/app/runtime/log', $config->logPath);
+	}
+
+	/**
+	 * Test that baseUrl returns the configured value when present.
+	 */
+	#[Test]
+	public function testBaseUrlReturnsConfiguredValue(): void
+	{
+		$config = new Config([
+			'basePath'    => '/app',
+			'runtimePath' => '/app/runtime',
+			'configPath'  => '/app/config',
+			'baseUrl'     => 'https://example.com',
+		]);
+
+		self::assertSame('https://example.com', $config->baseUrl);
+	}
+
+	/**
+	 * Test that baseUrl returns an empty string when not configured.
+	 */
+	#[Test]
+	public function testBaseUrlReturnsEmptyStringWhenNotConfigured(): void
+	{
+		$config = new Config([
+			'basePath'    => '/app',
+			'runtimePath' => '/app/runtime',
+			'configPath'  => '/app/config',
+		]);
+
+		self::assertSame('', $config->baseUrl);
+	}
+
+	/**
+	 * Test that with() returns a new instance with the merged configuration.
+	 */
+	#[Test]
+	public function testWithReturnsNewInstanceWithMergedConfig(): void
+	{
+		$original = new Config([
+			'basePath'    => '/app',
+			'runtimePath' => '/app/runtime',
+			'configPath'  => '/app/config',
+		]);
+
+		$enriched = $original->with(['baseUrl' => 'https://example.com']);
+
+		self::assertNotSame($original, $enriched);
+		self::assertSame('https://example.com', $enriched->baseUrl);
+		self::assertSame($original->basePath, $enriched->basePath);
+	}
+
+	/**
+	 * Test that with() does not mutate the original config instance.
+	 */
+	#[Test]
+	public function testWithDoesNotMutateOriginalConfig(): void
+	{
+		$original = new Config([
+			'basePath'    => '/app',
+			'runtimePath' => '/app/runtime',
+			'configPath'  => '/app/config',
+		]);
+
+		$original->with(['baseUrl' => 'https://example.com']);
+
+		self::assertSame('', $original->baseUrl);
 	}
 }
