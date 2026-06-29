@@ -5,7 +5,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @copyright Copyright (c) 2023 WebifyCMS
+ * @copyright Copyright (c) 2023 - Present WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -18,9 +18,14 @@ use League\Route\Http\Exception\NotFoundException;
 use League\Route\Router;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreatorInterface;
-use PHPUnit\Framework\Attributes\{CoversClass, CoversMethod, Test};
+use PHPUnit\Framework\Attributes\{CoversClass, CoversMethod, Test, UsesClass};
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
+use Webify\Base\Application\Service\ConfigInterface;
+use Webify\Base\Infrastructure\Contract\ErrorHandlerInterface;
+use Webify\Base\Infrastructure\Environment\Environment;
 use Webify\Base\Infrastructure\Kernel\Http;
 
 /**
@@ -30,6 +35,7 @@ use Webify\Base\Infrastructure\Kernel\Http;
  */
 #[CoversClass(Http::class)]
 #[CoversMethod(Http::class, 'handle')]
+#[UsesClass(Environment::class)]
 final class HttpKernelTest extends TestCase
 {
 	/**
@@ -52,18 +58,26 @@ final class HttpKernelTest extends TestCase
 
 		$emitter->expects(self::once())->method('emit')->with($response);
 
-		$kernel = new Http($router, $requestCreator, $emitter, new Psr17Factory());
+		$kernel = new Http(
+			$router,
+			$requestCreator,
+			$emitter,
+			$this->createEnvironment(false),
+			self::createStub(ErrorHandlerInterface::class),
+			self::createStub(LoggerInterface::class)
+		);
 
 		$kernel->handle();
 	}
 
 	/**
-	 * Test that handle catches NotFoundException and returns a 302 redirect.
+	 * Test that handle catches exceptions and uses the error handler in production mode.
 	 */
 	#[Test]
-	public function testHandleCatchesNotFoundExceptionAndRedirects(): void
+	public function testHandleCatchesExceptionAndUsesErrorHandler(): void
 	{
 		$request        = self::createStub(ServerRequestInterface::class);
+		$response       = new Psr17Factory()->createResponse(500);
 		$requestCreator = $this->createMock(ServerRequestCreatorInterface::class);
 
 		$requestCreator->expects(self::once())->method('fromGlobals')->willReturn($request);
@@ -75,18 +89,114 @@ final class HttpKernelTest extends TestCase
 			->willThrowException(new NotFoundException())
 		;
 
-		$emitter = $this->createMock(EmitterInterface::class);
-
-		$emitter->expects(self::once())
-			->method('emit')
-			->with(
-				self::callback(function (ResponseInterface $response): bool {
-					return $response->getStatusCode() === 302;
-				})
-			)
+		$errorHandler = $this->createMock(ErrorHandlerInterface::class);
+		$errorHandler->expects(self::once())->method('handle')
+			->with($request, self::isInstanceOf(NotFoundException::class))
+			->willReturn($response)
 		;
 
-		$kernel = new Http($router, $requestCreator, $emitter, new Psr17Factory());
+		$emitter = $this->createMock(EmitterInterface::class);
+
+		$emitter->expects(self::once())->method('emit')->with($response);
+
+		$kernel = new Http(
+			$router,
+			$requestCreator,
+			$emitter,
+			$this->createEnvironment(false),
+			$errorHandler,
+			self::createStub(LoggerInterface::class)
+		);
+
 		$kernel->handle();
+	}
+
+	/**
+	 * Test that debug mode re-throws non-NotFoundException exceptions.
+	 */
+	#[Test]
+	public function testHandleRethrowsNonNotFoundExceptionInDebugMode(): void
+	{
+		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('Something went wrong');
+
+		$request        = self::createStub(ServerRequestInterface::class);
+		$requestCreator = $this->createMock(ServerRequestCreatorInterface::class);
+
+		$requestCreator->expects(self::once())->method('fromGlobals')->willReturn($request);
+
+		$router = $this->createMock(Router::class);
+
+		$router->expects(self::once())->method('dispatch')
+			->with($request)
+			->willThrowException(new RuntimeException('Something went wrong'))
+		;
+
+		$kernel = new Http(
+			$router,
+			$requestCreator,
+			self::createStub(EmitterInterface::class),
+			$this->createEnvironment(true),
+			self::createStub(ErrorHandlerInterface::class),
+			self::createStub(LoggerInterface::class)
+		);
+
+		$kernel->handle();
+	}
+
+	/**
+	 * Test that debug mode does not re-throw NotFoundException.
+	 */
+	#[Test]
+	public function testHandleDoesNotRethrowNotFoundExceptionInDebugMode(): void
+	{
+		$request        = self::createStub(ServerRequestInterface::class);
+		$response       = new Psr17Factory()->createResponse(404);
+		$requestCreator = $this->createMock(ServerRequestCreatorInterface::class);
+
+		$requestCreator->expects(self::once())->method('fromGlobals')->willReturn($request);
+
+		$router = $this->createMock(Router::class);
+
+		$router->expects(self::once())->method('dispatch')
+			->with($request)
+			->willThrowException(new NotFoundException())
+		;
+
+		$errorHandler = $this->createMock(ErrorHandlerInterface::class);
+		$errorHandler->expects(self::once())->method('handle')
+			->with($request, self::isInstanceOf(NotFoundException::class))
+			->willReturn($response)
+		;
+
+		$emitter = $this->createMock(EmitterInterface::class);
+
+		$emitter->expects(self::once())->method('emit')->with($response);
+
+		$kernel = new Http(
+			$router,
+			$requestCreator,
+			$emitter,
+			$this->createEnvironment(true),
+			$errorHandler,
+			self::createStub(LoggerInterface::class)
+		);
+
+		$kernel->handle();
+	}
+
+	private function createEnvironment(bool $debug): Environment
+	{
+		$config = self::createStub(ConfigInterface::class);
+		$config->method('has')->willReturn(true);
+		$config->method('get')->willReturnCallback(function (string $key, mixed $default = null): mixed {
+			return match ($key) {
+				'environment' => 'production',
+				'debug'       => true,
+				default       => $default,
+			};
+		});
+
+		return Environment::prepare($config);
 	}
 }

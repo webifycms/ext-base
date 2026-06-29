@@ -5,7 +5,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @copyright Copyright (c) 2023 WebifyCMS
+ * @copyright Copyright (c) 2023 - Present WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -32,45 +32,42 @@ final class Config implements ConfigInterface
 	 * {@inheritdoc}
 	 */
 	public string $basePath {
-		get {
-			return $this->basePath;
-		}
+		get => $this->basePath;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public string $runtimePath {
-		get {
-			return $this->runtimePath;
-		}
+		get => $this->runtimePath;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public string $configPath {
-		get {
-			return $this->configPath;
-		}
+		get => $this->configPath;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public string $cachePath {
-		get {
-			return $this->cachePath;
-		}
+		get => $this->cachePath;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public string $logPath {
-		get {
-			return $this->logPath;
-		}
+		get => $this->logPath;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public string $baseUrl {
+		get => $this->baseUrl;
 	}
 
 	/**
@@ -93,6 +90,15 @@ final class Config implements ConfigInterface
 		$this->configPath  = rtrim($this->get('configPath'), '/');
 		$this->cachePath   = $this->runtimePath . DIRECTORY_SEPARATOR . self::CACHE_DIR;
 		$this->logPath     = $this->runtimePath . DIRECTORY_SEPARATOR . self::LOG_DIR;
+		$this->baseUrl     = rtrim($this->get('baseUrl', ''), '/');
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function with(array $config): ConfigInterface
+	{
+		return new self(array_merge($this->config, $config));
 	}
 
 	/**

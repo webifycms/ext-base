@@ -5,7 +5,7 @@
  *
  * @see https://webifycms.com/extension/base
  *
- * @copyright Copyright (c) 2023 WebifyCMS
+ * @copyright Copyright (c) 2023 - Present WebifyCMS
  * @license https://webifycms.com/extension/base/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
@@ -128,7 +128,7 @@ final class Application
 	/**
 	 * Bootstrap the application and handle a console command.
 	 */
-	public function runConsole(): void
+	public function runConsole(): never
 	{
 		exit($this->container->get('consoleKernel')->handle());
 	}
