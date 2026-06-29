@@ -1,6 +1,7 @@
 {
     "name": "webifycms/ext-base",
     "description": "The WebifyCMS base extension serves as the foundation for the entire application, holding abstractions and reusable components. It is adjusted as needed when new features are introduced.",
+    "license": "MIT",
     "type": "webifycms-extension",
     "authors": [
         {
