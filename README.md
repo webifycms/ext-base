@@ -1,9 +1,16 @@
 # WebifyCMS Base Extension (shared-kernel)
 
-This serves as the foundation for the entire application, holding abstractions and reusable components.
-It is adjusted as needed when new features are introduced.
+[![PHP Version](https://img.shields.io/badge/PHP-8.4%2B-blue)](https://www.php.net)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE.md)
+[![Version](https://img.shields.io/badge/version-0.1.0--alpha-orange)](https://github.com/webifycms/ext-base)
+[![Type](https://img.shields.io/badge/type-extension-green)]()
 
-Head over to the [application](https://github.com/webifycms/app) for more information.
+`ext-base` is the shared kernel of WebifyCMS. It is the single package that
+every other extension depends on. It provides the bootstrap lifecycle, the
+domain building blocks, the infrastructure stack, and the architectural
+contracts that make extensions composable.
+
+> This is not a standalone application. It is the foundation layer.
 
 ## 🤝 Like to contribute?
 
