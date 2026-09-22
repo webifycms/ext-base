@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);

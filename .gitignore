@@ -17,7 +17,3 @@ composer.phar
 # ignores the cache files
 .php-cs-fixer.cache
 /.phpunit.cache
-
-# env files
-../app/.env
-../app/.env.example

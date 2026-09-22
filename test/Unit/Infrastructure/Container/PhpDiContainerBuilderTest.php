@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -21,7 +21,7 @@ use Webify\Base\Infrastructure\Container\PhpDiContainerBuilder;
 use Webify\Base\Infrastructure\Environment\Environment;
 use Webify\Base\Infrastructure\Exception\ApplicationException;
 use Webify\Base\Infrastructure\Service\{Application, Config};
-use Webify\Base\Test\Unit\Infrastructure\Container\Example\{ExampleExtension, ExampleServiceProvider};
+use Webify\Base\Test\Unit\Infrastructure\Container\Example\{ExampleExtension, ExampleServiceProvider, ExampleTheme};
 
 /**
  * PhpDiContainerBuilderTest tests the functionality of the PhpDiContainerBuilder class.
@@ -160,6 +160,9 @@ final class PhpDiContainerBuilderTest extends TestCase
 			'basePath'    => '/app',
 			'runtimePath' => $this->tempRuntimePath,
 			'configPath'  => '/app/config',
+			'themes'      => [
+				'default' => ExampleTheme::class,
+			],
 		], $extraConfig));
 		$envConfig = self::createStub(ConfigInterface::class);
 		$envConfig->method('has')->willReturn(true);

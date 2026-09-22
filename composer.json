@@ -2,6 +2,7 @@
     "name": "webifycms/ext-base",
     "description": "The WebifyCMS base extension serves as the foundation for the entire application, holding abstractions and reusable components. It is adjusted as needed when new features are introduced.",
     "license": "MIT",
+    "version": "0.1.0-alpha",
     "type": "webifycms-extension",
     "authors": [
         {
@@ -13,6 +14,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.4",
+        "psr/cache": "^3.0",
         "psr/http-message": "^2.0",
         "psr/http-factory": "^1.1",
         "psr/http-server-handler": "^1.0",
@@ -29,6 +31,7 @@
         "league/event": "^3.0",
         "illuminate/database": "^13.12",
         "symfony/cache": "^8.1",
+        "symfony/filesystem": "^8.1",
         "symfony/translation": "^8.1",
         "symfony/console": "^8.1",
         "symfony/uid": "^8.1",
@@ -52,8 +55,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Webify\\Base\\Test\\": "test/",
-            "Webify\\Base\\Dev\\": "dev/"
+            "Webify\\Base\\Test\\": "test/"
         }
     },
     "optimize-autoloader": true,

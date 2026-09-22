@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -17,8 +17,8 @@ use PHPUnit\Framework\Attributes\{CoversClass, CoversMethod, Test, UsesClass};
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webify\Base\Application\Service\ConfigInterface;
-use Webify\Base\Infrastructure\Container\ContainerBuilderInterface;
 use Webify\Base\Infrastructure\Contract\{BootstrapServiceProviderInterface, ServiceProviderInterface};
+use Webify\Base\Infrastructure\Contract\ContainerBuilderInterface;
 use Webify\Base\Infrastructure\Environment\{Environment, Type};
 use Webify\Base\Infrastructure\Exception\ApplicationException;
 use Webify\Base\Infrastructure\Service\{Application, Config};
@@ -74,7 +74,7 @@ final class ApplicationTest extends TestCase
 	public function testConstructorThrowsExceptionWhenBasePathNotDefined(): void
 	{
 		$this->expectException(ApplicationException::class);
-		$this->expectExceptionMessage('Application base path not defined in the configurations.');
+		$this->expectExceptionMessageIsOrContains('Application base path not defined in the configurations.');
 
 		$config = new Config([
 			'basePath'    => '',
@@ -93,7 +93,7 @@ final class ApplicationTest extends TestCase
 	public function testConstructorThrowsExceptionWhenRuntimePathNotDefined(): void
 	{
 		$this->expectException(ApplicationException::class);
-		$this->expectExceptionMessage('Application runtime path not defined in the configurations.');
+		$this->expectExceptionMessageIsOrContains('Application runtime path not defined in the configurations.');
 
 		$config = new Config([
 			'basePath'    => '/app',
@@ -112,7 +112,7 @@ final class ApplicationTest extends TestCase
 	public function testConstructorThrowsExceptionWhenRuntimePathNotWritable(): void
 	{
 		$this->expectException(ApplicationException::class);
-		$this->expectExceptionMessage('is not writable');
+		$this->expectExceptionMessageIsOrContains('is not writable');
 
 		$nonWritablePath = $this->tempRuntimePath . '/non_writable';
 		mkdir($nonWritablePath, 0o444, true);

@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -24,7 +24,7 @@ use Webify\Base\Domain\Exception\InvalidUlidException;
  * @internal
  */
 #[CoversClass(InvalidUlidException::class)]
-#[CoversMethod(InvalidUlidException::class, 'forInvalidUlid')]
+#[CoversMethod(InvalidUlidException::class, 'forInvalid')]
 #[UsesClass(ExceptionTranslation::class)]
 final class InvalidUlidExceptionTest extends TestCase
 {
@@ -34,7 +34,7 @@ final class InvalidUlidExceptionTest extends TestCase
 	#[Test]
 	public function testForInvalidUlid(): void
 	{
-		$exception = InvalidUlidException::forInvalidUlid('invalid-ulid');
+		$exception = InvalidUlidException::forInvalid('invalid-ulid');
 
 		self::assertInstanceOf(InvalidUlidException::class, $exception);
 		self::assertSame(

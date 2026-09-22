@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -24,7 +24,7 @@ use Webify\Base\Infrastructure\Exception\ApplicationException;
  * @internal
  */
 #[CoversClass(ApplicationException::class)]
-#[CoversMethod(ApplicationException::class, 'basePathNotDefined')]
+#[CoversMethod(ApplicationException::class, 'publicPathNotDefined')]
 #[CoversMethod(ApplicationException::class, 'runtimePathNotDefined')]
 #[CoversMethod(ApplicationException::class, 'runtimePathIsNotWritable')]
 #[CoversMethod(ApplicationException::class, 'unableToCreateRuntimePaths')]
@@ -37,12 +37,12 @@ final class ApplicationExceptionTest extends TestCase
 	#[Test]
 	public function testBasePathNotDefined(): void
 	{
-		$exception = ApplicationException::basePathNotDefined();
+		$exception = ApplicationException::publicPathNotDefined();
 
 		self::assertInstanceOf(ApplicationException::class, $exception);
 		self::assertSame('Application base path not defined in the configurations.', $exception->getMessage());
 		self::assertSame('base.config', $exception->translation->group);
-		self::assertSame('bath_path_not_defined', $exception->translation->key);
+		self::assertSame('base_path_not_defined', $exception->translation->key);
 	}
 
 	/**

@@ -6,12 +6,12 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
-namespace Webify\Base\Infrastructure\Container;
+namespace Webify\Base\Infrastructure\Contract;
 
 use Psr\Container\ContainerInterface;
 use Webify\Base\Infrastructure\Service\Application;
