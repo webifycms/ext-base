@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -40,7 +40,11 @@ trait ArraySearchHelper
 
 		$segments = explode('.', $path);
 
-		if (array_key_exists($segments[0], $array) && !is_array($array[$segments[0]])) {
+		if (!array_key_exists($segments[0], $array)) {
+			return $default;
+		}
+
+		if (!is_array($array[$segments[0]])) {
 			return $default;
 		}
 

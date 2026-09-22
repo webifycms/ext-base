@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -66,6 +66,27 @@ final class Config implements ConfigInterface
 	/**
 	 * {@inheritdoc}
 	 */
+	public string $extensionsPath {
+		get => $this->extensionsPath;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public string $themesPath {
+		get => $this->themesPath;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public string $publicPath {
+		get => $this->publicPath;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public string $baseUrl {
 		get => $this->baseUrl;
 	}
@@ -85,12 +106,26 @@ final class Config implements ConfigInterface
 	public function __construct(
 		private readonly array $config
 	) {
-		$this->basePath    = rtrim($this->get('basePath'), '/');
-		$this->runtimePath = rtrim($this->get('runtimePath'), '/');
-		$this->configPath  = rtrim($this->get('configPath'), '/');
-		$this->cachePath   = $this->runtimePath . DIRECTORY_SEPARATOR . self::CACHE_DIR;
-		$this->logPath     = $this->runtimePath . DIRECTORY_SEPARATOR . self::LOG_DIR;
-		$this->baseUrl     = rtrim($this->get('baseUrl', ''), '/');
+		$this->basePath       = rtrim($this->get('basePath', dirname(__DIR__, 3)), '/');
+		$this->configPath     = rtrim(
+			$this->get('configPath', $this->basePath . DIRECTORY_SEPARATOR . self::CONFIG_DIR),
+			'/'
+		);
+		$this->publicPath     = rtrim(
+			$this->get('publicPath', $this->basePath . DIRECTORY_SEPARATOR . self::PUBLIC_DIR),
+			'/'
+		);
+		$this->baseUrl        = rtrim((string) $this->get('baseUrl', ''), '/');
+		$this->runtimePath    = rtrim(
+			$this->get('runtimePath', $this->basePath . DIRECTORY_SEPARATOR . self::RUNTIME_DIR),
+			'/'
+		);
+		// The "extensions" and "themes" are not configurable
+		$this->extensionsPath = $this->basePath . DIRECTORY_SEPARATOR . self::EXTENSIONS_DIR;
+		$this->themesPath     = $this->basePath . DIRECTORY_SEPARATOR . self::THEMES_DIR;
+		// Subdirectories and not configurable too
+		$this->cachePath      = $this->runtimePath . DIRECTORY_SEPARATOR . self::CACHE_DIR;
+		$this->logPath        = $this->runtimePath . DIRECTORY_SEPARATOR . self::LOG_DIR;
 	}
 
 	/**
