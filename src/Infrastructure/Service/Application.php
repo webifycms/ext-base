@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -15,8 +15,8 @@ namespace Webify\Base\Infrastructure\Service;
 
 use Psr\Container\ContainerInterface;
 use Webify\Base\Application\Service\ConfigInterface;
-use Webify\Base\Infrastructure\Container\ContainerBuilderInterface;
 use Webify\Base\Infrastructure\Contract\{BootstrapServiceProviderInterface, ServiceProviderInterface};
+use Webify\Base\Infrastructure\Contract\ContainerBuilderInterface;
 use Webify\Base\Infrastructure\Environment\Environment;
 use Webify\Base\Infrastructure\Exception\ApplicationException;
 
@@ -58,8 +58,10 @@ final class Application
 		private readonly ConfigInterface $config,
 		private readonly Environment $environment
 	) {
-		if ('' === $this->config->basePath) {
-			throw ApplicationException::basePathNotDefined();
+		$basePath = $this->config->basePath;
+
+		if ('' === $basePath) {
+			throw ApplicationException::publicPathNotDefined();
 		}
 
 		$runtimePath = $this->config->runtimePath;

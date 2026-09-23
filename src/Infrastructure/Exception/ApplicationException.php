@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -36,21 +36,21 @@ final class ApplicationException extends RuntimeException implements Translatabl
 	}
 
 	/**
-	 * Factory method to initiate when the application base path is not defined in the configurations.
+	 * Factory method to initiate when the application base path is not defined.
 	 */
-	public static function basePathNotDefined(): self
+	public static function publicPathNotDefined(): self
 	{
 		return new self(
 			new ExceptionTranslation(
 				'base.config',
-				'bath_path_not_defined'
+				'base_path_not_defined'
 			),
 			'Application base path not defined in the configurations.'
 		);
 	}
 
 	/**
-	 * Factory method to initiate when the application runtime path is not defined in the configurations.
+	 * Factory method to initiate when the application runtime path is not defined.
 	 */
 	public static function runtimePathNotDefined(): self
 	{

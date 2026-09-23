@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -227,7 +227,7 @@ final class EmailTest extends TestCase
 	public function testBlockedDomainTempmail(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage('Disposable email addresses are not allowed.');
+		$this->expectExceptionMessageIsOrContains('Disposable email addresses are not allowed.');
 
 		ExampleEmail::fromString('test@tempmail.com');
 	}
@@ -239,7 +239,7 @@ final class EmailTest extends TestCase
 	public function testBlockedDomainMailinator(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage('Disposable email addresses are not allowed.');
+		$this->expectExceptionMessageIsOrContains('Disposable email addresses are not allowed.');
 
 		ExampleEmail::fromString('test@mailinator.com');
 	}
@@ -251,7 +251,7 @@ final class EmailTest extends TestCase
 	public function testBlockedDomainGuerrillamail(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage('Disposable email addresses are not allowed.');
+		$this->expectExceptionMessageIsOrContains('Disposable email addresses are not allowed.');
 
 		ExampleEmail::fromString('test@guerrillamail.com');
 	}

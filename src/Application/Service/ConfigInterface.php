@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -21,52 +21,60 @@ use Webify\Base\Contract\KeyValueReaderInterface;
 interface ConfigInterface extends KeyValueReaderInterface
 {
 	/**
-	 * The application cache and log directories.
+	 * The application default directories.
 	 */
-	public const string CACHE_DIR = 'cache';
-	public const string LOG_DIR   = 'log';
+	public const string CONFIG_DIR     = 'config';
+	public const string PUBLIC_DIR     = 'public';
+	public const string RUNTIME_DIR    = 'runtime';
+	public const string EXTENSIONS_DIR = 'extensions';
+	public const string THEMES_DIR     = 'themes';
+	public const string CACHE_DIR      = 'cache';
+	public const string LOG_DIR        = 'log';
 
 	/**
 	 * @var string the base path of the application and support getter
 	 */
-	public string $basePath {
-		get;
-	}
+	public string $basePath { get; }
 
 	/**
 	 * @var string the runtime path of the application and support getter
 	 */
-	public string $runtimePath {
-		get;
-	}
+	public string $runtimePath { get; }
 
 	/**
 	 * @var string the config path of the application and support getter
 	 */
-	public string $configPath {
-		get;
-	}
+	public string $configPath { get; }
 
 	/**
 	 * @var string the cache path of the application and support getter
 	 */
-	public string $cachePath {
-		get;
-	}
+	public string $cachePath { get; }
 
 	/**
 	 * @var string the log path of the application and support getter
 	 */
-	public string $logPath {
-		get;
-	}
+	public string $logPath { get; }
 
 	/**
-	 * @var string the application base URL and support getter
+	 * @var string the extensions installed path and support getter
 	 */
-	public string $baseUrl {
-		get;
-	}
+	public string $extensionsPath { get; }
+
+	/**
+	 * @var string the themes installed path and support getter
+	 */
+	public string $themesPath { get; }
+
+	/**
+	 * @var string the public path which is the web root
+	 */
+	public string $publicPath { get; }
+
+	/**
+	 * @var string the base URL of the application and support getter
+	 */
+	public string $baseUrl { get; }
 
 	/**
 	 * Create a new instance with the given configuration merged in.

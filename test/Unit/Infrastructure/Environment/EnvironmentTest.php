@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -80,7 +80,7 @@ final class EnvironmentTest extends TestCase
 	public function testPrepareThrowsExceptionWhenEnvironmentNotDefined(): void
 	{
 		$this->expectException(ApplicationEnvironmentException::class);
-		$this->expectExceptionMessage('Application environment not defined in the configurations.');
+		$this->expectExceptionMessageIsOrContains('Application environment not defined in the configurations.');
 
 		$config = $this->createMock(ConfigInterface::class);
 		$config->expects(self::once())->method('has')->with('environment')->willReturn(false);

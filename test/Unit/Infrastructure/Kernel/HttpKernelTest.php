@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -118,7 +118,7 @@ final class HttpKernelTest extends TestCase
 	public function testHandleRethrowsNonNotFoundExceptionInDebugMode(): void
 	{
 		$this->expectException(RuntimeException::class);
-		$this->expectExceptionMessage('Something went wrong');
+		$this->expectExceptionMessageIsOrContains('Something went wrong');
 
 		$request        = self::createStub(ServerRequestInterface::class);
 		$requestCreator = $this->createMock(ServerRequestCreatorInterface::class);
@@ -185,6 +185,9 @@ final class HttpKernelTest extends TestCase
 		$kernel->handle();
 	}
 
+	/**
+	 * Create an environment instance with the given debug flag.
+	 */
 	private function createEnvironment(bool $debug): Environment
 	{
 		$config = self::createStub(ConfigInterface::class);

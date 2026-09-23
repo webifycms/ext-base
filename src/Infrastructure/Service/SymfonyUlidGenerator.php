@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -38,7 +38,7 @@ final readonly class SymfonyUlidGenerator implements UlidGeneratorInterface
 	public function normalize(string $value): string
 	{
 		if (!Ulid::isValid($value)) {
-			throw InvalidUlidException::forInvalidUlid($value);
+			throw InvalidUlidException::forInvalid($value);
 		}
 
 		return Ulid::fromString($value)->toBase32();

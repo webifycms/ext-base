@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -15,10 +15,18 @@ namespace Webify\Base\Infrastructure\Container;
 
 use DI\{Container, ContainerBuilder};
 use Psr\Container\ContainerInterface;
+use Throwable;
 use Webify\Base\Application\Service\ConfigInterface;
-use Webify\Base\Infrastructure\Contract\{BootstrapServiceProviderInterface, ExtensionInterface, ServiceProviderInterface};
+use Webify\Base\Infrastructure\Contract\{
+	BootstrapServiceProviderInterface,
+	ContainerBuilderInterface,
+	ExtensionInterface,
+	ServiceProviderInterface,
+};
 use Webify\Base\Infrastructure\Environment\Environment;
-use Webify\Base\Infrastructure\Service\Application;
+use Webify\Base\Infrastructure\Exception\ContainerException;
+use Webify\Base\Infrastructure\Service\{Application, ThemeLoader, ThemeResolver};
+use Webify\Base\Infrastructure\Theme\ThemeFactory;
 
 /**
  * Factory for building a PHP-Di container.
@@ -43,10 +51,19 @@ final class PhpDiContainerBuilder implements ContainerBuilderInterface
 		// so providers can reference it during the build phase if needed.
 		$builder->addDefinitions([ConfigInterface::class => $app->getConfig()]);
 		$builder->addDefinitions([Environment::class => $app->getEnvironment()]);
-		$this->addProvidersDefinition($app, $builder);
-		$this->addExtensionProvidersDefinition($app, $builder);
+		$this->addDefinitionsFromConfig($app, $builder);
+		$this->addExtensionDefinitions($app, $builder);
 
-		return $builder->build();
+		// Load the configured themes
+		new ThemeLoader(
+			new ThemeResolver($app->getConfig(), new ThemeFactory($app->getConfig()))
+		)->load($app, $builder);
+
+		try {
+			return $builder->build();
+		} catch (Throwable $exception) {
+			throw ContainerException::buildFailed($exception);
+		}
 	}
 
 	/**
@@ -54,7 +71,7 @@ final class PhpDiContainerBuilder implements ContainerBuilderInterface
 	 *
 	 * @param ContainerBuilder<Container> $builder
 	 */
-	private function addProvidersDefinition(Application $app, ContainerBuilder $builder): void
+	private function addDefinitionsFromConfig(Application $app, ContainerBuilder $builder): void
 	{
 		/** @var array<string> $providerList */
 		$providerList = $app->getConfig()->get('providers', []);
@@ -76,7 +93,7 @@ final class PhpDiContainerBuilder implements ContainerBuilderInterface
 	 *
 	 * @param ContainerBuilder<Container> $builder
 	 */
-	private function addExtensionProvidersDefinition(Application $app, ContainerBuilder $builder): void
+	private function addExtensionDefinitions(Application $app, ContainerBuilder $builder): void
 	{
 		/** @var array<string> $extensionList */
 		$extensionList = $app->getConfig()->get('extensions', []);
@@ -89,6 +106,8 @@ final class PhpDiContainerBuilder implements ContainerBuilderInterface
 			if (!$extension instanceof ExtensionInterface) {
 				continue;
 			}
+
+			$builder->addDefinitions([$extension::class => $extension]);
 
 			foreach ($extension->getProviders() as $provider) {
 				/** @var BootstrapServiceProviderInterface|ServiceProviderInterface $provider */

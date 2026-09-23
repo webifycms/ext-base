@@ -6,14 +6,15 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
 
 namespace Webify\Base\Test\Unit\Infrastructure\Container\Example;
 
-use Webify\Base\Infrastructure\Contract\{ExtensionInterface, ServiceProviderInterface};
+use Webify\Base\Domain\ValueObject\TemplatePath;
+use Webify\Base\Infrastructure\Contract\{AssetsProviderInterface, ExtensionInterface};
 
 /**
  * Example extension class for testing purposes.
@@ -41,7 +42,7 @@ final class ExampleExtension implements ExtensionInterface
 	/**
 	 * {@inheritdoc}
 	 *
-	 * @return array<class-string<ServiceProviderInterface>>
+	 * @return list<class-string<ExampleExtensionServiceProvider>>
 	 */
 	public function getProviders(): array
 	{
@@ -54,5 +55,29 @@ final class ExampleExtension implements ExtensionInterface
 	public function getVersion(): string
 	{
 		return '1.0.0';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSlug(): string
+	{
+		return 'example-extension';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTemplatePath(): TemplatePath
+	{
+		return TemplatePath::fromString(__DIR__ . '/../templates');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAssetsProvider(): ?AssetsProviderInterface
+	{
+		return null;
 	}
 }

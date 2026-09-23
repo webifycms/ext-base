@@ -6,7 +6,7 @@
  * @see https://webifycms.com/extension/base
  *
  * @copyright Copyright (c) 2023 - Present WebifyCMS
- * @license https://webifycms.com/extension/base/license
+ * @license https://webifycms.com/license
  * @author Mohammed Shifreen <mshifreen@gmail.com>
  */
 declare(strict_types=1);
@@ -40,7 +40,7 @@ final class InvalidUlidException extends InvalidArgumentException implements Tra
 	 *
 	 * @param string $ulid the ULID string that was deemed invalid
 	 */
-	public static function forInvalidUlid(string $ulid): InvalidUlidException
+	public static function forInvalid(string $ulid): InvalidUlidException
 	{
 		return new self(
 			new ExceptionTranslation(
